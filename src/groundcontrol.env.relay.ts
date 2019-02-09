@@ -23,8 +23,12 @@ import {
 } from "relay-runtime";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 
+import { GroundControlPort } from "./constants";
+
+const host = `localhost:${GroundControlPort}/query`;
+
 async function fetchQuery(operation: RequestNode, variables: Variables) {
-  return fetch("http://localhost:3333/query", {
+  return fetch("http://" + host, {
     body: JSON.stringify({
       query: operation.text,
       variables,
@@ -41,7 +45,7 @@ async function fetchQuery(operation: RequestNode, variables: Variables) {
 const setupSubscription: SubscribeFunction = (config, variables, _, observer) => {
   const query = config.text;
   const { onNext, onError, onCompleted } = observer;
-  const client = new SubscriptionClient("ws://localhost:3333/query", { reconnect: true });
+  const client = new SubscriptionClient("ws://" + host, { reconnect: true });
 
   const { unsubscribe } = client
     .request({ query, variables })

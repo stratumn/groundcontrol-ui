@@ -25,6 +25,8 @@ import { MenuSecondaryItems_jobMetrics } from "./__generated__/MenuSecondaryItem
 import { MenuSecondaryItems_logMetrics } from "./__generated__/MenuSecondaryItems_logMetrics.graphql";
 import { MenuSecondaryItems_processMetrics } from "./__generated__/MenuSecondaryItems_processMetrics.graphql";
 
+import { GroundControlPort } from "../constants";
+
 interface IProps {
   jobMetrics: MenuSecondaryItems_jobMetrics;
   processMetrics: MenuSecondaryItems_processMetrics;
@@ -63,7 +65,7 @@ export const MenuSecondaryItems = ({ jobMetrics, processMetrics, logMetrics }: I
         {logMetrics.error}
       </Label>
     </Link>
-    <Menu.Item href="http://localhost:3333/graphql">
+    <Menu.Item href={`http://localhost:${GroundControlPort}/graphql`}>
       GraphQL
     </Menu.Item>
   </Fragment>
