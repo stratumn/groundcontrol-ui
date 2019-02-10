@@ -18,16 +18,15 @@ import {
   Button,
   Form,
   InputProps,
-  TextAreaProps,
 } from "semantic-ui-react";
 
 import "./SetKeyForm.css";
 
-interface IProps {
+export interface IProps {
   name: string;
   value: string;
-  onChange: (obj: { name: string, value: string }) => any;
-  onSubmit: () => any;
+  onChange: (values: IProps) => any;
+  onSubmit: (values: IProps) => any;
 }
 
 export default class SetKeyForm extends Component<IProps> {
@@ -45,12 +44,12 @@ export default class SetKeyForm extends Component<IProps> {
   }
 
   public render() {
-    const { name, value, onSubmit } = this.props;
+    const { name, value } = this.props;
     const disabled = !name;
 
     return (
       <Form
-        onSubmit={onSubmit}
+        onSubmit={this.handleSubmit}
         className="SetKeyForm"
       >
           <Form.Field>
@@ -113,6 +112,10 @@ export default class SetKeyForm extends Component<IProps> {
 
   public selectValue() {
     this.shouldFocusValue = true;
+  }
+
+  private handleSubmit = () => {
+    this.props.onSubmit({ ...this.props });
   }
 
   private handleChangeName = (_: React.SyntheticEvent<HTMLElement>, { value }: InputProps) => {

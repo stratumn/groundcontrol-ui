@@ -23,7 +23,7 @@ import { KeyListPage_viewer } from "./__generated__/KeyListPage_viewer.graphql";
 
 import KeyList from "../components/KeyList";
 import Page from "../components/Page";
-import SetKeyForm from "../components/SetKeyForm";
+import SetKeyForm, { IProps as ISetKeyFormProps } from "../components/SetKeyForm";
 import { commit as deleteKey } from "../mutations/deleteKey";
 import { commit as setKey } from "../mutations/setKey";
 import { subscribe as subscribeKeyDeleted } from "../subscriptions/keyDeleted";
@@ -57,7 +57,6 @@ export class KeyListPage extends Component<IProps, IState> {
 
   public render() {
     const items = this.props.viewer.keys.edges.map(({ node }) => node);
-    const { name, value } = this.state;
 
     return (
       <Page
@@ -68,11 +67,10 @@ export class KeyListPage extends Component<IProps, IState> {
         <Segment>
           <h3>Add or Replace a Key</h3>
           <SetKeyForm
-            name={name}
-            value={value}
+            {...this.state}
             ref={this.formRef}
-            onChange={this.handleChange}
             onSubmit={this.handleSubmit}
+            onChange={this.handleChange}
           />
         </Segment>
         <Segment>
@@ -104,12 +102,12 @@ export class KeyListPage extends Component<IProps, IState> {
     this.disposables = [];
   }
 
-  private handleChange = (obj: { name: string, value: string }) => {
-    this.setState(obj);
+  private handleChange = (values:ISetKeyFormProps) => {
+    this.setState(values);
   }
 
-  private handleSubmit = () => {
-    const { name, value } = this.state;
+  private handleSubmit = (values: ISetKeyFormProps) => {
+    const { name, value } = values;
 
     setKey(this.props.relay.environment, {
       name,

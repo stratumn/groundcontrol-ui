@@ -21,7 +21,7 @@ import { Segment } from "semantic-ui-react";
 import { SourceListPage_system } from "./__generated__/SourceListPage_system.graphql";
 import { SourceListPage_viewer } from "./__generated__/SourceListPage_viewer.graphql";
 
-import AddSourceForm from "../components/AddSourceForm";
+import AddSourceForm, { IProps as IAddSourceFormProps } from "../components/AddSourceForm";
 import Page from "../components/Page";
 import SourceList from "../components/SourceList";
 import { commit as addDirectorySource } from "../mutations/addDirectorySource";
@@ -36,7 +36,21 @@ interface IProps {
   viewer: SourceListPage_viewer;
 }
 
-export class SourceListPage extends Component<IProps> {
+interface IState {
+  type: "directory" | "git";
+  directory: string;
+  repository: string;
+  branch: string;
+}
+
+export class SourceListPage extends Component<IProps, IState> {
+
+  public state: IState = {
+    type: "directory",
+    directory: "",
+    repository: "",
+    branch: "",
+  };
 
   private disposables: Disposable[] = [];
 
@@ -52,8 +66,9 @@ export class SourceListPage extends Component<IProps> {
         <Segment>
           <h3>Add a New Source</h3>
           <AddSourceForm
-            onAddDirectorySource={this.handleAddDirectorySource}
-            onAddGitSource={this.handleAddGitSource}
+            {...this.state}
+            onSubmit={this.handleSubmit}
+            onChange={this.handleChange}
           />
         </Segment>
         <Segment>
@@ -82,17 +97,32 @@ export class SourceListPage extends Component<IProps> {
     this.disposables = [];
   }
 
-  private handleAddDirectorySource = (directory: string) => {
-    addDirectorySource(this.props.relay.environment, {
-      directory,
-    });
+  private handleChange = (values: IAddSourceFormProps) => {
+    this.setState(values);
   }
 
-  private handleAddGitSource = (repository: string, branch: string) => {
-    addGitSource(this.props.relay.environment, {
-      branch,
-      repository,
-    });
+  private handleSubmit = (values: IAddSourceFormProps) => {
+    const { type, directory, repository, branch } = values;
+
+    switch (type) {
+    case "directory":
+      addDirectorySource(this.props.relay.environment, {
+        directory,
+      });
+      break;
+    case "git":
+      addGitSource(this.props.relay.environment, {
+        branch,
+        repository,
+      });
+      break;
+    }
+
+    this.setState({
+      directory: "",
+      repository: "",
+      branch: "",
+    })
   }
 
   private handleDeleteSource = (id: string) => {

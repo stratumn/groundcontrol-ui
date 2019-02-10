@@ -21,31 +21,19 @@ import {
   InputProps,
 } from "semantic-ui-react";
 
-import "./Page.css";
-
-interface IProps {
-  onAddDirectorySource: (directory: string) => any;
-  onAddGitSource: (repository: string, branch: string) => any;
-}
-
-interface IState {
-  type: string;
+export interface IProps {
+  type: "directory" | "git";
   directory: string;
   repository: string;
   branch: string;
+  onChange: (values: IProps) => any;
+  onSubmit: (values: IProps) => any;
 }
 
-export default class AddSourceForm extends Component<IProps, IState> {
-
-  public state: IState = {
-    branch: "",
-    directory: "",
-    repository: "",
-    type: "directory",
-  };
+export default class AddSourceForm extends Component<IProps> {
 
   public render() {
-    const { type, directory, repository, branch } = this.state;
+    const { type, directory, repository, branch } = this.props;
     const options = [
       { key: "directory", text: "Directory", value: "directory" },
       { key: "git", text: "Git", value: "git" },
@@ -110,25 +98,32 @@ export default class AddSourceForm extends Component<IProps, IState> {
     );
   }
 
-  private handleChangeType = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps) => {
-    this.setState({ type: value as string });
+  private handleSubmit = () => {
+    this.props.onSubmit({ ...this.props });
   }
 
-  private handleChangeInput = (_: React.SyntheticEvent<HTMLElement>, { name, value }: InputProps) => {
-    switch (name) {
-    case "directory": this.setState({ directory: value }); break;
-    case "repository": this.setState({ repository: value }); break;
-    case "branch": this.setState({ branch: value }); break;
+  private handleChangeType = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps) => {
+    switch (value) {
+    case "directory":
+    case "git":
+      this.props.onChange({ ...this.props, type: value });
+      break;
     }
   }
 
-  private handleSubmit = () => {
-    if (this.state.type === "directory") {
-      this.props.onAddDirectorySource(this.state.directory);
-      this.setState({ directory: "" });
-    } else {
-      this.props.onAddGitSource(this.state.repository, this.state.branch || "master");
-      this.setState({ repository: "", branch: "" });
+  private handleChangeInput = (_: React.SyntheticEvent<HTMLElement>, { name, value }: InputProps) => {
+    const { onChange } = this.props;
+
+    switch (name) {
+    case "directory":
+      onChange({ ...this.props, directory: value });
+      break;
+    case "repository":
+      onChange({ ...this.props, repository: value });
+      break;
+    case "branch":
+      onChange({ ...this.props, branch: value });
+      break;
     }
   }
 
