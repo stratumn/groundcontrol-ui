@@ -22,7 +22,7 @@ import { Container, Loader } from "semantic-ui-react";
 import { LogEntryListPage_system } from "./__generated__/LogEntryListPage_system.graphql";
 import { LogEntryListPage_viewer } from "./__generated__/LogEntryListPage_viewer.graphql";
 
-import LogEntryFilter from "../components/LogEntryFilter";
+import LogEntryFilter, { IProps as ILogEntryFilterProps } from "../components/LogEntryFilter";
 import LogEntryTable from "../components/LogEntryTable";
 
 import { subscribe } from "../subscriptions/logEntryAdded";
@@ -35,7 +35,7 @@ export interface IProps {
   viewer: LogEntryListPage_viewer;
   system: LogEntryListPage_system;
   params: {
-    filters?: string;
+    status?: string;
     ownerId?: string;
   };
 }
@@ -50,8 +50,8 @@ export class LogEntryListPage extends Component<IProps> {
 
   public render() {
     const items = this.props.system.logEntries.edges.map(({ node }) => node);
-    const filters = this.props.params.filters === undefined ? undefined :
-      this.props.params.filters.split(",");
+    const status = this.props.params.status === undefined ? undefined :
+      this.props.params.status.split(",");
     const { ownerId } = this.props.params;
     const projects = this.props.viewer.projects.edges.map(({ node }) => node);
     const isLoading = this.props.relay.isLoading();
@@ -66,7 +66,7 @@ export class LogEntryListPage extends Component<IProps> {
           active={isLoading}
         />
         <LogEntryFilter
-          filters={filters}
+          status={status}
           projects={projects}
           ownerId={ownerId}
           onChange={this.handleFiltersChange}
@@ -140,12 +140,15 @@ export class LogEntryListPage extends Component<IProps> {
     this.forceUpdate();
   }
 
-  private handleFiltersChange = (filters: string[], ownerId?: string) => {
-    if ((filters.length < 1 || filters.length > 3) && !ownerId) {
-      return this.props.router.replace("/logs");
+  private handleFiltersChange = ({ status, ownerId }: ILogEntryFilterProps) => {
+    if (!status || (status.length < 1 || status.length > 3)) {
+      if (!ownerId) {
+        return this.props.router.replace("/logs");
+      }
+      return this.props.router.replace(`/logs/;${ownerId}`);
     }
 
-    this.props.router.replace(`/logs/${filters.join(",")};${ownerId || ""}`);
+    this.props.router.replace(`/logs/${status.join(",")};${ownerId || ""}`);
   }
 
   private handleScroll = () => {

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Button,
@@ -28,81 +28,89 @@ import "./ProcessTableRow.css";
 
 export interface IProps {
   item: ProcessTableRow_item;
-  onStart: () => any;
-  onStop: () => any;
+  onStartProcess: (values: IProps) => any;
+  onStopProcess: (values: IProps) => any;
 }
 
-export class ProcessTableRow extends Component<IProps> {
+export function ProcessTableRow(props: IProps) {
+  const {
+    item: {
+      command,
+      status,
+      project: {
+        repository,
+      }
+    },
+    onStartProcess,
+    onStopProcess,
+  } = props;
+  const buttons: JSX.Element[] = [];
+  const handleStart = () => onStartProcess(props);
+  const handleStop = () => onStopProcess(props);
 
-  public render() {
-    const { command, status, project: { repository } } = this.props.item;
-    const { onStart, onStop } = this.props;
-    const buttons: JSX.Element[] = [];
-
-    switch (status) {
-    case "DONE":
-    case "FAILED":
-      buttons.push((
-        <Button
-          key="start"
-          size="tiny"
-          icon="play"
-          onClick={onStart}
-        />
-      ));
-      break;
-    case "RUNNING":
-      buttons.push((
-        <Button
-          key="stop"
-          size="tiny"
-          icon="stop"
-          onClick={onStop}
-        />
-      ));
-      break;
-    case "STOPPING":
-      buttons.push((
-        <Button
-          key="stop"
-          size="tiny"
-          icon="stop"
-          disabled={true}
-          loading={true}
-        />
-      ));
-      break;
-    }
-
-    return (
-      <Table.Row className="ProcessTableRow">
-        <Table.Cell collapsing={true}>
-          <RepositoryShortName repository={repository} />
-        </Table.Cell>
-        <Table.Cell
-          className="ProcessTableRowCommand"
-        >
-          {command}
-        </Table.Cell>
-        <Table.Cell
-          positive={status === "DONE"}
-          warning={status === "RUNNING"}
-          error={status === "FAILED"}
-          collapsing={true}
-        >
-          {status}
-        </Table.Cell>
-        <Table.Cell collapsing={true}>
-          {buttons}
-        </Table.Cell>
-      </Table.Row>
-    );
+  switch (status) {
+  case "DONE":
+  case "FAILED":
+    buttons.push((
+      <Button
+        key="start"
+        size="tiny"
+        icon="play"
+        onClick={handleStart}
+      />
+    ));
+    break;
+  case "RUNNING":
+    buttons.push((
+      <Button
+        key="stop"
+        size="tiny"
+        icon="stop"
+        onClick={handleStop}
+      />
+    ));
+    break;
+  case "STOPPING":
+    buttons.push((
+      <Button
+        key="stop"
+        size="tiny"
+        icon="stop"
+        disabled={true}
+        loading={true}
+      />
+    ));
+    break;
   }
 
+  return (
+    <Table.Row className="ProcessTableRow">
+      <Table.Cell collapsing={true}>
+        <RepositoryShortName repository={repository} />
+      </Table.Cell>
+      <Table.Cell
+        className="ProcessTableRowCommand"
+      >
+        {command}
+      </Table.Cell>
+      <Table.Cell
+        positive={status === "DONE"}
+        warning={status === "RUNNING"}
+        error={status === "FAILED"}
+        collapsing={true}
+      >
+        {status}
+      </Table.Cell>
+      <Table.Cell collapsing={true}>
+        {buttons}
+      </Table.Cell>
+    </Table.Row>
+  );
 }
 
 export default createFragmentContainer(ProcessTableRow, graphql`
   fragment ProcessTableRow_item on Process {
+    id
     command
     status
     project {

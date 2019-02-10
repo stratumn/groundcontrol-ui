@@ -18,41 +18,41 @@ import { Radio } from "semantic-ui-react";
 import "./LogEntryStatusFilter.css";
 
 export interface IProps {
-  filters: string[] | undefined;
-  onChange: (status: string[]) => any;
+  status: string[] | undefined;
+  onChange: (values: IProps) => any;
 }
 
-const allFilters = ["DEBUG", "INFO", "WARNING", "ERROR"];
+const allStatus = ["DEBUG", "INFO", "WARNING", "ERROR"];
 
 // Note: we consider undefined filter to be the same as all status.
 export default class LogEntryStatusFilter extends Component<IProps> {
 
   public render() {
-    const filters = this.props.filters;
-    const radios = allFilters.map((filter, i) => (
+    const { status } = this.props;
+    const radios = allStatus.map((value, i) => (
       <Radio
         key={i}
-        label={filter}
-        checked={!filters || filters.indexOf(filter) >= 0}
-        onClick={this.handleToggleStatusFilter.bind(this, filter)}
+        label={value}
+        checked={!status || status.indexOf(value) >= 0}
+        onClick={this.handleToggle.bind(this, value)}
       />
     ));
 
     return <div className="LogEntryStatusFilter">{radios}</div>;
   }
 
-  private handleToggleStatusFilter(filter: string) {
-    const filters = this.props.filters ?
-      this.props.filters.slice() : allFilters.slice();
-    const index = filters.indexOf(filter);
+  private handleToggle(value: string) {
+    const status = this.props.status ?
+      this.props.status.slice() : allStatus.slice();
+    const index = status.indexOf(value);
 
     if (index >= 0) {
-      filters.splice(index, 1);
+      status.splice(index, 1);
     } else {
-      filters.push(filter);
+      status.push(value);
     }
 
-    this.props.onChange(filters);
+    this.props.onChange({ ...this.props, status });
   }
 
 }

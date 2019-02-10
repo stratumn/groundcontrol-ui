@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Table,
@@ -21,55 +21,42 @@ import {
 
 import { ProcessTable_items } from "./__generated__/ProcessTable_items.graphql";
 
-import ProcessTableRow from "./ProcessTableRow";
+import ProcessTableRow, { IProps as IProcessTableRowProps } from "./ProcessTableRow";
 
 import "./ProcessTable.css";
 
 export interface IProps {
   items: ProcessTable_items;
-  onStart: (id: string) => any;
-  onStop: (id: string) => any;
+  onStartProcess: (values: IProcessTableRowProps) => any;
+  onStopProcess: (values: IProcessTableRowProps) => any;
 }
 
-export class ProcessTable extends Component<IProps> {
+export function ProcessTable(props: IProps) {
+  const { items } = props;
+  const rows = items.map((item) => (
+    <ProcessTableRow
+      {...props}
+      key={item.id}
+      item={item}
+    />
+  ));
 
-  public render() {
-    const items = this.props.items;
-    const rows = items.map((item) => (
-      <ProcessTableRow
-        key={item.id}
-        item={item}
-        onStart={this.handleStart.bind(this, item.id)}
-        onStop={this.handleStop.bind(this, item.id)}
-      />
-    ));
-
-    return (
-      <Table
-        className="ProcessTable"
-        inverted={true}
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Project</Table.HeaderCell>
-            <Table.HeaderCell>Command</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell />
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>{rows}</Table.Body>
-      </Table>
-    );
-  }
-
-  private handleStart(id: string) {
-    this.props.onStart(id);
-  }
-
-  private handleStop(id: string) {
-    this.props.onStop(id);
-  }
-
+  return (
+    <Table
+      className="ProcessTable"
+      inverted={true}
+    >
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Project</Table.HeaderCell>
+          <Table.HeaderCell>Command</Table.HeaderCell>
+          <Table.HeaderCell>Status</Table.HeaderCell>
+          <Table.HeaderCell />
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>{rows}</Table.Body>
+    </Table>
+  );
 }
 
 export default createFragmentContainer(ProcessTable, graphql`

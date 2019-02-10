@@ -123,8 +123,8 @@ function prepareProcessGroupListVariables({ filters }: { filters: string }) {
   return { status: filters ? filters.split(",") : null };
 }
 
-function prepareLogEntryListVariables({ filters, ownerId }: { filters: string, ownerId?: string }) {
-  return { level: filters ? filters.split(",") : null, ownerId };
+function prepareLogEntryListVariables({ status, ownerId }: { status: string, ownerId?: string }) {
+  return { level: status ? status.split(",") : null, ownerId };
 }
 
 function render(args: RouteRenderArgs) {
@@ -211,7 +211,7 @@ export default createFarceRouter({
           render={render}
         />
         <Route
-          path=":filters?;:ownerId?"
+          path=":status?;:ownerId?"
           Component={LogEntryListPage}
           query={logEntryListQuery}
           prepareVariables={prepareLogEntryListVariables}

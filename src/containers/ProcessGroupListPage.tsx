@@ -22,8 +22,10 @@ import { Button } from "semantic-ui-react";
 import { ProcessGroupListPage_system } from "./__generated__/ProcessGroupListPage_system.graphql";
 
 import Page from "../components/Page";
+import { IProps as IProcessGroupCardProps } from "../components/ProcessGroupCard";
 import ProcessGroupCardGroup from "../components/ProcessGroupCardGroup";
-import ProcessGroupFilter from "../components/ProcessGroupFilter";
+import ProcessGroupFilter, { IProps as IProcessGroupFilterProps } from "../components/ProcessGroupFilter";
+import { IProps as IProcessTableRowProps } from "../components/ProcessTableRow";
 import { commit as startProcess} from "../mutations/startProcess";
 import { commit as startProcessGroup } from "../mutations/startProcessGroup";
 import { commit as stopProcess} from "../mutations/stopProcess";
@@ -91,8 +93,8 @@ export class ProcessGroupListPage extends Component<IProps> {
     this.disposables = [];
   }
 
-  private handleFiltersChange = (filters: string[]) => {
-    if (filters.length < 1 || filters.length > 2) {
+  private handleFiltersChange = ({ filters }: IProcessGroupFilterProps) => {
+    if (!filters || filters.length < 1 || filters.length > 2) {
       return this.props.router.replace("/processes");
     }
 
@@ -113,19 +115,19 @@ export class ProcessGroupListPage extends Component<IProps> {
     );
   }
 
-  private handleStartProcessGroup = (id: string) => {
+  private handleStartProcessGroup = ({ item: { id } }: IProcessGroupCardProps) => {
     startProcessGroup(this.props.relay.environment, id);
   }
 
-  private handleStopProcessGroup = (id: string) => {
+  private handleStopProcessGroup = ({ item: { id } }: IProcessGroupCardProps) => {
     stopProcessGroup(this.props.relay.environment, id);
   }
 
-  private handleStartProcess = (id: string) => {
+  private handleStartProcess = ({ item: { id } }: IProcessTableRowProps) => {
     startProcess(this.props.relay.environment, id);
   }
 
-  private handleStopProcess = (id: string) => {
+  private handleStopProcess = ({ item: { id } }: IProcessTableRowProps) => {
     stopProcess(this.props.relay.environment, id);
   }
 

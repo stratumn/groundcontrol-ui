@@ -29,27 +29,27 @@ export default class JobFilter extends Component<IProps> {
 
   public render() {
     const { filters } = this.props;
-    const radios = allFilters.map((filter, i) => (
+    const radios = allFilters.map((value, i) => (
       <Radio
         key={i}
-        label={filter}
-        checked={!filters || filters.indexOf(filter) >= 0}
-        onClick={this.handleToggleFilter.bind(this, filter)}
+        label={value}
+        checked={!filters || filters.indexOf(value) >= 0}
+        onClick={this.handleToggle.bind(this, value)}
       />
     ));
 
     return <div className="JobFilter">{radios}</div>;
   }
 
-  private handleToggleFilter(filter: string) {
+  private handleToggle(value: string) {
     const filters = this.props.filters ?
       this.props.filters.slice() : allFilters.slice();
-    const index = filters.indexOf(filter);
+    const index = filters.indexOf(value);
 
     if (index >= 0) {
       filters.splice(index, 1);
     } else {
-      filters.push(filter);
+      filters.push(value);
     }
 
     this.props.onChange({ ...this.props, filters });

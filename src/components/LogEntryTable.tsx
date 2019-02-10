@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Segment,
@@ -28,29 +28,23 @@ export interface IProps {
   items: LogEntryTable_items;
 }
 
-export class LogEntryTable extends Component<IProps> {
-
-  public render() {
-    const items = this.props.items;
-
-    if (items.length < 1) {
-      return <Segment>There are no log entries at this time.</Segment>;
-    }
-
-    const rows = items.map((item) => (
-      <LogEntryTableRow
-        key={item.id}
-        item={item}
-      />
-    ));
-
-    return (
-      <Table inverted={true}>
-        <Table.Body>{rows}</Table.Body>
-      </Table>
-    );
+export function LogEntryTable({ items }: IProps) {
+  if (items.length < 1) {
+    return <Segment>There are no log entries at this time.</Segment>;
   }
 
+  const rows = items.map((item) => (
+    <LogEntryTableRow
+      key={item.id}
+      item={item}
+    />
+  ));
+
+  return (
+    <Table inverted={true}>
+      <Table.Body>{rows}</Table.Body>
+    </Table>
+  );
 }
 
 export default createFragmentContainer(LogEntryTable, graphql`

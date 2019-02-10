@@ -13,49 +13,43 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 
 import { LogEntryFilter_projects } from "./__generated__/LogEntryFilter_projects.graphql";
 
-import LogEntryOwnerFilter from "./LogEntryOwnerFilter";
-import LogEntryStatusFilter from "./LogEntryStatusFilter";
+import LogEntryOwnerFilter, { IProps as LogEntryOwnerFilterProps } from "./LogEntryOwnerFilter";
+import LogEntryStatusFilter, { IProps as LogEntryStatusFilterProps } from "./LogEntryStatusFilter";
 
 export interface IProps {
-  filters?: string[];
+  status?: string[];
   projects: LogEntryFilter_projects;
   ownerId?: string;
-  onChange: (status: string[], ownerID?: string) => any;
+  onChange: (value: IProps) => any;
 }
 
-export class LogEntryFilter extends Component<IProps> {
-
-  public render() {
-    const { projects, ownerId, filters } = this.props;
-
-    return (
-      <div className="LogEntryFilter">
-        <LogEntryOwnerFilter
-          items={projects}
-          ownerId={ownerId}
-          onChange={this.handleOwnerChange}
-        />
-        <LogEntryStatusFilter
-          filters={filters}
-          onChange={this.handleStatusChange}
-        />
-      </div>
-    );
+export function LogEntryFilter(props: IProps) {
+  const { status, projects, ownerId, onChange } = props;
+  const handleOwnerChange = ({ ownerId }: LogEntryOwnerFilterProps) => {
+    onChange({ ...props, ownerId });
+  }
+  const handleStatusChange = ({ status }: LogEntryStatusFilterProps) => {
+    onChange({ ...props, status });
   }
 
-  private handleOwnerChange = (ownerId?: string) => {
-    this.props.onChange(this.props.filters || [], ownerId);
-  }
-
-  private handleStatusChange = (status: string[]) => {
-    this.props.onChange(status, this.props.ownerId);
-  }
-
+  return (
+    <div className="LogEntryFilter">
+      <LogEntryOwnerFilter
+        items={projects}
+        ownerId={ownerId}
+        onChange={handleOwnerChange}
+      />
+      <LogEntryStatusFilter
+        status={status}
+        onChange={handleStatusChange}
+      />
+    </div>
+  );
 }
 
 export default createFragmentContainer(LogEntryFilter, graphql`

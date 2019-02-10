@@ -19,7 +19,7 @@ import "./ProcessGroupFilter.css";
 
 export interface IProps {
   filters: string[] | undefined;
-  onChange: (status: string[]) => any;
+  onChange: (values: IProps) => any;
 }
 
 const allFilters = ["RUNNING", "DONE", "FAILED"];
@@ -28,31 +28,31 @@ const allFilters = ["RUNNING", "DONE", "FAILED"];
 export default class ProcessGroupFilter extends Component<IProps> {
 
   public render() {
-    const filters = this.props.filters;
-    const radios = allFilters.map((filter, i) => (
+    const { filters } = this.props;
+    const radios = allFilters.map((value, i) => (
       <Radio
         key={i}
-        label={filter}
-        checked={!filters || filters.indexOf(filter) >= 0}
-        onClick={this.handleToggleFilter.bind(this, filter)}
+        label={value}
+        checked={!filters || filters.indexOf(value) >= 0}
+        onClick={this.handleToggleFilter.bind(this, value)}
       />
     ));
 
     return <div className="ProcessGroupFilter">{radios}</div>;
   }
 
-  private handleToggleFilter(filter: string) {
+  private handleToggleFilter(value: string) {
     const filters = this.props.filters ?
       this.props.filters.slice() : allFilters.slice();
-    const index = filters.indexOf(filter);
+    const index = filters.indexOf(value);
 
     if (index >= 0) {
       filters.splice(index, 1);
     } else {
-      filters.push(filter);
+      filters.push(value);
     }
 
-    this.props.onChange(filters);
+    this.props.onChange({ ...this.props, filters });
   }
 
 }

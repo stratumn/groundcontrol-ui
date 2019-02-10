@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import { Dropdown, DropdownProps } from "semantic-ui-react";
 
@@ -24,41 +24,36 @@ import "./LogEntryOwnerFilter.css";
 export interface IProps {
   items: LogEntryOwnerFilter_items;
   ownerId?: string;
-  onChange: (id?: string) => any;
+  onChange: (values: IProps) => any;
 }
 
-export class LogEntryOwnerFilter extends Component<IProps> {
+export function LogEntryOwnerFilter(props: IProps) {
+  const { items, ownerId, onChange } = props;
+  const options = items.map(({ id, slug, workspace }) => ({
+    key: id,
+    text: `${workspace.slug}/${slug}`,
+    value: id,
+  }));
 
-  public render() {
-    const options = this.props.items.map(({ id, slug, workspace }) => ({
-      key: id,
-      text: `${workspace.slug}/${slug}`,
-      value: id,
-    }));
-
-    return (
-      <Dropdown
-        className="LogEntryOwnerFilter"
-        placeholder="Choose Project..."
-        search={true}
-        selection={true}
-        clearable={true}
-        options={options}
-        value={this.props.ownerId}
-        onChange={this.handleChange}
-      />
-    );
+  const handleChange = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps) => {
+    onChange({
+      ...props,
+      ownerId: value ? value as string : undefined,
+    });
   }
 
-  private handleChange = (_: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
-    if (data.value) {
-      this.props.onChange(data.value as string);
-      return;
-    }
-
-    this.props.onChange();
-  }
-
+  return (
+    <Dropdown
+      className="LogEntryOwnerFilter"
+      placeholder="Choose Project..."
+      search={true}
+      selection={true}
+      clearable={true}
+      options={options}
+      value={ownerId}
+      onChange={handleChange}
+    />
+  );
 }
 
 export default createFragmentContainer(LogEntryOwnerFilter, graphql`

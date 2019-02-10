@@ -14,7 +14,7 @@
 
 import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import {
   Accordion,
   Responsive,
@@ -34,68 +34,62 @@ export interface IProps {
   item: LogEntryTableRow_item;
 }
 
-export class LogEntryTableRow extends Component<IProps> {
+export function LogEntryTableRow({ item: { createdAt, level, owner, message } }: IProps) {
+  const panels = [{
+    content: JSON.stringify(owner, null, 2),
+    key: "details",
+    title: message,
+  }];
 
-  public render() {
-    const item = this.props.item;
-    const owner = item.owner;
-    const panels = [{
-      content: JSON.stringify(item.owner, null, 2),
-      key: "details",
-      title: item.message,
-    }];
+  let ownerEl: JSX.Element | null = null;
 
-    let ownerEl: JSX.Element | null = null;
-
-    if (owner) {
-      switch (owner.__typename) {
-      case "Project":
-        const workspaceSlug = owner.workspace!.slug;
-        const projectSlug = owner.slug;
-        ownerEl = (
-          <Fragment>
-            <Link to={`/workspaces/${workspaceSlug}`}>
-              {workspaceSlug}
-            </Link>
-            &#47;
-            {projectSlug}
-          </Fragment>
-        );
-        break;
-      }
+  if (owner) {
+    switch (owner.__typename) {
+    case "Project":
+      const workspaceSlug = owner.workspace!.slug;
+      const projectSlug = owner.slug;
+      ownerEl = (
+        <Fragment>
+          <Link to={`/workspaces/${workspaceSlug}`}>
+            {workspaceSlug}
+          </Link>
+          &#47;
+          {projectSlug}
+        </Fragment>
+      );
+      break;
     }
-
-    return (
-      <Table.Row
-        className="LogEntryTableRow"
-        verticalAlign="top"
-      >
-        <Responsive
-          as={Table.Cell}
-          className="LogEntryTableRowCreatedAt"
-          minWidth={992}
-          collapsing={true}
-        >
-          <Moment format={dateFormat}>{item.createdAt}</Moment>
-        </Responsive>
-        <Table.Cell
-          className="LogEntryTableRowLevel"
-          warning={item.level === "WARNING"}
-          error={item.level === "ERROR"}
-          collapsing={true}
-        >
-          {item.level}
-        </Table.Cell>
-        <Table.Cell collapsing={true}>
-          {ownerEl}
-        </Table.Cell>
-        <Table.Cell>
-          <Accordion panels={panels} />
-        </Table.Cell>
-      </Table.Row>
-    );
   }
 
+  return (
+    <Table.Row
+      className="LogEntryTableRow"
+      verticalAlign="top"
+    >
+      <Responsive
+        as={Table.Cell}
+        className="LogEntryTableRowCreatedAt"
+        minWidth={992}
+        collapsing={true}
+      >
+        <Moment format={dateFormat}>{createdAt}</Moment>
+      </Responsive>
+      <Table.Cell
+        className="LogEntryTableRowLevel"
+        warning={level === "WARNING"}
+        error={level === "ERROR"}
+        collapsing={true}
+      >
+        {level}
+      </Table.Cell>
+      <Table.Cell collapsing={true}>
+        {ownerEl}
+      </Table.Cell>
+      <Table.Cell>
+        <Accordion panels={panels} />
+      </Table.Cell>
+    </Table.Row>
+  );
 }
 
 export default createFragmentContainer(LogEntryTableRow, graphql`

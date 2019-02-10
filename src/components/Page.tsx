@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
+import React from "react";
 import {
   Header,
   Icon,
@@ -27,25 +27,24 @@ export interface IProps {
   icon: SemanticICONS;
   header: string;
   subheader: string;
+  children: React.ReactNode;
 }
 
-export default class Page extends Component<IProps> {
-
-  public render() {
-    const { children, className, icon, header, subheader } = this.props;
-
-    return (
-      <div className={`Page ${className || ""}`}>
-        <Header as="h1">
-          <Icon name={icon} />
-          <Header.Content>
-            {header}
-            <Header.Subheader>{subheader}</Header.Subheader>
-          </Header.Content>
-        </Header>
-        {children}
-      </div>
-    );
-  }
-
-}
+export default ({
+  className,
+  icon,
+  header,
+  subheader,
+  children,
+}: IProps) => (
+  <div className={`Page ${className || ""}`}>
+    <Header as="h1">
+      <Icon name={icon} />
+      <Header.Content>
+        {header}
+        <Header.Subheader>{subheader}</Header.Subheader>
+      </Header.Content>
+    </Header>
+    {children}
+  </div>
+)
