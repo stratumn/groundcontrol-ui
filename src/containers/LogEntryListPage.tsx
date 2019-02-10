@@ -152,7 +152,7 @@ export class LogEntryListPage extends Component<IProps> {
     const { scrollY, innerHeight } = window;
     const { scrollHeight } = document.body;
 
-    this.shouldScrollDown = scrollY + innerHeight === scrollHeight;
+    this.shouldScrollDown = scrollY + innerHeight >= scrollHeight;
 
     const prevScrollY = this.prevScrollY;
     this.prevScrollY = scrollY;
