@@ -27,7 +27,7 @@ import { Menu_system } from "./__generated__/Menu_system.graphql";
 import MenuPrimaryItems from "./MenuPrimaryItems";
 import MenuSecondaryItems from "./MenuSecondaryItems";
 
-interface IProps {
+export interface IProps {
   system: Menu_system;
   showSidebar: boolean;
   onShowSidebar: () => any;

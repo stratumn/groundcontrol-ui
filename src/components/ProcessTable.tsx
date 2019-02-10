@@ -25,7 +25,7 @@ import ProcessTableRow from "./ProcessTableRow";
 
 import "./ProcessTable.css";
 
-interface IProps {
+export interface IProps {
   items: ProcessTable_items;
   onStart: (id: string) => any;
   onStop: (id: string) => any;

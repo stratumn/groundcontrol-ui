@@ -30,7 +30,7 @@ import { commit as pullWorkspace } from "../mutations/pullWorkspace";
 import { subscribe as subscribeSourceUpserted } from "../subscriptions/sourceUpserted";
 import { subscribe as subscribeWorkspaceUpserted } from "../subscriptions/workspaceUpserted";
 
-interface IProps {
+export interface IProps {
   relay: RelayProp;
   system: WorkspaceListPage_system;
   viewer: WorkspaceListPage_viewer;

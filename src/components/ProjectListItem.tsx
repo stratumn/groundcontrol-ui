@@ -13,7 +13,7 @@ import RepositoryShortName from "./RepositoryShortName";
 
 import "./ProjectListItem.css";
 
-interface IProps {
+export interface IProps {
   item: ProjectListItem_item;
 }
 

@@ -24,7 +24,7 @@ import { WorkspaceMenu_workspace } from "./__generated__/WorkspaceMenu_workspace
 
 import WorkspaceTaskDropdown from "./WorkspaceTaskDropdown";
 
-interface IProps {
+export interface IProps {
   workspace: WorkspaceMenu_workspace;
   onClone: () => any;
   onPull: () => any;

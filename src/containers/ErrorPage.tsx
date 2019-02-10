@@ -16,7 +16,7 @@ import React, { Component } from "react";
 
 import Page from "../components/Page";
 
-interface IProps {
+export interface IProps {
   error: Error;
 }
 

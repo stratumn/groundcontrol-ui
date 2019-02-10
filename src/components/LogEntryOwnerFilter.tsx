@@ -21,7 +21,7 @@ import { LogEntryOwnerFilter_items } from "./__generated__/LogEntryOwnerFilter_i
 
 import "./LogEntryOwnerFilter.css";
 
-interface IProps {
+export interface IProps {
   items: LogEntryOwnerFilter_items;
   ownerId?: string;
   onChange: (id?: string) => any;

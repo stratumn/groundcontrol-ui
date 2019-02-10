@@ -21,7 +21,7 @@ import { KeyList_items } from "./__generated__/KeyList_items.graphql";
 
 import KeyListItem from "./KeyListItem";
 
-interface IProps {
+export interface IProps {
   items: KeyList_items;
   onEdit: (id: string, name: string, value: string) => any;
   onDelete: (id: string) => any;

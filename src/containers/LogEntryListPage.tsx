@@ -29,7 +29,7 @@ import { subscribe } from "../subscriptions/logEntryAdded";
 
 import "./LogEntryListPage.css";
 
-interface IProps {
+export interface IProps {
   relay: RelayPaginationProp;
   router: Router;
   viewer: LogEntryListPage_viewer;

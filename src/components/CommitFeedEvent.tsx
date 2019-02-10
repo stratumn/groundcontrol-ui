@@ -22,7 +22,7 @@ import { CommitFeedEvent_item } from "./__generated__/CommitFeedEvent_item.graph
 
 import "./CommitFeedEvent.css";
 
-interface IProps {
+export interface IProps {
   item: CommitFeedEvent_item;
 }
 

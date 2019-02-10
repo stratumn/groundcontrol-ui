@@ -20,7 +20,7 @@ import { createFragmentContainer } from "react-relay";
 
 import { DirectorySourceListItem_item } from "./__generated__/DirectorySourceListItem_item.graphql";
 
-interface IProps {
+export interface IProps {
   item: DirectorySourceListItem_item;
   onDelete: () => any;
 }

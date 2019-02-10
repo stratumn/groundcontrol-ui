@@ -29,7 +29,7 @@ import { commit as setKey } from "../mutations/setKey";
 import { subscribe as subscribeKeyDeleted } from "../subscriptions/keyDeleted";
 import { subscribe as subscribeKeyUpserted } from "../subscriptions/keyUpserted";
 
-interface IProps {
+export interface IProps {
   relay: RelayProp;
   system: KeyListPage_system;
   viewer: KeyListPage_viewer;

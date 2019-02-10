@@ -22,7 +22,7 @@ import {
 
 import "./WorkspaceSearch.css";
 
-interface IProps {
+export interface IProps {
   onChange: (id: string) => any;
 }
 

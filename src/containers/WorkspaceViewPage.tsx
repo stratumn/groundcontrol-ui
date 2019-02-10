@@ -37,7 +37,7 @@ import { subscribe } from "../subscriptions/workspaceUpserted";
 
 import "./WorkspaceViewPage.css";
 
-interface IProps {
+export interface IProps {
   relay: RelayProp;
   system: WorkspaceViewPage_system;
   viewer: WorkspaceViewPage_viewer;

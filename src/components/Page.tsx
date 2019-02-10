@@ -22,7 +22,7 @@ import {
 
 import "./Page.css";
 
-interface IProps {
+export interface IProps {
   className?: string;
   icon: SemanticICONS;
   header: string;

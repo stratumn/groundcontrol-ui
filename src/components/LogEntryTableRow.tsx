@@ -30,7 +30,7 @@ import "./LogEntryTableRow.css";
 
 const dateFormat = "L LTS";
 
-interface IProps {
+export interface IProps {
   item: LogEntryTableRow_item;
 }
 

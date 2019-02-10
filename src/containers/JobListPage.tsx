@@ -28,7 +28,7 @@ import { commit as stopJob } from "../mutations/stopJob";
 
 import { subscribe } from "../subscriptions/jobUpserted";
 
-interface IProps {
+export interface IProps {
   relay: RelayPaginationProp;
   router: Router;
   system: JobListPage_system;

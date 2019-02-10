@@ -21,7 +21,7 @@ import { ProjectList_items } from "./__generated__/ProjectList_items.graphql";
 
 import ProjectListItem from "./ProjectListItem";
 
-interface IProps {
+export interface IProps {
   items: ProjectList_items;
 }
 

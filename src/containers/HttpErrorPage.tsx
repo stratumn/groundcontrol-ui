@@ -18,7 +18,7 @@ import { Container } from "semantic-ui-react";
 
 import Page from "../components/Page";
 
-interface IProps {
+export interface IProps {
   error: HttpError;
 }
 

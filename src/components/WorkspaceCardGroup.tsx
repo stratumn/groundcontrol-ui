@@ -21,7 +21,7 @@ import { WorkspaceCardGroup_items } from "./__generated__/WorkspaceCardGroup_ite
 
 import WorkspaceCard from "./WorkspaceCard";
 
-interface IProps {
+export interface IProps {
   items: WorkspaceCardGroup_items;
   itemsPerRow: SemanticWIDTHS;
   onClone: (id: string) => any;

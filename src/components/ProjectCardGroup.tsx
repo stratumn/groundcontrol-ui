@@ -21,7 +21,7 @@ import { ProjectCardGroup_items } from "./__generated__/ProjectCardGroup_items.g
 
 import ProjectCard from "./ProjectCard";
 
-interface IProps {
+export interface IProps {
   items: ProjectCardGroup_items;
   itemsPerRow: SemanticWIDTHS;
   onClone: (id: string) => any;

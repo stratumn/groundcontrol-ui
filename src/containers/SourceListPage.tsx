@@ -30,7 +30,7 @@ import { commit as deleteSource } from "../mutations/deleteSource";
 import { subscribe as subscribeSourceDeleted } from "../subscriptions/sourceDeleted";
 import { subscribe as subscribeSourceUpserted } from "../subscriptions/sourceUpserted";
 
-interface IProps {
+export interface IProps {
   relay: RelayProp;
   system: SourceListPage_system;
   viewer: SourceListPage_viewer;

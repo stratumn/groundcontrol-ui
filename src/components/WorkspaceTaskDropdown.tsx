@@ -23,7 +23,7 @@ import {
 
 import { WorkspaceTaskDropdown_items } from "./__generated__/WorkspaceTaskDropdown_items.graphql";
 
-interface IProps {
+export interface IProps {
   items: WorkspaceTaskDropdown_items;
   enabled: boolean;
   onRun: (id: string) => any;

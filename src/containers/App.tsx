@@ -28,7 +28,7 @@ import { subscribe as subscribeProcessMetrics } from "../subscriptions/processMe
 
 import "./App.css";
 
-interface IProps {
+export interface IProps {
   relay: RelayProp;
   router: Router;
   system: App_system;

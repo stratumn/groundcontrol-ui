@@ -21,7 +21,7 @@ import {
 
 import VariableForm, { IProps as IFormProps } from "./VariableForm";
 
-interface IProps extends IFormProps {
+export interface IProps extends IFormProps {
   onClose: () => any;
 }
 

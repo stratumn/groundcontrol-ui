@@ -21,7 +21,7 @@ import { ProcessGroupCardGroup_items } from "./__generated__/ProcessGroupCardGro
 
 import ProcessGroupCard from "./ProcessGroupCard";
 
-interface IProps {
+export interface IProps {
   items: ProcessGroupCardGroup_items;
   onStartGroup: (id: string) => any;
   onStopGroup: (id: string) => any;

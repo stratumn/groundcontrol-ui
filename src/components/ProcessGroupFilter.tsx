@@ -17,7 +17,7 @@ import { Radio } from "semantic-ui-react";
 
 import "./ProcessGroupFilter.css";
 
-interface IProps {
+export interface IProps {
   filters: string[] | undefined;
   onChange: (status: string[]) => any;
 }

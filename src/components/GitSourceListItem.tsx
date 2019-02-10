@@ -20,7 +20,7 @@ import { createFragmentContainer } from "react-relay";
 
 import { GitSourceListItem_item } from "./__generated__/GitSourceListItem_item.graphql";
 
-interface IProps {
+export interface IProps {
   item: GitSourceListItem_item;
   onDelete: () => any;
 }

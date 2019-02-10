@@ -27,7 +27,7 @@ import { MenuSecondaryItems_processMetrics } from "./__generated__/MenuSecondary
 
 import { GroundControlPort } from "../constants";
 
-interface IProps {
+export interface IProps {
   jobMetrics: MenuSecondaryItems_jobMetrics;
   processMetrics: MenuSecondaryItems_processMetrics;
   logMetrics: MenuSecondaryItems_logMetrics;

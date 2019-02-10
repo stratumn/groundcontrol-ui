@@ -21,7 +21,7 @@ import { LogEntryFilter_projects } from "./__generated__/LogEntryFilter_projects
 import LogEntryOwnerFilter from "./LogEntryOwnerFilter";
 import LogEntryStatusFilter from "./LogEntryStatusFilter";
 
-interface IProps {
+export interface IProps {
   filters?: string[];
   projects: LogEntryFilter_projects;
   ownerId?: string;

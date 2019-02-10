@@ -31,7 +31,7 @@ import "./ProcessGroupCard.css";
 
 const dateFormat = "L LTS";
 
-interface IProps {
+export interface IProps {
   item: ProcessGroupCard_item;
   onStartGroup: () => any;
   onStopGroup: () => any;

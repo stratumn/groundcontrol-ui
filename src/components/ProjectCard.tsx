@@ -32,7 +32,7 @@ import RepositoryShortName from "./RepositoryShortName";
 
 import "./ProjectCard.css";
 
-interface IProps {
+export interface IProps {
   item: ProjectCard_item;
   onClone: () => any;
   onPull: () => any;

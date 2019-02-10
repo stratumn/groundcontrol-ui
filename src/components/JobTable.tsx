@@ -24,7 +24,7 @@ import { JobTable_items } from "./__generated__/JobTable_items.graphql";
 
 import JobTableRow from "./JobTableRow";
 
-interface IProps {
+export interface IProps {
   items: JobTable_items;
   onStop: (id: string) => any;
 }

@@ -30,7 +30,7 @@ import { commit as stopProcess} from "../mutations/stopProcess";
 import { commit as stopProcessGroup } from "../mutations/stopProcessGroup";
 import { subscribe } from "../subscriptions/processGroupUpserted";
 
-interface IProps {
+export interface IProps {
   relay: RelayPaginationProp;
   router: Router;
   system: ProcessGroupListPage_system;

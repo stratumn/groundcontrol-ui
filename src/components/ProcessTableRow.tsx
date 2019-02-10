@@ -26,7 +26,7 @@ import RepositoryShortName from "./RepositoryShortName";
 
 import "./ProcessTableRow.css";
 
-interface IProps {
+export interface IProps {
   item: ProcessTableRow_item;
   onStart: () => any;
   onStop: () => any;

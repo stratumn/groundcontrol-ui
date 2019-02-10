@@ -30,7 +30,7 @@ import ProjectList from "./ProjectList";
 
 import "./WorkspaceCard.css";
 
-interface IProps {
+export interface IProps {
   item: WorkspaceCard_item;
   onClone: () => any;
   onPull: () => any;

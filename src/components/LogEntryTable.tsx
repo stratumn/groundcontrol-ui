@@ -24,7 +24,7 @@ import { LogEntryTable_items } from "./__generated__/LogEntryTable_items.graphql
 
 import LogEntryTableRow from "./LogEntryTableRow";
 
-interface IProps {
+export interface IProps {
   items: LogEntryTable_items;
 }
 

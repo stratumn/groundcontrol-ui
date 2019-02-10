@@ -22,7 +22,7 @@ import { SourceList_items } from "./__generated__/SourceList_items.graphql";
 import DirectorySourceListItem from "./DirectorySourceListItem";
 import GitSourceListItem from "./GitSourceListItem";
 
-interface IProps {
+export interface IProps {
   items: SourceList_items;
   onDelete: (id: string) => any;
 }

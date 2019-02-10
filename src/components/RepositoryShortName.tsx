@@ -14,7 +14,7 @@
 
 import React, { Component } from "react";
 
-interface IProps {
+export interface IProps {
   repository: string;
 }
 

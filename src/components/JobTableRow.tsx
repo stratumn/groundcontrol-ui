@@ -31,7 +31,7 @@ import "./JobTableRow.css";
 
 const dateFormat = "L LTS";
 
-interface IProps {
+export interface IProps {
   item: JobTableRow_item;
   onStop: () => any;
 }

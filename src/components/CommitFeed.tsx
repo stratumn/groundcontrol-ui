@@ -21,7 +21,7 @@ import { CommitFeed_items } from "./__generated__/CommitFeed_items.graphql";
 
 import CommitFeedEvent from "./CommitFeedEvent";
 
-interface IProps {
+export interface IProps {
   items: CommitFeed_items;
 }
 
