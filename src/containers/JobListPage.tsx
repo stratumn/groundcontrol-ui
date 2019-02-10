@@ -133,7 +133,7 @@ export default createPaginationContainer(
       )
         @connection(
           key: "JobListPage_jobs",
-          status: ["status"],
+          filters: ["status"],
         ) {
         edges {
           node {

@@ -151,7 +151,7 @@ export default createPaginationContainer(
       )
         @connection(
           key: "ProcessGroupListPage_processGroups",
-          status: ["status"],
+          filters: ["status"],
         ) {
         edges {
           node {
