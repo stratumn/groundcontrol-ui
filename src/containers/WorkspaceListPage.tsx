@@ -55,12 +55,13 @@ export class WorkspaceListPage extends Component<IProps, IState> {
       return <Welcome />;
     }
 
-    const query = this.state.query;
-    const itemsPerRow = this.state.itemsPerRow;
-    let items = this.props.viewer.workspaces.edges.map(({ node }) => node);
+    const { viewer } = this.props;
+    const { query, itemsPerRow } = this.state;
+
+    let items = viewer.workspaces.edges.map(({ node }) => node);
     let isLoading = false;
 
-    for (const { node } of this.props.viewer.sources.edges) {
+    for (const { node } of viewer.sources.edges) {
       if (node.isLoading) {
         isLoading = true;
         break;
@@ -92,18 +93,20 @@ export class WorkspaceListPage extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const environment = this.props.relay.environment;
-    const lastMessageId = this.props.system.lastMessageId;
-    this.disposables.push(subscribeSourceUpserted(environment, lastMessageId));
-    this.disposables.push(subscribeWorkspaceUpserted(environment, lastMessageId));
+    const { relay: { environment }, system: { lastMessageId } } = this.props;
 
     this.setItemsPerRow();
     window.addEventListener("resize", this.setItemsPerRow);
-    this.disposables.push({
-      dispose: () => {
-        window.removeEventListener("resize", this.setItemsPerRow);
+
+    this.disposables.push(
+      {
+        dispose: () => {
+          window.removeEventListener("resize", this.setItemsPerRow);
+        },
       },
-    });
+      subscribeSourceUpserted(environment, lastMessageId),
+      subscribeWorkspaceUpserted(environment, lastMessageId),
+    );
   }
 
   public componentWillUnmount() {
@@ -129,7 +132,7 @@ export class WorkspaceListPage extends Component<IProps, IState> {
   private setItemsPerRow = () => {
     let itemsPerRow = Math.floor(window.innerWidth / 400);
     itemsPerRow = Math.min(Math.max(itemsPerRow, 1), 16);
-    this.setState({itemsPerRow: itemsPerRow as SemanticWIDTHS});
+    this.setState({ itemsPerRow: itemsPerRow as SemanticWIDTHS });
   }
 }
 

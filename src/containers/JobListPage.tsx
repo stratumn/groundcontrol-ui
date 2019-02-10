@@ -33,7 +33,7 @@ interface IProps {
   router: Router;
   system: JobListPage_system;
   params: {
-    filters: string | undefined;
+    filters?: string;
   };
 }
 

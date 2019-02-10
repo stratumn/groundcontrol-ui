@@ -23,7 +23,7 @@ interface IProps {
 export default class ErrorPage extends Component<IProps> {
 
   public render() {
-    const error = this.props.error;
+    const { error } = this.props;
 
     return (
       <Page

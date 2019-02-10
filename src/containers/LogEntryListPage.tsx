@@ -35,8 +35,8 @@ interface IProps {
   viewer: LogEntryListPage_viewer;
   system: LogEntryListPage_system;
   params: {
-    filters: string | undefined;
-    ownerId: string | undefined;
+    filters?: string;
+    ownerId?: string;
   };
 }
 
@@ -52,7 +52,7 @@ export class LogEntryListPage extends Component<IProps> {
     const items = this.props.system.logEntries.edges.map(({ node }) => node);
     const filters = this.props.params.filters === undefined ? undefined :
       this.props.params.filters.split(",");
-    const ownerId = this.props.params.ownerId;
+    const { ownerId } = this.props.params;
     const projects = this.props.viewer.projects.edges.map(({ node }) => node);
     const isLoading = this.props.relay.isLoading();
 
@@ -77,20 +77,21 @@ export class LogEntryListPage extends Component<IProps> {
   }
 
   public componentDidMount() {
-    const environment = this.props.relay.environment;
-    const lastMessageId = this.props.system.lastMessageId;
-    this.disposables.push(subscribe(environment, lastMessageId));
-
-    window.scrollTo(0, document.body.scrollHeight);
+    const { relay: { environment }, system: { lastMessageId } } = this.props;
 
     document.addEventListener("scroll", this.handleScroll);
-    this.disposables.push({
-      dispose: () => {
-        document.removeEventListener("scroll", this.handleScroll);
-      },
-    });
-
+    window.scrollTo(0, document.body.scrollHeight);
     this.previousScrollHeight = document.body.scrollHeight;
+
+    this.disposables.push(
+      {
+        dispose: () => {
+          document.removeEventListener("scroll", this.handleScroll);
+        },
+      },
+      subscribe(environment, lastMessageId),
+    );
+
   }
 
   public componentDidUpdate() {
@@ -108,38 +109,8 @@ export class LogEntryListPage extends Component<IProps> {
 
     this.disposables = [];
   }
-
-  private handleFiltersChange = (filters: string[], ownerId?: string) => {
-    if ((filters.length < 1 || filters.length > 3) && !ownerId) {
-      return this.props.router.replace("/logs");
-    }
-
-    this.props.router.replace(`/logs/${filters.join(",")};${ownerId || ""}`);
-  }
-
-  private handleScroll = () => {
-    this.shouldScrollDown = window.scrollY + window.innerHeight === document.body.scrollHeight;
-
-    const prevScrollY = this.prevScrollY;
-    this.prevScrollY = window.scrollY;
-    if (prevScrollY < window.scrollY) {
-      return;
-    }
-
-    if (!this.props.relay.hasMore()) {
-      return;
-    }
-
-    if (this.props.relay.isLoading()) {
-      return;
-    }
-
-    if (window.scrollY > window.innerHeight) {
-      return;
-    }
-
-    this.previousScrollHeight = document.body.scrollHeight;
-
+  
+  private loadMore() {
     const disposable = this.props.relay.loadMore(
       100,
       (err) => {
@@ -147,11 +118,14 @@ export class LogEntryListPage extends Component<IProps> {
           console.log(err);
         }
 
-        if (this.previousScrollHeight < document.body.scrollHeight) {
-          window.scrollTo(0, window.scrollY + document.body.scrollHeight - this.previousScrollHeight);
+        const { scrollY } = window;
+        const { scrollHeight } = document.body;
+
+        if (this.previousScrollHeight < scrollHeight) {
+          window.scrollTo(0, scrollY + scrollHeight - this.previousScrollHeight);
         }
 
-        this.previousScrollHeight = document.body.scrollHeight;
+        this.previousScrollHeight = scrollHeight;
 
         // To hide loader.
         this.forceUpdate();
@@ -164,6 +138,46 @@ export class LogEntryListPage extends Component<IProps> {
 
     // To show loader.
     this.forceUpdate();
+  }
+
+  private handleFiltersChange = (filters: string[], ownerId?: string) => {
+    if ((filters.length < 1 || filters.length > 3) && !ownerId) {
+      return this.props.router.replace("/logs");
+    }
+
+    this.props.router.replace(`/logs/${filters.join(",")};${ownerId || ""}`);
+  }
+
+  private handleScroll = () => {
+    const { scrollY, innerHeight } = window;
+    const { scrollHeight } = document.body;
+
+    this.shouldScrollDown = scrollY + innerHeight === scrollHeight;
+
+    const prevScrollY = this.prevScrollY;
+    this.prevScrollY = scrollY;
+
+    if (prevScrollY < scrollY) {
+      return;
+    }
+
+    const relay = this.props.relay;
+
+    if (!relay.hasMore()) {
+      return;
+    }
+
+    if (relay.isLoading()) {
+      return;
+    }
+
+    if (scrollY > innerHeight) {
+      return;
+    }
+
+    this.previousScrollHeight = scrollHeight;
+
+    this.loadMore();
   }
 
 }

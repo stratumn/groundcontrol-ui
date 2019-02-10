@@ -68,8 +68,8 @@ export class SourceListPage extends Component<IProps> {
   }
 
   public componentDidMount() {
-    const environment = this.props.relay.environment;
-    const lastMessageId = this.props.system.lastMessageId;
+    const { relay: { environment }, system: { lastMessageId } } = this.props;
+
     this.disposables.push(subscribeSourceUpserted(environment, lastMessageId));
     this.disposables.push(subscribeSourceDeleted(environment, lastMessageId));
   }

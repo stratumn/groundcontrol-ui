@@ -88,10 +88,12 @@ export class KeyListPage extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const environment = this.props.relay.environment;
-    const lastMessageId = this.props.system.lastMessageId;
-    this.disposables.push(subscribeKeyUpserted(environment, lastMessageId));
-    this.disposables.push(subscribeKeyDeleted(environment, lastMessageId));
+    const { relay: { environment }, system: { lastMessageId } } = this.props;
+
+    this.disposables.push(
+      subscribeKeyUpserted(environment, lastMessageId),
+      subscribeKeyDeleted(environment, lastMessageId),
+    );
   }
 
   public componentWillUnmount() {

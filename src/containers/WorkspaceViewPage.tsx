@@ -60,9 +60,9 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   public render() {
     const workspace = this.props.viewer.workspace!;
     const items = workspace.projects.edges.map(({ node }) => node);
-    const itemsPerRow = this.state.itemsPerRow;
+    const description = workspace.description || "This workspace doesn't have a description.";
     const notes = workspace.notes || "This workspace doesn't have notes.";
-    const variables = this.state.variables;
+    const { itemsPerRow, variables } = this.state;
 
     let modal: JSX.Element | null = null;
 
@@ -82,7 +82,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
       <Page
         className="WorkspaceViewPage"
         header={workspace.name}
-        subheader={workspace.description || "No description."}
+        subheader={description}
         icon="cube"
       >
         <WorkspaceMenu
@@ -109,18 +109,20 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const environment = this.props.relay.environment;
-    const lastMessageId = this.props.system.lastMessageId;
-    const id = this.props.viewer.workspace!.id;
-    this.disposables.push(subscribe(environment, lastMessageId, id));
+    const { relay: { environment }, system: { lastMessageId } } = this.props;
+    const { id } = this.props.viewer.workspace!;
 
     this.setItemsPerRow();
     window.addEventListener("resize", this.setItemsPerRow);
-    this.disposables.push({
-      dispose: () => {
-        window.removeEventListener("resize", this.setItemsPerRow);
+
+    this.disposables.push(
+      {
+        dispose: () => {
+          window.removeEventListener("resize", this.setItemsPerRow);
+        },
       },
-    });
+      subscribe(environment, lastMessageId, id),
+    );
 
     loadWorkspaceCommits(environment, id);
   }
@@ -156,7 +158,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   private setItemsPerRow = () => {
     let itemsPerRow = Math.floor(window.innerWidth / 400);
     itemsPerRow = Math.min(Math.max(itemsPerRow, 1), 16);
-    this.setState({itemsPerRow: itemsPerRow as SemanticWIDTHS});
+    this.setState({ itemsPerRow: itemsPerRow as SemanticWIDTHS });
   }
 
   private handleCloneWorkspace = () => {

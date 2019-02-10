@@ -47,8 +47,8 @@ export class App extends Component<IProps, IState> {
   private disposables: Disposable[] = [];
 
   public render() {
-    const system = this.props.system;
-    const showSidebar = this.state.showSidebar;
+    const { system, children } = this.props;
+    const { showSidebar } = this.state;
 
     return (
       <div className="App">
@@ -59,25 +59,26 @@ export class App extends Component<IProps, IState> {
           onHideSidebar={this.handleSidebar.bind(this, false)}
         />
         <Container fluid={true}>
-          {this.props.children}
+          {children}
         </Container>
       </div>
     );
   }
 
   public componentDidMount() {
-    const environment = this.props.relay.environment;
-    const lastMessageId = this.props.system.lastMessageId;
-    this.disposables.push(subscribeJobMetrics(environment, lastMessageId));
-    this.disposables.push(subscribeProcessMetrics(environment, lastMessageId));
-    this.disposables.push(subscribeLogMetrics(environment, lastMessageId));
+    const { relay: { environment }, system: { lastMessageId } } = this.props;
 
-    this.disposables.push({
-      dispose: this.props.router.addTransitionHook(() => {
-        this.setState({ showSidebar: false });
-        return true;
-      }),
-    });
+    this.disposables.push(
+      {
+        dispose: this.props.router.addTransitionHook(() => {
+          this.setState({ showSidebar: false });
+          return true;
+        }),
+      },
+      subscribeJobMetrics(environment, lastMessageId),
+      subscribeProcessMetrics(environment, lastMessageId),
+      subscribeLogMetrics(environment, lastMessageId),
+    );
   }
 
   public componentWillUnmount() {
