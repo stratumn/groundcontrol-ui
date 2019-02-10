@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React  from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Segment,

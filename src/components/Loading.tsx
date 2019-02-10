@@ -22,4 +22,4 @@ export default () => (
   <div className="Loading">
     <Loader active={true} size="massive" />
   </div>
-)
+);

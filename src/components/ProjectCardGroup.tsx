@@ -28,13 +28,13 @@ export interface IProps {
   onPull: (values: IProjectCardProps) => any;
 }
 
-export function ProjectCardGroup({ items, itemsPerRow, onClone, onPull }: IProps) {
+export function ProjectCardGroup(props: IProps) {
+  const { items, itemsPerRow } = props;
   const cards = items.map((item) => (
     <ProjectCard
+      {...props}
       key={item.id}
       item={item}
-      onClone={onClone}
-      onPull={onPull}
     />
    ));
 

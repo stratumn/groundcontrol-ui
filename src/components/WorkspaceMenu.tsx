@@ -13,65 +13,70 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Icon,
   Menu,
 } from "semantic-ui-react";
 
-import { WorkspaceMenu_workspace } from "./__generated__/WorkspaceMenu_workspace.graphql";
+import { WorkspaceMenu_item } from "./__generated__/WorkspaceMenu_item.graphql";
 
-import WorkspaceTaskDropdown from "./WorkspaceTaskDropdown";
+import WorkspaceTaskDropdown, {
+  IProps as IWorkspaceTaskDropdownProps,
+} from "./WorkspaceTaskDropdown";
 
 export interface IProps {
-  workspace: WorkspaceMenu_workspace;
-  onClone: () => any;
-  onPull: () => any;
-  onRun: (id: string) => any;
+  item: WorkspaceMenu_item;
+  onClone: (values: IProps) => any;
+  onPull: (values: IProps) => any;
+  onRun: (values: IWorkspaceTaskDropdownProps, id: string) => any;
 }
 
-export class WorkspaceMenu extends Component<IProps> {
-
-  public render() {
-    const {
+export function WorkspaceMenu(props: IProps) {
+  const {
+    item: {
+      tasks,
       isCloning,
       isCloned,
       isPulling,
       isBehind,
-    } = this.props.workspace;
-    const tasks = this.props.workspace.tasks.edges.map(({ node }) => node);
-    const { onClone, onPull, onRun } = this.props;
+    },
+    onClone,
+    onPull,
+    onRun,
+  } = props;
+  const taskNodes = tasks.edges.map(({ node }) => node);
+  const handleClone = () => onClone({ ...props });
+  const handlePull = () => onPull({ ...props });
 
-    return (
-      <Menu size="large">
-        <Menu.Item
-          disabled={isCloning || isCloned}
-          onClick={onClone}
-        >
-          <Icon name="clone" />
-          Clone All
-        </Menu.Item>
-        <Menu.Item
-          disabled={isPulling || !isCloned || !isBehind}
-          onClick={onPull}
-        >
-          <Icon name="download" />
-          Pull All
-        </Menu.Item>
-        <WorkspaceTaskDropdown
-          items={tasks}
-          enabled={isCloned}
-          onRun={onRun}
-        />
-      </Menu>
-    );
-  }
-
+  return (
+    <Menu size="large">
+      <Menu.Item
+        disabled={isCloning || isCloned}
+        onClick={handleClone}
+      >
+        <Icon name="clone" />
+        Clone All
+      </Menu.Item>
+      <Menu.Item
+        disabled={isPulling || !isCloned || !isBehind}
+        onClick={handlePull}
+      >
+        <Icon name="download" />
+        Pull All
+      </Menu.Item>
+      <WorkspaceTaskDropdown
+        items={taskNodes}
+        enabled={isCloned}
+        onRun={onRun}
+      />
+    </Menu>
+  );
 }
 
 export default createFragmentContainer(WorkspaceMenu, graphql`
-  fragment WorkspaceMenu_workspace on Workspace {
+  fragment WorkspaceMenu_item on Workspace {
     tasks {
       edges {
         node {

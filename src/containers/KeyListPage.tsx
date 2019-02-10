@@ -103,7 +103,7 @@ export class KeyListPage extends Component<IProps, IState> {
     this.disposables = [];
   }
 
-  private handleChange = (values:ISetKeyFormProps) => {
+  private handleChange = (values: ISetKeyFormProps) => {
     this.setState(values);
   }
 

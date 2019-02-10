@@ -13,7 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import debounce from "debounce";
 import React, { Component } from "react";
 import {
   Input,
@@ -23,25 +22,29 @@ import {
 import "./WorkspaceSearch.css";
 
 export interface IProps {
-  onChange: (id: string) => any;
+  query: string;
+  onChange: (values: IProps) => any;
 }
 
 export default class WorkspaceSearch extends Component<IProps> {
 
-  private handleSearchChange = debounce((_: React.ChangeEvent<HTMLInputElement>, { value }: InputOnChangeData) => {
-    this.props.onChange(value);
-  }, 100);
-
   public render() {
+    const { query } = this.props;
+
     return (
       <Input
         className="WorkspaceSearch"
         size="big"
         icon="search"
         placeholder="Search..."
-        onChange={this.handleSearchChange}
+        value={query}
+        onChange={this.handleChange}
       />
     );
+  }
+
+  private handleChange = (_: React.ChangeEvent<HTMLInputElement>, { value }: InputOnChangeData) => {
+    this.props.onChange({ ...this.props, query: value });
   }
 
 }

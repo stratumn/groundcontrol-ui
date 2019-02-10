@@ -109,7 +109,7 @@ export class LogEntryListPage extends Component<IProps> {
 
     this.disposables = [];
   }
-  
+
   private loadMore() {
     const disposable = this.props.relay.loadMore(
       100,

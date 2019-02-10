@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
+import React from "react";
 import { Form } from "semantic-ui-react";
 
-import VariableFormField from "./VariableFormField";
+import VariableFormField, { IProps as IVariableFormFieldProps} from "./VariableFormField";
 
 export interface IVariable {
   name: string;
@@ -26,32 +26,27 @@ export interface IVariable {
 
 export interface IProps {
   variables: IVariable[];
-  onChangeValue: (name: string, value: string) => any;
-  onChangeSave: (name: string, checked: boolean) => any;
-  onSubmit: () => any;
+  onChangeVariable: (values: IVariableFormFieldProps) => any;
+  onSubmit: (values: IProps) => any;
 }
 
-export default class VariableForm extends Component<IProps> {
+export default function(props: IProps) {
+  const { variables, onChangeVariable, onSubmit } = props;
+  const handleSubmit = () => onSubmit({ ...props });
 
-  public render() {
-    const { variables, onChangeValue, onChangeSave, onSubmit } = this.props;
-
-    const fields = variables.map((variable) => {
-      return (
-        <VariableFormField
-          {...variable}
-          key={variable.name}
-          onChangeValue={onChangeValue.bind(null, variable.name)}
-          onChangeSave={onChangeSave.bind(null, variable.name)}
-        />
-      );
-    });
-
+  const fields = variables.map((variable) => {
     return (
-      <Form onSubmit={onSubmit}>
-        {fields}
-      </Form>
+      <VariableFormField
+        {...variable}
+        key={variable.name}
+        onChange={onChangeVariable}
+      />
     );
-  }
+  });
 
+  return (
+    <Form onSubmit={handleSubmit}>
+      {fields}
+    </Form>
+  );
 }

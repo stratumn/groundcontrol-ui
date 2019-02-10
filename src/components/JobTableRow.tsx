@@ -81,7 +81,7 @@ export function JobTableRow(props: IProps) {
   }
 
   if (status === "RUNNING") {
-    const handleStop = () => onStop({ ...props })
+    const handleStop = () => onStop({ ...props });
     buttons.push((
       <Button
         key="stop"

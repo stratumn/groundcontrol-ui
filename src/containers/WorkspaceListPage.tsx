@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
+import debounce from "debounce";
 import React, { Component } from "react";
 import { createFragmentContainer, RelayProp } from "react-relay";
 import { Disposable } from "relay-runtime";
@@ -23,8 +24,9 @@ import { WorkspaceListPage_viewer } from "./__generated__/WorkspaceListPage_view
 
 import Page from "../components/Page";
 import Welcome from "../components/Welcome";
+import { IProps as IWorkspaceCardProps } from "../components/WorkspaceCard";
 import WorkspaceCardGroup from "../components/WorkspaceCardGroup";
-import WorkspaceSearch from "../components/WorkspaceSearch";
+import WorkspaceSearch, { IProps as IWorkspaceSearchProps } from "../components/WorkspaceSearch";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
 import { subscribe as subscribeSourceUpserted } from "../subscriptions/sourceUpserted";
@@ -38,17 +40,23 @@ export interface IProps {
 
 interface IState {
   query: string;
+  debouncedQuery: string;
   itemsPerRow: SemanticWIDTHS;
 }
 
 export class WorkspaceListPage extends Component<IProps, IState> {
 
   public state: IState = {
+    debouncedQuery: "",
     itemsPerRow: 3,
     query: "",
   };
 
   private disposables: Disposable[] = [];
+
+  private debounceQuery = debounce((debouncedQuery: string) => {
+    this.setState({ debouncedQuery });
+  }, 100);
 
   public render() {
     if (this.props.viewer.sources.edges.length < 1) {
@@ -56,7 +64,7 @@ export class WorkspaceListPage extends Component<IProps, IState> {
     }
 
     const { viewer } = this.props;
-    const { query, itemsPerRow } = this.state;
+    const { itemsPerRow, query, debouncedQuery } = this.state;
 
     let items = viewer.workspaces.edges.map(({ node }) => node);
     let isLoading = false;
@@ -68,8 +76,8 @@ export class WorkspaceListPage extends Component<IProps, IState> {
       }
     }
 
-    if (query) {
-      items = items.filter((item) => item.name.toLowerCase().indexOf(query) >= 0);
+    if (debouncedQuery) {
+      items = items.filter((item) => item.name.toLowerCase().indexOf(debouncedQuery) >= 0);
     }
 
     return (
@@ -78,7 +86,10 @@ export class WorkspaceListPage extends Component<IProps, IState> {
         subheader="A workspace is a collection of related Git repositories and branches."
         icon="cubes"
       >
-        <WorkspaceSearch onChange={this.handleSearchChange} />
+        <WorkspaceSearch
+          query={query}
+          onChange={this.handleSearchChange}
+        />
         <WorkspaceCardGroup
           items={items}
           itemsPerRow={itemsPerRow}
@@ -117,15 +128,16 @@ export class WorkspaceListPage extends Component<IProps, IState> {
     this.disposables = [];
   }
 
-  private handleSearchChange = (query: string) => {
+  private handleSearchChange = ({ query }: IWorkspaceSearchProps) => {
     this.setState({ query });
+    this.debounceQuery(query);
   }
 
-  private handleClone = (id: string) => {
+  private handleClone = ({ item: { id } }: IWorkspaceCardProps) => {
     cloneWorkspace(this.props.relay.environment, id);
   }
 
-  private handlePull = (id: string) => {
+  private handlePull = ({ item: { id } }: IWorkspaceCardProps) => {
     pullWorkspace(this.props.relay.environment, id);
   }
 

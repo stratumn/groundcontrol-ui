@@ -20,7 +20,7 @@ const subscription = graphql`
   subscription workspaceUpsertedSubscription($lastMessageId: ID, $id: ID) {
     workspaceUpserted(lastMessageId: $lastMessageId, id: $id) {
       ...WorkspaceCard_item
-      ...WorkspaceMenu_workspace
+      ...WorkspaceMenu_item
       projects {
         edges {
           node {

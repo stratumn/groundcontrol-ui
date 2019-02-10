@@ -25,7 +25,7 @@ export const ProjectListItem = ({ item: { repository, branch } }: IProps) => (
       <RepositoryShortName repository={repository} />
     </List.Content>
   </List.Item>
-)
+);
 
 export default createFragmentContainer(ProjectListItem, graphql`
   fragment ProjectListItem_item on Project {

@@ -13,45 +13,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
+import React from "react";
 import {
   Button,
   Modal,
 } from "semantic-ui-react";
 
-import VariableForm, { IProps as IFormProps } from "./VariableForm";
+import VariableForm, { IProps as IVariableFormProps } from "./VariableForm";
 
-export interface IProps extends IFormProps {
-  onClose: () => any;
+export interface IProps extends IVariableFormProps {
+  onClose: (values: IProps) => any;
 }
 
-export default class VariableFormModal extends Component<IProps> {
+export default function(props: IProps) {
+  const { onClose, onSubmit } = props;
+  const handleClose = () => onClose({ ...props });
+  const handleSubmit = () => onSubmit({ ...props });
 
-  public render() {
-    const { onClose, onSubmit } = this.props;
-
-    return (
-      <Modal
-        open={true}
-        onClose={onClose}
-      >
-        <Modal.Header>Task Variables</Modal.Header>
-        <Modal.Content scrolling={true}>
-          <VariableForm {...this.props} />
-        </Modal.Content>
-        <Modal.Actions>
-          <Button onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            icon="rocket"
-            content="Proceed"
-            color="teal"
-            onClick={onSubmit}
-          />
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
+  return (
+    <Modal
+      open={true}
+      onClose={handleClose}
+    >
+      <Modal.Header>Task Variables</Modal.Header>
+      <Modal.Content scrolling={true}>
+        <VariableForm {...props} />
+      </Modal.Content>
+      <Modal.Actions>
+        <Button onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button
+          icon="rocket"
+          content="Proceed"
+          color="teal"
+          onClick={handleSubmit}
+        />
+      </Modal.Actions>
+    </Modal>
+  );
 }

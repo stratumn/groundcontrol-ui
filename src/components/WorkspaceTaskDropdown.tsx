@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Dimmer,
@@ -26,48 +26,41 @@ import { WorkspaceTaskDropdown_items } from "./__generated__/WorkspaceTaskDropdo
 export interface IProps {
   items: WorkspaceTaskDropdown_items;
   enabled: boolean;
-  onRun: (id: string) => any;
+  onRun: (values: IProps, id: string) => any;
 }
 
-export class WorkspaceTaskDropdown extends Component<IProps> {
+export function WorkspaceTaskDropdown(props: IProps) {
+  const { enabled, items, onRun } = props;
+  const handleRun = (id: string) => onRun({ ...props }, id);
 
-  public render() {
-    const { enabled, items } = this.props;
-
-    const dropdownItems = items.map(({id, name, isRunning}) => (
-      <Dropdown.Item
-        key={id}
-        disabled={isRunning}
-        onClick={this.handleRun.bind(this, id)}
+  const dropdownItems = items.map(({ id, name, isRunning }) => (
+    <Dropdown.Item
+      key={id}
+      disabled={isRunning}
+      onClick={handleRun.bind(null, id)}
+    >
+      <Dimmer
+        active={isRunning}
+        inverted={true}
       >
-        <Dimmer
-          active={isRunning}
-          inverted={true}
-        >
-          <Loader size="tiny" />
-        </Dimmer>
-        {name}
-      </Dropdown.Item>
-    ));
+        <Loader size="tiny" />
+      </Dimmer>
+      {name}
+    </Dropdown.Item>
+  ));
 
-    return (
-      <Dropdown
-        item={true}
-        text="Tasks"
-        pointing={true}
-        disabled={!enabled}
-      >
-        <Dropdown.Menu>
-          {dropdownItems}
-        </Dropdown.Menu>
-      </Dropdown>
-    );
-  }
-
-  private handleRun(id: string) {
-    this.props.onRun(id);
-  }
-
+  return (
+    <Dropdown
+      item={true}
+      text="Tasks"
+      pointing={true}
+      disabled={!enabled}
+    >
+      <Dropdown.Menu>
+        {dropdownItems}
+      </Dropdown.Menu>
+    </Dropdown>
+  );
 }
 
 export default createFragmentContainer(WorkspaceTaskDropdown, graphql`

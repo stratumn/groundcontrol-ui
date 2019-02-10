@@ -40,7 +40,7 @@ export function LogEntryOwnerFilter(props: IProps) {
       ...props,
       ownerId: value ? value as string : undefined,
     });
-  }
+  };
 
   return (
     <Dropdown

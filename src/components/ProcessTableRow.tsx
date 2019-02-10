@@ -39,7 +39,7 @@ export function ProcessTableRow(props: IProps) {
       status,
       project: {
         repository,
-      }
+      },
     },
     onStartProcess,
     onStopProcess,

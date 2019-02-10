@@ -49,7 +49,7 @@ export function ProcessGroupCard(props: IProps) {
       task,
       task: {
         workspace,
-      }
+      },
     },
     onStartGroup,
     onStopGroup,

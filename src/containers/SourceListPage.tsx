@@ -46,10 +46,10 @@ interface IState {
 export class SourceListPage extends Component<IProps, IState> {
 
   public state: IState = {
-    type: "directory",
+    branch: "",
     directory: "",
     repository: "",
-    branch: "",
+    type: "directory",
   };
 
   private disposables: Disposable[] = [];
@@ -120,10 +120,10 @@ export class SourceListPage extends Component<IProps, IState> {
     }
 
     this.setState({
+      branch: "",
       directory: "",
       repository: "",
-      branch: "",
-    })
+    });
   }
 
   private handleDeleteSource = ({ item: { id } }: { item: { id: string } }) => {

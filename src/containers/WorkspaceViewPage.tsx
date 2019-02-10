@@ -23,11 +23,14 @@ import { WorkspaceViewPage_system } from "./__generated__/WorkspaceViewPage_syst
 import { WorkspaceViewPage_viewer } from "./__generated__/WorkspaceViewPage_viewer.graphql";
 
 import Page from "../components/Page";
-import ProjectCardGroup from "../components/ProjectCardGroup";
 import { IProps as IProjectCardProps } from "../components/ProjectCard";
+import ProjectCardGroup from "../components/ProjectCardGroup";
 import { IVariable } from "../components/VariableForm";
+import { IProps as IVariableFormProps} from "../components/VariableForm";
+import { IProps as IVariableFormFieldProps} from "../components/VariableFormField";
 import VariableFormModal from "../components/VariableFormModal";
 import WorkspaceMenu from "../components/WorkspaceMenu";
+import { IProps as IWorkspaceTaskDropdownProps } from "../components/WorkspaceTaskDropdown";
 import { commit as cloneProject } from "../mutations/cloneProject";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
 import { commit as loadWorkspaceCommits } from "../mutations/loadWorkspaceCommits";
@@ -72,8 +75,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
         <VariableFormModal
           variables={variables}
           onClose={this.handleCloseModal}
-          onChangeValue={this.handleChangeVariableValue}
-          onChangeSave={this.handleChangeVariableSave}
+          onChangeVariable={this.handleChangeVariable}
           onSubmit={this.handleSubmitVariables}
         />
       );
@@ -87,7 +89,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
         icon="cube"
       >
         <WorkspaceMenu
-          workspace={workspace}
+          item={workspace}
           onClone={this.handleCloneWorkspace}
           onPull={this.handlePullWorkspace}
           onRun={this.handleRun}
@@ -178,7 +180,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     pullProject(this.props.relay.environment, id);
   }
 
-  private handleRun = (id: string) => {
+  private handleRun = (_: IWorkspaceTaskDropdownProps, id: string) => {
     if (!this.doesTaskHaveVariables(id)) {
       run(this.props.relay.environment, id);
       return;
@@ -212,12 +214,13 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     this.setState({ variables: undefined });
   }
 
-  private handleChangeVariableValue = (name: string, value: string) => {
+  private handleChangeVariable = ({ name, value, save }: IVariableFormFieldProps) => {
     const variables = this.state.variables!.map((v) => ({...v}));
 
     for (const variable of variables) {
       if (variable.name === name) {
         variable.value = value;
+        variable.save = save;
         break;
       }
     }
@@ -225,21 +228,8 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     this.setState({ variables });
   }
 
-  private handleChangeVariableSave = (name: string, checked: boolean) => {
-    const variables = this.state.variables!.map((v) => ({...v}));
-
-    for (const variable of variables) {
-      if (variable.name === name) {
-        variable.save = checked;
-        break;
-      }
-    }
-
-    this.setState({ variables });
-  }
-
-  private handleSubmitVariables = () => {
-    run(this.props.relay.environment, this.taskID!, this.state.variables);
+  private handleSubmitVariables = ({ variables }: IVariableFormProps ) => {
+    run(this.props.relay.environment, this.taskID!, variables);
     this.handleCloseModal();
   }
 
@@ -281,7 +271,7 @@ export default createFragmentContainer(WorkspaceViewPage, graphql`
           }
         }
       }
-      ...WorkspaceMenu_workspace
+      ...WorkspaceMenu_item
     }
     keys {
       edges {

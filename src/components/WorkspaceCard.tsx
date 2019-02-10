@@ -14,7 +14,7 @@
 
 import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Button,
@@ -32,132 +32,145 @@ import "./WorkspaceCard.css";
 
 export interface IProps {
   item: WorkspaceCard_item;
-  onClone: () => any;
-  onPull: () => any;
+  onClone: (values: IProps) => any;
+  onPull: (values: IProps) => any;
 }
 
-export class WorkspaceCard extends Component<IProps> {
+export function WorkspaceCard(props: IProps) {
+  const {
+    item,
+    item: {
+      slug,
+      name,
+      description,
+      projects,
+      isCloned,
+      isCloning,
+      isPulling,
+      isBehind,
+      isAhead,
+    },
+    onClone,
+    onPull,
+  } = props;
+  const labels: JSX.Element[] = [];
+  const buttons: JSX.Element[] = [];
+  const projectNodes = projects.edges.map(({ node }) => node);
+  const handleClone = () => onClone({ ...props });
+  const handlePull = () => onPull({ ...props });
 
-  public render() {
-    const item = this.props.item;
-    const labels: JSX.Element[] = [];
-    const buttons: JSX.Element[] = [];
-    const projects = this.props.item.projects.edges.map(({ node }) => node);
+  let color: "grey" | "teal" | "pink" | "purple" = "grey";
 
-    let color: "grey" | "teal" | "pink" | "purple" = "grey";
+  if (isCloned) {
+    color = "teal";
 
-    if (item.isCloned) {
+    labels.push((
+      <Label
+        key="cloned"
+        content="cloned"
+        color="blue"
+        size="small"
+      />
+    ));
+
+    buttons.push((
+      <Button
+        key="pull"
+        content="Pull"
+        color="teal"
+        icon="download"
+        disabled={isPulling || !isBehind}
+        loading={isPulling}
+        onClick={handlePull}
+      />
+    ));
+
+    if (!isBehind && !isAhead) {
       color = "teal";
 
       labels.push((
         <Label
-          key="cloned"
-          content="cloned"
-          color="blue"
-          size="small"
-        />
-      ));
-
-      buttons.push((
-        <Button
-          key="pull"
-          content="Pull"
+          key="uptodate"
+          content="up-to-date"
           color="teal"
-          icon="download"
-          disabled={item.isPulling || !item.isBehind}
-          loading={item.isPulling}
-          onClick={this.props.onPull}
-        />
-      ));
-
-      if (!item.isBehind && !item.isAhead) {
-        color = "teal";
-
-        labels.push((
-          <Label
-            key="uptodate"
-            content="up-to-date"
-            color="teal"
-            size="small"
-          />
-        ));
-      }
-    } else {
-      buttons.push((
-        <Button
-          key="clone"
-          content="Clone"
-          color="teal"
-          icon="clone"
-          disabled={item.isCloning}
-          loading={item.isCloning}
-          onClick={this.props.onClone}
-        />
-      ));
-    }
-
-    if (item.isAhead) {
-      color = "purple";
-
-      labels.push((
-        <Label
-          key="ahead"
-          content="ahead"
-          color="purple"
           size="small"
         />
       ));
     }
-
-    if (item.isBehind) {
-      color = "pink";
-
-      labels.push((
-        <Label
-          key="behind"
-          content="behind"
-          color="pink"
-          size="small"
-        />
-      ));
-    }
-
-    return (
-      <Card
-        className="WorkspaceCard"
-        color={color}
-      >
-        <Card.Content>
-          <Link
-            to={`/workspaces/${item.slug}`}
-            Component={Card.Header}
-          >
-            {item.name}
-          </Link>
-          {labels}
-          <Card.Description>{item.description}</Card.Description>
-          <Divider horizontal={true}>
-            <Header as="h6">Repositories</Header>
-          </Divider>
-          <Card.Description>
-            <ProjectList items={projects} />
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra={true}>
-          <div className="ui three buttons">
-            <Link
-              to={`/workspaces/${item.slug}`}
-              className="ui grey button"
-            >
-              Details
-            </Link>
-            {buttons}
-          </div>
-        </Card.Content>
-      </Card>
-    );
+  } else {
+    buttons.push((
+      <Button
+        key="clone"
+        content="Clone"
+        color="teal"
+        icon="clone"
+        disabled={isCloning}
+        loading={isCloning}
+        onClick={handleClone}
+      />
+    ));
   }
 
+  if (isAhead) {
+    color = "purple";
+
+    labels.push((
+      <Label
+        key="ahead"
+        content="ahead"
+        color="purple"
+        size="small"
+      />
+    ));
+  }
+
+  if (isBehind) {
+    color = "pink";
+
+    labels.push((
+      <Label
+        key="behind"
+        content="behind"
+        color="pink"
+        size="small"
+      />
+    ));
+  }
+
+  return (
+    <Card
+      className="WorkspaceCard"
+      color={color}
+    >
+      <Card.Content>
+        <Link
+          to={`/workspaces/${slug}`}
+          Component={Card.Header}
+        >
+          {name}
+        </Link>
+        {labels}
+        <Card.Description>{description}</Card.Description>
+        <Divider horizontal={true}>
+          <Header as="h6">Repositories</Header>
+        </Divider>
+        <Card.Description>
+          <ProjectList items={projectNodes} />
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra={true}>
+        <div className="ui three buttons">
+          <Link
+            to={`/workspaces/${slug}`}
+            className="ui grey button"
+          >
+            Details
+          </Link>
+          {buttons}
+        </div>
+      </Card.Content>
+    </Card>
+  );
 }
 
 export default createFragmentContainer(WorkspaceCard, graphql`

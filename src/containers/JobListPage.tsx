@@ -87,7 +87,7 @@ export class JobListPage extends Component<IProps> {
     this.disposables = [];
   }
 
-  private handleFiltersChange = ({ filters } : IJobFilterProps) => {
+  private handleFiltersChange = ({ filters }: IJobFilterProps) => {
     if (!filters || filters.length < 1 || filters.length > 4) {
       return this.props.router.replace("/jobs");
     }

@@ -38,7 +38,7 @@ export const CommitFeedEvent = ({ item: { headline, author, date } }: IProps) =>
       </Feed.Meta>
     </Feed.Content>
   </Feed.Event>
-)
+);
 
 export default createFragmentContainer(CommitFeedEvent, graphql`
   fragment CommitFeedEvent_item on Commit {

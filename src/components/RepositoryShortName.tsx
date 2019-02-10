@@ -23,7 +23,7 @@ export default function({ repository }: IProps) {
   parts = parts.splice(Math.max(parts.length - 2, 0));
   parts[0] = parts[0].replace(/^.*:/, "");
   const len = parts.length;
-  parts[len-1] = parts[len-1].replace(/\.git$/, "");
+  parts[len - 1] = parts[len - 1].replace(/\.git$/, "");
   const shortName = parts.join("/");
 
   return <Fragment>{shortName}</Fragment>;

@@ -30,12 +30,12 @@ export interface IProps {
 
 export function LogEntryFilter(props: IProps) {
   const { status, projects, ownerId, onChange } = props;
-  const handleOwnerChange = ({ ownerId }: LogEntryOwnerFilterProps) => {
-    onChange({ ...props, ownerId });
-  }
-  const handleStatusChange = ({ status }: LogEntryStatusFilterProps) => {
-    onChange({ ...props, status });
-  }
+  const handleOwnerChange = (values: LogEntryOwnerFilterProps) => {
+    onChange({ ...props, ownerId: values.ownerId });
+  };
+  const handleStatusChange = (values: LogEntryStatusFilterProps) => {
+    onChange({ ...props, status: values.status });
+  };
 
   return (
     <div className="LogEntryFilter">
