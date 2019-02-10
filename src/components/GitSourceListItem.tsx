@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { Button, List } from "semantic-ui-react";
 
 import { createFragmentContainer } from "react-relay";
@@ -25,30 +25,21 @@ export interface IProps {
   onDelete: () => any;
 }
 
-export class GitSourceListItem extends Component<IProps> {
-
-  public render() {
-    const { repository, branch } = this.props.item;
-    const onDelete = this.props.onDelete;
-
-    return (
-      <List.Item>
-        <List.Content>
-          <Button
-            floated="right"
-            icon="delete"
-            color="pink"
-            size="small"
-            onClick={onDelete}
-          />
-          <List.Header>{repository}@{branch}</List.Header>
-          <List.Description>Git Repository</List.Description>
-        </List.Content>
-      </List.Item>
-    );
-  }
-
-}
+export const GitSourceListItem = ({ item: { repository, branch }, onDelete }: IProps) => (
+  <List.Item>
+    <List.Content>
+      <Button
+        floated="right"
+        icon="delete"
+        color="pink"
+        size="small"
+        onClick={onDelete}
+      />
+      <List.Header>{repository}@{branch}</List.Header>
+      <List.Description>Git Repository</List.Description>
+    </List.Content>
+  </List.Item>
+)
 
 export default createFragmentContainer(GitSourceListItem, graphql`
   fragment GitSourceListItem_item on GitSource {

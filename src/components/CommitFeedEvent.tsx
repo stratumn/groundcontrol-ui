@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import Moment from "react-moment";
 import { createFragmentContainer } from "react-relay";
 import { Feed } from "semantic-ui-react";
@@ -26,27 +26,19 @@ export interface IProps {
   item: CommitFeedEvent_item;
 }
 
-export class CommitFeedEvent extends Component<IProps> {
-
-  public render() {
-    const item = this.props.item;
-
-    return (
-      <Feed.Event className="CommitFeedEvent">
-        <Feed.Content>
-          <Feed.Summary>{item.headline}</Feed.Summary>
-          <Feed.Meta>
-            Pushed by <strong>{item.author}</strong>
-            <Moment fromNow={true}>
-              {item.date}
-            </Moment>
-          </Feed.Meta>
-        </Feed.Content>
-      </Feed.Event>
-    );
-  }
-
-}
+export const CommitFeedEvent = ({ item: { headline, author, date } }: IProps) => (
+  <Feed.Event className="CommitFeedEvent">
+    <Feed.Content>
+      <Feed.Summary>{headline}</Feed.Summary>
+      <Feed.Meta>
+        Pushed by <strong>{author}</strong>
+        <Moment fromNow={true}>
+          {date}
+        </Moment>
+      </Feed.Meta>
+    </Feed.Content>
+  </Feed.Event>
+)
 
 export default createFragmentContainer(CommitFeedEvent, graphql`
   fragment CommitFeedEvent_item on Commit {

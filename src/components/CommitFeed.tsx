@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import { Feed } from "semantic-ui-react";
 
@@ -25,21 +25,15 @@ export interface IProps {
   items: CommitFeed_items;
 }
 
-export class CommitFeed extends Component<IProps> {
+export function CommitFeed({ items }: IProps) {
+  const rows = items.map((item) => (
+    <CommitFeedEvent
+      key={item.id}
+      item={item}
+    />
+  ));
 
-  public render() {
-    const items = this.props.items;
-
-    const rows = items.map((item) => (
-      <CommitFeedEvent
-        key={item.id}
-        item={item}
-      />
-    ));
-
-    return <Feed>{rows}</Feed>;
-  }
-
+  return <Feed>{rows}</Feed>;
 }
 
 export default createFragmentContainer(CommitFeed, graphql`

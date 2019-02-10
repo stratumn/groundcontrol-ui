@@ -21,8 +21,9 @@ import { Button } from "semantic-ui-react";
 
 import { JobListPage_system } from "./__generated__/JobListPage_system.graphql";
 
-import JobFilter from "../components/JobFilter";
+import JobFilter, { IProps as IJobFilterProps } from "../components/JobFilter";
 import JobTable from "../components/JobTable";
+import { IProps as IJobTableRowProps } from "../components/JobTableRow";
 import Page from "../components/Page";
 import { commit as stopJob } from "../mutations/stopJob";
 
@@ -86,15 +87,15 @@ export class JobListPage extends Component<IProps> {
     this.disposables = [];
   }
 
-  private handleFiltersChange = (filters: string[]) => {
-    if (filters.length < 1 || filters.length > 4) {
+  private handleFiltersChange = ({ filters } : IJobFilterProps) => {
+    if (!filters || filters.length < 1 || filters.length > 4) {
       return this.props.router.replace("/jobs");
     }
 
     this.props.router.replace(`/jobs/${filters.join(",")}`);
   }
 
-  private handleStop = (id: string) => {
+  private handleStop = ({ item: { id } }: IJobTableRowProps) => {
     stopJob(this.props.relay.environment, id);
   }
 

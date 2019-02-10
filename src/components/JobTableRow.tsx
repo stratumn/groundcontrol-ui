@@ -14,7 +14,7 @@
 
 import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import {
   Button,
   Table,
@@ -33,92 +33,99 @@ const dateFormat = "L LTS";
 
 export interface IProps {
   item: JobTableRow_item;
-  onStop: () => any;
+  onStop: (values: IProps) => any;
 }
 
-export class JobTableRow extends Component<IProps> {
+export function JobTableRow(props: IProps) {
+  const {
+    item: {
+      name,
+      owner,
+      createdAt,
+      updatedAt,
+      priority,
+      status,
+    },
+    onStop,
+  } = props;
+  const buttons: JSX.Element[] = [];
 
-  public render() {
-    const { item, onStop } = this.props;
-    const owner = item.owner;
-    const buttons: JSX.Element[] = [];
+  let workspaceSlug = "-";
+  let workspaceName = "-";
+  let projectRepository = "-";
+  let projectBranch = "-";
 
-    let workspaceSlug = "-";
-    let workspaceName = "-";
-    let projectRepository = "-";
-    let projectBranch = "-";
+  switch (owner.__typename) {
+  case "Workspace":
+    workspaceSlug = owner.slug;
+    workspaceName = owner.name;
+    break;
+  case "Project":
+    workspaceSlug = owner.workspace.slug;
+    workspaceName = owner.workspace.name;
+    projectRepository = owner.repository;
+    projectBranch = owner.branch;
+    break;
+  }
 
-    switch (owner.__typename) {
-    case "Workspace":
-      workspaceSlug = owner.slug;
-      workspaceName = owner.name;
-      break;
-    case "Project":
-      workspaceSlug = owner.workspace.slug;
-      workspaceName = owner.workspace.name;
-      projectRepository = owner.repository;
-      projectBranch = owner.branch;
-      break;
-    }
+  let workspaceEl: JSX.Element;
 
-    let workspaceEl: JSX.Element;
-
-    if (workspaceName === "-") {
-      workspaceEl = <Fragment>{workspaceName}</Fragment>;
-    } else {
-      workspaceEl = (
-        <Link to={`/workspaces/${workspaceSlug}`}>
-          {workspaceName}
-        </Link>
-      );
-    }
-
-    if (item.status === "RUNNING") {
-      buttons.push((
-        <Button
-          key="stop"
-          size="tiny"
-          icon="stop"
-          onClick={onStop}
-        />
-      ));
-    }
-
-    return (
-      <Table.Row className="JobTableRow">
-        <Table.Cell>{item.name}</Table.Cell>
-        <Table.Cell>
-          {workspaceEl}
-        </Table.Cell>
-        <Table.Cell>
-          <RepositoryShortName repository={projectRepository} />
-        </Table.Cell>
-        <Table.Cell>{projectBranch}</Table.Cell>
-        <Table.Cell>
-          <Moment format={dateFormat}>{item.createdAt}</Moment>
-        </Table.Cell>
-        <Table.Cell>
-          <Moment format={dateFormat}>{item.updatedAt}</Moment>
-        </Table.Cell>
-        <Table.Cell>{item.priority}</Table.Cell>
-        <Table.Cell
-          positive={item.status === "DONE"}
-          warning={item.status === "RUNNING"}
-          error={item.status === "FAILED"}
-        >
-          {item.status}
-        </Table.Cell>
-        <Table.Cell>
-          {buttons}
-        </Table.Cell>
-      </Table.Row>
+  if (workspaceName === "-") {
+    workspaceEl = <Fragment>{workspaceName}</Fragment>;
+  } else {
+    workspaceEl = (
+      <Link to={`/workspaces/${workspaceSlug}`}>
+        {workspaceName}
+      </Link>
     );
   }
 
+  if (status === "RUNNING") {
+    const handleStop = () => onStop({ ...props })
+    buttons.push((
+      <Button
+        key="stop"
+        size="tiny"
+        icon="stop"
+        onClick={handleStop}
+      />
+    ));
+  }
+
+  return (
+    <Table.Row className="JobTableRow">
+      <Table.Cell>{name}</Table.Cell>
+      <Table.Cell>
+        {workspaceEl}
+      </Table.Cell>
+      <Table.Cell>
+        <RepositoryShortName repository={projectRepository} />
+      </Table.Cell>
+      <Table.Cell>{projectBranch}</Table.Cell>
+      <Table.Cell>
+        <Moment format={dateFormat}>{createdAt}</Moment>
+      </Table.Cell>
+      <Table.Cell>
+        <Moment format={dateFormat}>{updatedAt}</Moment>
+      </Table.Cell>
+      <Table.Cell>{priority}</Table.Cell>
+      <Table.Cell
+        positive={status === "DONE"}
+        warning={status === "RUNNING"}
+        error={status === "FAILED"}
+      >
+        {status}
+      </Table.Cell>
+      <Table.Cell>
+        {buttons}
+      </Table.Cell>
+    </Table.Row>
+  );
 }
 
 export default createFragmentContainer(JobTableRow, graphql`
   fragment JobTableRow_item on Job {
+    id
     name
     createdAt
     updatedAt

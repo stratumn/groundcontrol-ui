@@ -22,6 +22,7 @@ import { KeyListPage_system } from "./__generated__/KeyListPage_system.graphql";
 import { KeyListPage_viewer } from "./__generated__/KeyListPage_viewer.graphql";
 
 import KeyList from "../components/KeyList";
+import { IProps as IKeyListItemProps } from "../components/KeyListItem";
 import Page from "../components/Page";
 import SetKeyForm, { IProps as ISetKeyFormProps } from "../components/SetKeyForm";
 import { commit as deleteKey } from "../mutations/deleteKey";
@@ -124,7 +125,7 @@ export class KeyListPage extends Component<IProps, IState> {
     }
   }
 
-  private handleEdit = (_: string, name: string, value: string) => {
+  private handleEdit = ({ item: { name, value } }: IKeyListItemProps) => {
     this.setState({
       name,
       value,
@@ -137,7 +138,7 @@ export class KeyListPage extends Component<IProps, IState> {
     }
   }
 
-  private handleDelete = (id: string) => {
+  private handleDelete = ({ item: { id } }: IKeyListItemProps) => {
     deleteKey(this.props.relay.environment, id);
   }
 

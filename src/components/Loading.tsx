@@ -13,19 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
+import React from "react";
 import { Loader } from "semantic-ui-react";
 
 import "./Loading.css";
 
-export default class Loading extends Component {
-
-  public render() {
-    return (
-      <div className="Loading">
-        <Loader active={true} size="massive" />
-      </div>
-    );
-  }
-
-}
+export default () => (
+  <div className="Loading">
+    <Loader active={true} size="massive" />
+  </div>
+)

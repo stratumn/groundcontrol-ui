@@ -13,46 +13,39 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import { List } from "semantic-ui-react";
 
 import { KeyList_items } from "./__generated__/KeyList_items.graphql";
 
-import KeyListItem from "./KeyListItem";
+import KeyListItem, { IProps as IKeyListItemProps } from "./KeyListItem";
 
 export interface IProps {
   items: KeyList_items;
-  onEdit: (id: string, name: string, value: string) => any;
-  onDelete: (id: string) => any;
+  onEdit: (values: IKeyListItemProps) => any;
+  onDelete: (values: IKeyListItemProps) => any;
 }
 
-export class KeyList extends Component<IProps> {
-
-  public render() {
-    const items = this.props.items;
-    const { onEdit, onDelete } = this.props;
-
-    if (items.length < 1) {
-      return <p>There are no keys at this time.</p>;
-    }
-
-    const listItems = items.map((item) => (
-      <KeyListItem
-        key={item.id}
-        item={item}
-        onEdit={onEdit.bind(null, item.id, item.name, item.value)}
-        onDelete={onDelete.bind(null, item.id)}
-      />
-    ));
-
-    return (
-      <List divided={true}>
-        {listItems}
-      </List>
-    );
+export function KeyList({ items, onEdit, onDelete }: IProps) {
+  if (items.length < 1) {
+    return <p>There are no keys at this time.</p>;
   }
 
+  const listItems = items.map((item) => (
+    <KeyListItem
+      key={item.id}
+      item={item}
+      onEdit={onEdit}
+      onDelete={onDelete}
+    />
+  ));
+
+  return (
+    <List divided={true}>
+      {listItems}
+    </List>
+  );
 }
 
 export default createFragmentContainer(KeyList, graphql`

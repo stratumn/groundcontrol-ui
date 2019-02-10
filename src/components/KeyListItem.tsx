@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import {
   Button,
   List,
@@ -27,47 +27,45 @@ import "./KeyListItem.css";
 
 export interface IProps {
   item: KeyListItem_item;
-  onEdit: () => any;
-  onDelete: () => any;
+  onEdit: (values: IProps) => any;
+  onDelete: (values: IProps) => any;
 }
 
-export class KeyListItem extends Component<IProps> {
+export function KeyListItem(props: IProps) {
+  const{ item: { name, value }, onEdit, onDelete } = props;
+  const handleEdit = () => onEdit({ ...props });
+  const handleDelete = () => onDelete({ ...props });
 
-  public render() {
-    const { name, value } = this.props.item;
-    const { onEdit, onDelete } = this.props;
-
-    return (
-      <List.Item className="KeyListItem">
-        <List.Content>
-          <List.Header>{name}</List.Header>
-          <List.Description>
-            <code>
-              {value}
-            </code>
-          </List.Description>
-          <Button
-            icon="edit"
-            content="Edit"
-            color="teal"
-            size="small"
-            onClick={onEdit}
-          />
-          <Button
-            icon="delete"
-            color="pink"
-            size="small"
-            onClick={onDelete}
-          />
-        </List.Content>
-      </List.Item>
-    );
-  }
-
+  return (
+    <List.Item className="KeyListItem">
+      <List.Content>
+        <List.Header>{name}</List.Header>
+        <List.Description>
+          <code>
+            {value}
+          </code>
+        </List.Description>
+        <Button
+          icon="edit"
+          content="Edit"
+          color="teal"
+          size="small"
+          onClick={handleEdit}
+        />
+        <Button
+          icon="delete"
+          color="pink"
+          size="small"
+          onClick={handleDelete}
+        />
+      </List.Content>
+    </List.Item>
+  );
 }
 
 export default createFragmentContainer(KeyListItem, graphql`
   fragment KeyListItem_item on Key {
+    id
     name
     value
   }`,

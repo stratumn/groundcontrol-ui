@@ -18,8 +18,8 @@ import { Radio } from "semantic-ui-react";
 import "./JobFilter.css";
 
 export interface IProps {
-  filters: string[] | undefined;
-  onChange: (status: string[]) => any;
+  filters?: string[];
+  onChange: (values: IProps) => any;
 }
 
 const allFilters = ["QUEUED", "RUNNING", "STOPPING", "DONE", "FAILED"];
@@ -28,7 +28,7 @@ const allFilters = ["QUEUED", "RUNNING", "STOPPING", "DONE", "FAILED"];
 export default class JobFilter extends Component<IProps> {
 
   public render() {
-    const filters = this.props.filters;
+    const { filters } = this.props;
     const radios = allFilters.map((filter, i) => (
       <Radio
         key={i}
@@ -52,7 +52,7 @@ export default class JobFilter extends Component<IProps> {
       filters.push(filter);
     }
 
-    this.props.onChange(filters);
+    this.props.onChange({ ...this.props, filters });
   }
 
 }

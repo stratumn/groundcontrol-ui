@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React  from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Segment,
@@ -22,54 +22,44 @@ import {
 
 import { JobTable_items } from "./__generated__/JobTable_items.graphql";
 
-import JobTableRow from "./JobTableRow";
+import JobTableRow, { IProps as IJobTableRowProps } from "./JobTableRow";
 
 export interface IProps {
   items: JobTable_items;
-  onStop: (id: string) => any;
+  onStop: (values: IJobTableRowProps) => any;
 }
 
-export class JobTable extends Component<IProps> {
-
-  public render() {
-    const items = this.props.items;
-
-    if (items.length < 1) {
-      return <Segment>There are no jobs at this time.</Segment>;
-    }
-
-    const rows = items.map((item) => (
-      <JobTableRow
-        key={item.id}
-        item={item}
-        onStop={this.handleStop.bind(this, item.id)}
-      />
-    ));
-
-    return (
-      <Table inverted={true}>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Workspace</Table.HeaderCell>
-            <Table.HeaderCell>Repository</Table.HeaderCell>
-            <Table.HeaderCell>Branch</Table.HeaderCell>
-            <Table.HeaderCell>Created At</Table.HeaderCell>
-            <Table.HeaderCell>Updated At</Table.HeaderCell>
-            <Table.HeaderCell>Priority</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell width="2" />
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>{rows}</Table.Body>
-      </Table>
-    );
+export function JobTable({ items, onStop }: IProps) {
+  if (items.length < 1) {
+    return <Segment>There are no jobs at this time.</Segment>;
   }
 
-  private handleStop(id: string) {
-    this.props.onStop(id);
-  }
+  const rows = items.map((item) => (
+    <JobTableRow
+      key={item.id}
+      item={item}
+      onStop={onStop}
+    />
+  ));
 
+  return (
+    <Table inverted={true}>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Workspace</Table.HeaderCell>
+          <Table.HeaderCell>Repository</Table.HeaderCell>
+          <Table.HeaderCell>Branch</Table.HeaderCell>
+          <Table.HeaderCell>Created At</Table.HeaderCell>
+          <Table.HeaderCell>Updated At</Table.HeaderCell>
+          <Table.HeaderCell>Priority</Table.HeaderCell>
+          <Table.HeaderCell>Status</Table.HeaderCell>
+          <Table.HeaderCell width="2" />
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>{rows}</Table.Body>
+    </Table>
+  );
 }
 
 export default createFragmentContainer(JobTable, graphql`
