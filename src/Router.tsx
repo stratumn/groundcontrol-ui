@@ -115,16 +115,16 @@ const logEntryListQuery = graphql`
   }
 `;
 
-function prepareJobListVariables({ filters }: { filters: string }) {
-  return { status: filters ? filters.split(",") : null };
+function prepareJobListVariables({ status }: { status: string }) {
+  return { status: status ? status.split(",") : null };
 }
 
-function prepareProcessGroupListVariables({ filters }: { filters: string }) {
-  return { status: filters ? filters.split(",") : null };
+function prepareProcessGroupListVariables({ status }: { status: string }) {
+  return { status: status ? status.split(",") : null };
 }
 
-function prepareLogEntryListVariables({ status, ownerId }: { status: string, ownerId?: string }) {
-  return { level: status ? status.split(",") : null, ownerId };
+function prepareLogEntryListVariables({ level, ownerId }: { level: string, ownerId?: string }) {
+  return { level: level ? level.split(",") : null, ownerId };
 }
 
 function render(args: RouteRenderArgs) {
@@ -183,7 +183,7 @@ export default createFarceRouter({
           render={render}
         />
         <Route
-          path=":filters"
+          path=":status"
           Component={ProcessGroupListPage}
           query={processGroupListQuery}
           prepareVariables={prepareProcessGroupListVariables}
@@ -197,7 +197,7 @@ export default createFarceRouter({
           render={render}
         />
         <Route
-          path=":filters"
+          path=":status"
           Component={JobListPage}
           query={jobListQuery}
           prepareVariables={prepareJobListVariables}
@@ -211,7 +211,7 @@ export default createFarceRouter({
           render={render}
         />
         <Route
-          path=":status?;:ownerId?"
+          path=":level?;:ownerId?"
           Component={LogEntryListPage}
           query={logEntryListQuery}
           prepareVariables={prepareLogEntryListVariables}

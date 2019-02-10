@@ -18,22 +18,22 @@ import { Radio } from "semantic-ui-react";
 import "./JobFilter.css";
 
 export interface IProps {
-  filters?: string[];
+  status?: string[];
   onChange: (values: IProps) => any;
 }
 
-const allFilters = ["QUEUED", "RUNNING", "STOPPING", "DONE", "FAILED"];
+const allStatus = ["QUEUED", "RUNNING", "STOPPING", "DONE", "FAILED"];
 
 // Note: we consider undefined filter to be the same as all status.
 export default class JobFilter extends Component<IProps> {
 
   public render() {
-    const { filters } = this.props;
-    const radios = allFilters.map((value, i) => (
+    const { status } = this.props;
+    const radios = allStatus.map((value, i) => (
       <Radio
         key={i}
         label={value}
-        checked={!filters || filters.indexOf(value) >= 0}
+        checked={!status || status.indexOf(value) >= 0}
         onClick={this.handleToggle.bind(this, value)}
       />
     ));
@@ -42,17 +42,17 @@ export default class JobFilter extends Component<IProps> {
   }
 
   private handleToggle(value: string) {
-    const filters = this.props.filters ?
-      this.props.filters.slice() : allFilters.slice();
-    const index = filters.indexOf(value);
+    const status = this.props.status ?
+      this.props.status.slice() : allStatus.slice();
+    const index = status.indexOf(value);
 
     if (index >= 0) {
-      filters.splice(index, 1);
+      status.splice(index, 1);
     } else {
-      filters.push(value);
+      status.push(value);
     }
 
-    this.props.onChange({ ...this.props, filters });
+    this.props.onChange({ ...this.props, status });
   }
 
 }

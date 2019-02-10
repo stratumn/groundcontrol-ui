@@ -35,7 +35,7 @@ export interface IProps {
   viewer: LogEntryListPage_viewer;
   system: LogEntryListPage_system;
   params: {
-    status?: string;
+    level?: string;
     ownerId?: string;
   };
 }
@@ -50,8 +50,6 @@ export class LogEntryListPage extends Component<IProps> {
 
   public render() {
     const items = this.props.system.logEntries.edges.map(({ node }) => node);
-    const status = this.props.params.status === undefined ? undefined :
-      this.props.params.status.split(",");
     const { ownerId } = this.props.params;
     const projects = this.props.viewer.projects.edges.map(({ node }) => node);
     const isLoading = this.props.relay.isLoading();
@@ -66,7 +64,7 @@ export class LogEntryListPage extends Component<IProps> {
           active={isLoading}
         />
         <LogEntryFilter
-          status={status}
+          level={this.getLevel()}
           projects={projects}
           ownerId={ownerId}
           onChange={this.handleFiltersChange}
@@ -89,9 +87,13 @@ export class LogEntryListPage extends Component<IProps> {
           document.removeEventListener("scroll", this.handleScroll);
         },
       },
-      subscribe(environment, lastMessageId),
+      subscribe(
+        environment,
+        this.getLevel,
+        () => this.props.params.ownerId,
+        lastMessageId,
+      ),
     );
-
   }
 
   public componentDidUpdate() {
@@ -109,6 +111,9 @@ export class LogEntryListPage extends Component<IProps> {
 
     this.disposables = [];
   }
+
+  private getLevel = () => this.props.params.level === undefined ?
+    undefined : this.props.params.level.split(",")
 
   private loadMore() {
     const disposable = this.props.relay.loadMore(
@@ -140,22 +145,22 @@ export class LogEntryListPage extends Component<IProps> {
     this.forceUpdate();
   }
 
-  private handleFiltersChange = ({ status, ownerId }: ILogEntryFilterProps) => {
-    if (!status || (status.length < 1 || status.length > 3)) {
+  private handleFiltersChange = ({ level, ownerId }: ILogEntryFilterProps) => {
+    if (!level || (level.length < 1 || level.length > 3)) {
       if (!ownerId) {
         return this.props.router.replace("/logs");
       }
       return this.props.router.replace(`/logs/;${ownerId}`);
     }
 
-    this.props.router.replace(`/logs/${status.join(",")};${ownerId || ""}`);
+    this.props.router.replace(`/logs/${level.join(",")};${ownerId || ""}`);
   }
 
   private handleScroll = () => {
     const { scrollY, innerHeight } = window;
     const { scrollHeight } = document.body;
 
-    this.shouldScrollDown = scrollY + innerHeight >= scrollHeight;
+    this.shouldScrollDown = scrollY + innerHeight >= scrollHeight - 1;
 
     const prevScrollY = this.prevScrollY;
     this.prevScrollY = scrollY;

@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import { permutationCombination } from "js-combinatorics";
 import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
@@ -25,33 +24,11 @@ const subscription = graphql`
   }
 `;
 
-// Compute all possible combinations of status in order to update filtered connection.
-const allStatusCombinations = permutationCombination(
-  ["QUEUED", "RUNNING", "STOPPING", "DONE", "FAILED"],
-).toArray() as string[][];
-
-// Since there are many combinations we keep a map of combinations that contains a status.
-//
-// Note: relay has a ConnectionHandler.getConnections() method on its todo list that would be useful to avoid all of
-// this.
-const statusCombinations: { [s: string]: string[][] } = {
-  DONE: allStatusCombinations.filter((perm: string[]) => perm.indexOf("DONE") >= 0),
-  FAILED: allStatusCombinations.filter((perm: string[]) => perm.indexOf("FAILED") >= 0),
-  QUEUED: allStatusCombinations.filter((perm: string[]) => perm.indexOf("QUEUED") >= 0),
-  RUNNING: allStatusCombinations.filter((perm: string[]) => perm.indexOf("RUNNING") >= 0),
-  STOPPING: allStatusCombinations.filter((perm: string[]) => perm.indexOf("STOPPING") >= 0),
-};
-
-// Used to remove updated jobs from connections.
-const notStatusCombinations: { [s: string]: string[][] } = {
-  DONE: allStatusCombinations.filter((perm: string[]) => perm.indexOf("DONE") < 0),
-  FAILED: allStatusCombinations.filter((perm: string[]) => perm.indexOf("FAILED") < 0),
-  QUEUED: allStatusCombinations.filter((perm: string[]) => perm.indexOf("QUEUED") < 0),
-  RUNNING: allStatusCombinations.filter((perm: string[]) => perm.indexOf("RUNNING") < 0),
-  STOPPING: allStatusCombinations.filter((perm: string[]) => perm.indexOf("STOPPING") < 0),
-};
-
-export function subscribe(environment: Environment, lastMessageId?: string) {
+export function subscribe(
+  environment: Environment,
+  getStatus: () => string[] | undefined,
+  lastMessageId?: string,
+) {
   return requestSubscription(
     environment,
     {
@@ -60,56 +37,44 @@ export function subscribe(environment: Environment, lastMessageId?: string) {
       updater: (store) => {
         const record = store.getRootField("jobUpserted")!;
         const recordId = record.getValue("id");
-        const status = record!.getValue("status");
         const system = store.getRoot().getLinkedRecord("system");
+        const newStatus = record!.getValue("status") as string;
+        const status = getStatus();
 
-        // Remove job from connections that don't have the new status.
-        for (const combination of notStatusCombinations[status]) {
-          const connection = ConnectionHandler.getConnection(
-            system,
-            "JobListPage_jobs",
-            { status: combination },
-          );
+        const connection = ConnectionHandler.getConnection(
+          system,
+          "JobListPage_jobs",
+          { status },
+        );
 
-          if (connection) {
-            ConnectionHandler.deleteNode(connection, recordId);
+        if (!connection) {
+          return;
+        }
+
+        const contains = !status || status.indexOf(newStatus) >= 0;
+
+        if (!contains) {
+          ConnectionHandler.deleteNode(connection, recordId);
+          return;
+        }
+
+        const edges = connection.getLinkedRecords("edges");
+
+        for (const e of edges) {
+          const id = e.getLinkedRecord("node")!.getValue("id");
+
+          if (recordId === id) {
+            return;
           }
         }
 
-        // Add job to connections that have the new status (if it doesn't already exist).
-        for (const combination of [undefined, ...statusCombinations[status]]) {
-          const connection = ConnectionHandler.getConnection(
-            system,
-            "JobListPage_jobs",
-            { status: combination },
-          );
-
-          if (connection) {
-            const edges = connection.getLinkedRecords("edges");
-            let exists = false;
-
-            for (const e of edges) {
-              const id = e.getLinkedRecord("node")!.getValue("id");
-
-              if (recordId === id) {
-                exists = true;
-                break;
-              }
-            }
-
-            if (exists) {
-              continue;
-            }
-
-            const edge = ConnectionHandler.createEdge(
-              store,
-              connection,
-              record,
-              "JobsConnection",
-            );
-            ConnectionHandler.insertEdgeBefore(connection, edge);
-          }
-        }
+        const edge = ConnectionHandler.createEdge(
+          store,
+          connection,
+          record,
+          "JobsConnection",
+        );
+        ConnectionHandler.insertEdgeBefore(connection, edge);
     },
       variables: {
         lastMessageId,

@@ -46,31 +46,27 @@ export function subscribe(environment: Environment, lastMessageId?: string) {
           "SourceListPage_sources",
         );
 
-        if (connection) {
-          const edges = connection.getLinkedRecords("edges");
-          let exists = false;
+        if (!connection) {
+          return;
+        }
 
-          for (const e of edges) {
-            const id = e.getLinkedRecord("node")!.getValue("id");
+        const edges = connection.getLinkedRecords("edges");
 
-            if (recordId === id) {
-              exists = true;
-              break;
-            }
-          }
+        for (const e of edges) {
+          const id = e.getLinkedRecord("node")!.getValue("id");
 
-          if (exists) {
+          if (recordId === id) {
             return;
           }
-
-          const edge = ConnectionHandler.createEdge(
-            store,
-            connection,
-            record,
-            "SourcesConnection",
-          );
-          ConnectionHandler.insertEdgeAfter(connection, edge);
         }
+
+        const edge = ConnectionHandler.createEdge(
+          store,
+          connection,
+          record,
+          "SourcesConnection",
+        );
+        ConnectionHandler.insertEdgeAfter(connection, edge);
     },
       variables: {
         lastMessageId,

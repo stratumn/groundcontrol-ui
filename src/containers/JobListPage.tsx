@@ -34,7 +34,7 @@ export interface IProps {
   router: Router;
   system: JobListPage_system;
   params: {
-    filters?: string;
+    status?: string;
   };
 }
 
@@ -44,8 +44,6 @@ export class JobListPage extends Component<IProps> {
 
   public render() {
     const items = this.props.system.jobs.edges.map(({ node }) => node);
-    const filters = this.props.params.filters === undefined ? undefined :
-      this.props.params.filters.split(",");
 
     return (
       <Page
@@ -54,8 +52,8 @@ export class JobListPage extends Component<IProps> {
         icon="tasks"
       >
         <JobFilter
-          filters={filters}
-          onChange={this.handleFiltersChange}
+          status={this.getStatus()}
+          onChange={this.handleStatusChange}
         />
         <JobTable
           items={items}
@@ -76,7 +74,7 @@ export class JobListPage extends Component<IProps> {
   public componentDidMount() {
     const environment = this.props.relay.environment;
     const lastMessageId = this.props.system.lastMessageId;
-    this.disposables.push(subscribe(environment, lastMessageId));
+    this.disposables.push(subscribe(environment, this.getStatus, lastMessageId));
   }
 
   public componentWillUnmount() {
@@ -87,12 +85,15 @@ export class JobListPage extends Component<IProps> {
     this.disposables = [];
   }
 
-  private handleFiltersChange = ({ filters }: IJobFilterProps) => {
-    if (!filters || filters.length < 1 || filters.length > 4) {
+  private getStatus = () => this.props.params.status === undefined ?
+    undefined : this.props.params.status.split(",")
+
+  private handleStatusChange = ({ status }: IJobFilterProps) => {
+    if (!status || status.length < 1 || status.length > 4) {
       return this.props.router.replace("/jobs");
     }
 
-    this.props.router.replace(`/jobs/${filters.join(",")}`);
+    this.props.router.replace(`/jobs/${status.join(",")}`);
   }
 
   private handleStop = ({ item: { id } }: IJobTableRowProps) => {
@@ -132,7 +133,7 @@ export default createPaginationContainer(
       )
         @connection(
           key: "JobListPage_jobs",
-          filters: ["status"],
+          status: ["status"],
         ) {
         edges {
           node {

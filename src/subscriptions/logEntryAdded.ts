@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import { permutationCombination } from "js-combinatorics";
 import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
@@ -25,21 +24,12 @@ const subscription = graphql`
   }
 `;
 
-// Compute all possible combinations of level in order to update filtered connection.
-const allLevelCombinations = permutationCombination(["DEBUG", "INFO", "WARNING", "ERROR"]).toArray() as string[][];
-
-// Since there are many combinations we keep a map of combinations that contains a level.
-//
-// Note: relay has a ConnectionHandler.getConnections() method on its todo list that would be useful to avoid all of
-// this.
-const levelCombinations: { [s: string]: string[][] } = {
-  DEBUG: allLevelCombinations.filter((perm: string[]) => perm.indexOf("DEBUG") >= 0),
-  ERROR: allLevelCombinations.filter((perm: string[]) => perm.indexOf("ERROR") >= 0),
-  INFO: allLevelCombinations.filter((perm: string[]) => perm.indexOf("INFO") >= 0),
-  WARNING: allLevelCombinations.filter((perm: string[]) => perm.indexOf("WARNING") >= 0),
-};
-
-export function subscribe(environment: Environment, lastMessageId?: string) {
+export function subscribe(
+  environment: Environment,
+  getLevel: () => string[] | undefined,
+  getOwnerId: () => string | undefined,
+  lastMessageId?: string,
+) {
   return requestSubscription(
     environment,
     {
@@ -48,60 +38,55 @@ export function subscribe(environment: Environment, lastMessageId?: string) {
       updater: (store) => {
         const record = store.getRootField("logEntryAdded")!;
         const recordId = record.getValue("id");
-        const level = record!.getValue("level");
         const system = store.getRoot().getLinkedRecord("system");
+        const newLevel = record!.getValue("level");
+        const owner = record.getLinkedRecord("owner");
+        const newOwnerId = owner ? owner.getValue("id") : undefined;
+        const level = getLevel();
+        const ownerId = getOwnerId();
 
-        // Add log entry to connections that have the level.
-        for (const combination of [undefined, ...levelCombinations[level]]) {
-          const connections = [
-            ConnectionHandler.getConnection(
-              system,
-              "LogEntryListPage_logEntries",
-              { level: combination },
-            ),
-          ];
+        const connection = ConnectionHandler.getConnection(
+          system,
+          "LogEntryListPage_logEntries",
+          { level, ownerId },
+        );
 
-          const owner = record.getLinkedRecord("owner");
+        if (!connection) {
+          return;
+        }
 
-          if (owner) {
-            const ownerId = owner.getValue("id");
-            connections.push(
-              ConnectionHandler.getConnection(
-                system,
-                "LogEntryListPage_logEntries",
-                { level: combination, ownerId },
-              ),
-            );
-          }
+        let contains = true;
 
-          for (const connection of connections) {
-            if (connection) {
-              const edges = connection.getLinkedRecords("edges");
-              let exists = false;
+        if (level && level.indexOf(newLevel) < 0) {
+          contains = false;
+        }
 
-              for (const e of edges) {
-                const id = e.getLinkedRecord("node")!.getValue("id");
+        if (ownerId && ownerId !== newOwnerId) {
+          contains = false;
+        }
 
-                if (recordId === id) {
-                  exists = true;
-                  break;
-                }
-              }
+        if (!contains) {
+          ConnectionHandler.deleteNode(connection, recordId);
+          return;
+        }
 
-              if (exists) {
-                continue;
-              }
+        const edges = connection.getLinkedRecords("edges");
 
-              const edge = ConnectionHandler.createEdge(
-                store,
-                connection,
-                record,
-                "LogEntrysConnection",
-              );
-              ConnectionHandler.insertEdgeAfter(connection, edge);
-            }
+        for (const e of edges) {
+          const id = e.getLinkedRecord("node")!.getValue("id");
+
+          if (recordId === id) {
+            return;
           }
         }
+
+        const edge = ConnectionHandler.createEdge(
+          store,
+          connection,
+          record,
+          "LogEntrysConnection",
+        );
+        ConnectionHandler.insertEdgeAfter(connection, edge);
     },
       variables: {
         lastMessageId,

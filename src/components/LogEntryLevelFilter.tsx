@@ -15,44 +15,44 @@
 import React, { Component } from "react";
 import { Radio } from "semantic-ui-react";
 
-import "./LogEntryStatusFilter.css";
+import "./LogEntryLevelFilter.css";
 
 export interface IProps {
-  status: string[] | undefined;
+  level: string[] | undefined;
   onChange: (values: IProps) => any;
 }
 
-const allStatus = ["DEBUG", "INFO", "WARNING", "ERROR"];
+const allLevel = ["DEBUG", "INFO", "WARNING", "ERROR"];
 
-// Note: we consider undefined filter to be the same as all status.
-export default class LogEntryStatusFilter extends Component<IProps> {
+// Note: we consider undefined level to be the same as all level.
+export default class LogEntryLevelFilter extends Component<IProps> {
 
   public render() {
-    const { status } = this.props;
-    const radios = allStatus.map((value, i) => (
+    const { level } = this.props;
+    const radios = allLevel.map((value, i) => (
       <Radio
         key={i}
         label={value}
-        checked={!status || status.indexOf(value) >= 0}
+        checked={!level || level.indexOf(value) >= 0}
         onClick={this.handleToggle.bind(this, value)}
       />
     ));
 
-    return <div className="LogEntryStatusFilter">{radios}</div>;
+    return <div className="LogEntryLevelFilter">{radios}</div>;
   }
 
   private handleToggle(value: string) {
-    const status = this.props.status ?
-      this.props.status.slice() : allStatus.slice();
-    const index = status.indexOf(value);
+    const level = this.props.level ?
+      this.props.level.slice() : allLevel.slice();
+    const index = level.indexOf(value);
 
     if (index >= 0) {
-      status.splice(index, 1);
+      level.splice(index, 1);
     } else {
-      status.push(value);
+      level.push(value);
     }
 
-    this.props.onChange({ ...this.props, status });
+    this.props.onChange({ ...this.props, level });
   }
 
 }

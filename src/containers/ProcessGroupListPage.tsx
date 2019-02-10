@@ -37,7 +37,7 @@ export interface IProps {
   router: Router;
   system: ProcessGroupListPage_system;
   params: {
-    filters?: string;
+    status?: string;
   };
 }
 
@@ -47,8 +47,6 @@ export class ProcessGroupListPage extends Component<IProps> {
 
   public render() {
     const items = this.props.system.processGroups.edges.map(({ node }) => node);
-    const filters = this.props.params.filters === undefined ? undefined :
-      this.props.params.filters.split(",");
 
     return (
       <Page
@@ -57,8 +55,8 @@ export class ProcessGroupListPage extends Component<IProps> {
         icon="list"
       >
         <ProcessGroupFilter
-          filters={filters}
-          onChange={this.handleFiltersChange}
+          status={this.getStatus()}
+          onChange={this.handleStatusChange}
         />
         <ProcessGroupCardGroup
           items={items}
@@ -82,7 +80,7 @@ export class ProcessGroupListPage extends Component<IProps> {
   public componentDidMount() {
     const { relay: { environment }, system: { lastMessageId } } = this.props;
 
-    this.disposables.push(subscribe(environment, lastMessageId));
+    this.disposables.push(subscribe(environment, this.getStatus, lastMessageId));
   }
 
   public componentWillUnmount() {
@@ -93,12 +91,15 @@ export class ProcessGroupListPage extends Component<IProps> {
     this.disposables = [];
   }
 
-  private handleFiltersChange = ({ filters }: IProcessGroupFilterProps) => {
-    if (!filters || filters.length < 1 || filters.length > 2) {
+  private getStatus = () => this.props.params.status === undefined ?
+    undefined : this.props.params.status.split(",")
+
+  private handleStatusChange = ({ status }: IProcessGroupFilterProps) => {
+    if (!status || status.length < 1 || status.length > 2) {
       return this.props.router.replace("/processes");
     }
 
-    this.props.router.replace(`/processes/${filters.join(",")}`);
+    this.props.router.replace(`/processes/${status.join(",")}`);
   }
 
   private handleLoadMore = () => {
@@ -150,7 +151,7 @@ export default createPaginationContainer(
       )
         @connection(
           key: "ProcessGroupListPage_processGroups",
-          filters: ["status"],
+          status: ["status"],
         ) {
         edges {
           node {

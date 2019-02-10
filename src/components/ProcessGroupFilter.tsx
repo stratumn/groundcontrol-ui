@@ -18,41 +18,41 @@ import { Radio } from "semantic-ui-react";
 import "./ProcessGroupFilter.css";
 
 export interface IProps {
-  filters: string[] | undefined;
+  status: string[] | undefined;
   onChange: (values: IProps) => any;
 }
 
-const allFilters = ["RUNNING", "DONE", "FAILED"];
+const allStatus = ["RUNNING", "DONE", "FAILED"];
 
-// Note: we consider undefined filter to be the same as all status.
+// Note: we consider undefined status to be the same as all status.
 export default class ProcessGroupFilter extends Component<IProps> {
 
   public render() {
-    const { filters } = this.props;
-    const radios = allFilters.map((value, i) => (
+    const { status } = this.props;
+    const radios = allStatus.map((value, i) => (
       <Radio
         key={i}
         label={value}
-        checked={!filters || filters.indexOf(value) >= 0}
-        onClick={this.handleToggleFilter.bind(this, value)}
+        checked={!status || status.indexOf(value) >= 0}
+        onClick={this.handleToggleStatus.bind(this, value)}
       />
     ));
 
     return <div className="ProcessGroupFilter">{radios}</div>;
   }
 
-  private handleToggleFilter(value: string) {
-    const filters = this.props.filters ?
-      this.props.filters.slice() : allFilters.slice();
-    const index = filters.indexOf(value);
+  private handleToggleStatus(value: string) {
+    const status = this.props.status ?
+      this.props.status.slice() : allStatus.slice();
+    const index = status.indexOf(value);
 
     if (index >= 0) {
-      filters.splice(index, 1);
+      status.splice(index, 1);
     } else {
-      filters.push(value);
+      status.push(value);
     }
 
-    this.props.onChange({ ...this.props, filters });
+    this.props.onChange({ ...this.props, status });
   }
 
 }

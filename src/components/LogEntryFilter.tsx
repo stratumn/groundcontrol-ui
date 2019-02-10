@@ -18,23 +18,23 @@ import { createFragmentContainer } from "react-relay";
 
 import { LogEntryFilter_projects } from "./__generated__/LogEntryFilter_projects.graphql";
 
+import LogEntryLevelFilter, { IProps as LogEntryLevelFilterProps } from "./LogEntryLevelFilter";
 import LogEntryOwnerFilter, { IProps as LogEntryOwnerFilterProps } from "./LogEntryOwnerFilter";
-import LogEntryStatusFilter, { IProps as LogEntryStatusFilterProps } from "./LogEntryStatusFilter";
 
 export interface IProps {
-  status?: string[];
+  level?: string[];
   projects: LogEntryFilter_projects;
   ownerId?: string;
   onChange: (value: IProps) => any;
 }
 
 export function LogEntryFilter(props: IProps) {
-  const { status, projects, ownerId, onChange } = props;
+  const { level, projects, ownerId, onChange } = props;
   const handleOwnerChange = (values: LogEntryOwnerFilterProps) => {
     onChange({ ...props, ownerId: values.ownerId });
   };
-  const handleStatusChange = (values: LogEntryStatusFilterProps) => {
-    onChange({ ...props, status: values.status });
+  const handleLevelChange = (values: LogEntryLevelFilterProps) => {
+    onChange({ ...props, level: values.level });
   };
 
   return (
@@ -44,9 +44,9 @@ export function LogEntryFilter(props: IProps) {
         ownerId={ownerId}
         onChange={handleOwnerChange}
       />
-      <LogEntryStatusFilter
-        status={status}
-        onChange={handleStatusChange}
+      <LogEntryLevelFilter
+        level={level}
+        onChange={handleLevelChange}
       />
     </div>
   );
