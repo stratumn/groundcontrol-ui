@@ -24,6 +24,7 @@ import { WorkspaceViewPage_viewer } from "./__generated__/WorkspaceViewPage_view
 
 import Page from "../components/Page";
 import ProjectCardGroup from "../components/ProjectCardGroup";
+import { IProps as IProjectCardProps } from "../components/ProjectCard";
 import { IVariable } from "../components/VariableForm";
 import VariableFormModal from "../components/VariableFormModal";
 import WorkspaceMenu from "../components/WorkspaceMenu";
@@ -165,7 +166,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     cloneWorkspace(this.props.relay.environment, this.props.viewer.workspace!.id);
   }
 
-  private handleCloneProject = (id: string) => {
+  private handleCloneProject = ({ item: { id } }: IProjectCardProps) => {
     cloneProject(this.props.relay.environment, id);
   }
 
@@ -173,7 +174,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     pullWorkspace(this.props.relay.environment, this.props.viewer.workspace!.id);
   }
 
-  private handlePullProject = (id: string) => {
+  private handlePullProject = ({ item: { id } }: IProjectCardProps) => {
     pullProject(this.props.relay.environment, id);
   }
 

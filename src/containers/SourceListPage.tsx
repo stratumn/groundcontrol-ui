@@ -75,7 +75,8 @@ export class SourceListPage extends Component<IProps, IState> {
           <h3>Current Sources</h3>
           <SourceList
             items={items}
-            onDelete={this.handleDeleteSource}
+            onDeleteDirectorySource={this.handleDeleteSource}
+            onDeleteGitSource={this.handleDeleteSource}
           />
         </Segment>
       </Page>
@@ -125,7 +126,7 @@ export class SourceListPage extends Component<IProps, IState> {
     })
   }
 
-  private handleDeleteSource = (id: string) => {
+  private handleDeleteSource = ({ item: { id } }: { item: { id: string } }) => {
     deleteSource(this.props.relay.environment, id);
   }
 

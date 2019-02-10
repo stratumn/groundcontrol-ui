@@ -22,27 +22,33 @@ import { DirectorySourceListItem_item } from "./__generated__/DirectorySourceLis
 
 export interface IProps {
   item: DirectorySourceListItem_item;
-  onDelete: () => any;
+  onDelete: (values: IProps) => any;
 }
 
-export const DirectorySourceListItem = ({ item: { directory}, onDelete }: IProps) => (
-  <List.Item>
-    <List.Content>
-      <Button
-        floated="right"
-        icon="delete"
-        color="pink"
-        size="small"
-        onClick={onDelete}
-      />
-      <List.Header>{directory}</List.Header>
-      <List.Description>Directory</List.Description>
-    </List.Content>
-  </List.Item>
-)
+export function DirectorySourceListItem(props: IProps) {
+  const{ item: { directory}, onDelete } = props;
+  const handleDelete = () => onDelete({ ...props });
+
+  return (
+    <List.Item>
+      <List.Content>
+        <Button
+          floated="right"
+          icon="delete"
+          color="pink"
+          size="small"
+          onClick={handleDelete}
+        />
+        <List.Header>{directory}</List.Header>
+        <List.Description>Directory</List.Description>
+      </List.Content>
+    </List.Item>
+  );
+}
 
 export default createFragmentContainer(DirectorySourceListItem, graphql`
   fragment DirectorySourceListItem_item on DirectorySource {
+    id
     directory
   }`,
 );

@@ -1,6 +1,5 @@
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
-import Moment from "react-moment";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Label,
@@ -17,24 +16,16 @@ export interface IProps {
   item: ProjectListItem_item;
 }
 
-export class ProjectListItem extends Component<IProps> {
-
-  public render() {
-    const item = this.props.item;
-
-    return (
-      <List.Item className="ProjectListItem">
-        <List.Content floated="right">
-          <Label size="small">{item.branch}</Label>
-        </List.Content>
-        <List.Content>
-          <RepositoryShortName repository={item.repository} />
-        </List.Content>
-      </List.Item>
-    );
-  }
-
-}
+export const ProjectListItem = ({ item: { repository, branch } }: IProps) => (
+  <List.Item className="ProjectListItem">
+    <List.Content floated="right">
+      <Label size="small">{branch}</Label>
+    </List.Content>
+    <List.Content>
+      <RepositoryShortName repository={repository} />
+    </List.Content>
+  </List.Item>
+)
 
 export default createFragmentContainer(ProjectListItem, graphql`
   fragment ProjectListItem_item on Project {

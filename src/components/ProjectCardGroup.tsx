@@ -13,49 +13,36 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import { Card, SemanticWIDTHS } from "semantic-ui-react";
 
 import { ProjectCardGroup_items } from "./__generated__/ProjectCardGroup_items.graphql";
 
-import ProjectCard from "./ProjectCard";
+import ProjectCard, { IProps as IProjectCardProps } from "./ProjectCard";
 
 export interface IProps {
   items: ProjectCardGroup_items;
   itemsPerRow: SemanticWIDTHS;
-  onClone: (id: string) => any;
-  onPull: (id: string) => any;
+  onClone: (values: IProjectCardProps) => any;
+  onPull: (values: IProjectCardProps) => any;
 }
 
-export class ProjectCardGroup extends Component<IProps> {
+export function ProjectCardGroup({ items, itemsPerRow, onClone, onPull }: IProps) {
+  const cards = items.map((item) => (
+    <ProjectCard
+      key={item.id}
+      item={item}
+      onClone={onClone}
+      onPull={onPull}
+    />
+   ));
 
-  public render() {
-    const { items, itemsPerRow } = this.props;
-    const cards = items.map((item) => (
-      <ProjectCard
-        key={item.id}
-        item={item}
-        onClone={this.handleClone.bind(this, item.id)}
-        onPull={this.handlePull.bind(this, item.id)}
-      />
-     ));
-
-    return (
-      <Card.Group itemsPerRow={itemsPerRow}>
-        {cards}
-      </Card.Group>
-    );
-  }
-
-  private handleClone(id: string) {
-    this.props.onClone(id);
-  }
-
-  private handlePull(id: string) {
-    this.props.onPull(id);
-  }
-
+  return (
+    <Card.Group itemsPerRow={itemsPerRow}>
+      {cards}
+    </Card.Group>
+  );
 }
 
 export default createFragmentContainer(ProjectCardGroup, graphql`

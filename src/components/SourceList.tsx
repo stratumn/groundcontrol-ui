@@ -13,59 +13,61 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import { List } from "semantic-ui-react";
 
 import { SourceList_items } from "./__generated__/SourceList_items.graphql";
 
-import DirectorySourceListItem from "./DirectorySourceListItem";
-import GitSourceListItem from "./GitSourceListItem";
+import DirectorySourceListItem, {
+  IProps as IDirectorySourceListItemProps,
+} from "./DirectorySourceListItem";
+import GitSourceListItem, {
+  IProps as IGitSourceListItemProps,
+} from "./GitSourceListItem";
 
 export interface IProps {
   items: SourceList_items;
-  onDelete: (id: string) => any;
+  onDeleteDirectorySource: (values: IDirectorySourceListItemProps) => any;
+  onDeleteGitSource: (values: IGitSourceListItemProps) => any;
 }
 
-export class SourceList extends Component<IProps> {
-
-  public render() {
-    const items = this.props.items;
-    const onDelete = this.props.onDelete;
-
-    if (items.length < 1) {
-      return <p>There are no sources at this time.</p>;
-    }
-
-    const listItems = items.map((item) => {
-      switch (item.__typename) {
-      case "DirectorySource":
-        return (
-          <DirectorySourceListItem
-            key={item.id}
-            item={item}
-            onDelete={onDelete.bind(null, item.id)}
-          />
-        );
-      case "GitSource":
-        return (
-          <GitSourceListItem
-            key={item.id}
-            item={item}
-            onDelete={onDelete.bind(null, item.id)}
-          />
-        );
-      }
-      return null;
-    });
-
-    return (
-      <List divided={true}>
-        {listItems}
-      </List>
-    );
+export function SourceList({
+  items,
+  onDeleteDirectorySource,
+  onDeleteGitSource,
+}: IProps) {
+  if (items.length < 1) {
+    return <p>There are no sources at this time.</p>;
   }
 
+  const listItems = items.map((item) => {
+    switch (item.__typename) {
+    case "DirectorySource":
+      return (
+        <DirectorySourceListItem
+          key={item.id}
+          item={item}
+          onDelete={onDeleteDirectorySource}
+        />
+      );
+    case "GitSource":
+      return (
+        <GitSourceListItem
+          key={item.id}
+          item={item}
+          onDelete={onDeleteGitSource}
+        />
+      );
+    }
+    return null;
+  });
+
+  return (
+    <List divided={true}>
+      {listItems}
+    </List>
+  );
 }
 
 export default createFragmentContainer(SourceList, graphql`

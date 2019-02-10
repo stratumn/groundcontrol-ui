@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import React, { Component } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
   Button,
@@ -34,128 +34,141 @@ import "./ProjectCard.css";
 
 export interface IProps {
   item: ProjectCard_item;
-  onClone: () => any;
-  onPull: () => any;
+  onClone: (values: IProps) => any;
+  onPull: (values: IProps) => any;
 }
 
-export class ProjectCard extends Component<IProps> {
+export function ProjectCard(props: IProps) {
+  const {
+    item,
+    item: {
+      repository,
+      branch,
+      description,
+      commits,
+      isCloned,
+      isCloning,
+      isPulling,
+      isAhead,
+      isBehind,
+    },
+    onClone,
+    onPull,
+  } = props;
+  const commitNodes = item.commits.edges.map(({ node }) => node);
+  const labels: JSX.Element[] = [];
+  const buttons: JSX.Element[] = [];
+  const handleClone = () => onClone({ ...props });
+  const handlePull = () => onPull({ ...props });
 
-  public render() {
-    const item = this.props.item;
-    const commits = item.commits.edges.map(({ node }) => node);
-    const labels: JSX.Element[] = [];
-    const buttons: JSX.Element[] = [];
+  let color: "grey" | "teal" | "pink" | "purple" = "grey";
 
-    let color: "grey" | "teal" | "pink" | "purple" = "grey";
+  if (isCloned) {
+    labels.push((
+      <Label
+        key="cloned"
+        content="cloned"
+        color="blue"
+        size="small"
+      />
+    ));
 
-    if (item.isCloned) {
+    buttons.push((
+      <Button
+        key="pull"
+        content="Pull"
+        color="teal"
+        icon="download"
+        disabled={isPulling || !isBehind}
+        loading={isPulling}
+        onClick={handlePull}
+      />
+    ));
+
+    if (!isBehind && !isAhead) {
+      color = "teal";
+
       labels.push((
         <Label
-          key="cloned"
-          content="cloned"
-          color="blue"
-          size="small"
-        />
-      ));
-
-      buttons.push((
-        <Button
-          key="pull"
-          content="Pull"
+          key="uptodate"
+          content="up-to-date"
           color="teal"
-          icon="download"
-          disabled={item.isPulling || !item.isBehind}
-          loading={item.isPulling}
-          onClick={this.props.onPull}
-        />
-      ));
-
-      if (!item.isBehind && !item.isAhead) {
-        color = "teal";
-
-        labels.push((
-          <Label
-            key="uptodate"
-            content="up-to-date"
-            color="teal"
-            size="small"
-          />
-        ));
-      }
-    } else {
-      buttons.push((
-        <Button
-          key="clone"
-          content="Clone"
-          color="teal"
-          icon="clone"
-          disabled={item.isCloning}
-          loading={item.isCloning}
-          onClick={this.props.onClone}
-        />
-      ));
-    }
-
-    if (item.isAhead) {
-      color = "purple";
-
-      labels.push((
-        <Label
-          key="ahead"
-          content="ahead"
-          color="purple"
           size="small"
         />
       ));
     }
-
-    if (item.isBehind) {
-      color = "pink";
-
-      labels.push((
-        <Label
-          key="behind"
-          content="behind"
-          color="pink"
-          size="small"
-        />
-      ));
-    }
-
-    return (
-      <Card
-        className="ProjectCard"
-        color={color}
-      >
-        <Dimmer
-          active={item.commits.edges.length < 1}
-          inverted={true}
-        >
-          <Loader content="Loading project commits..." />
-        </Dimmer>
-        <Card.Content>
-          <Card.Header>
-            <RepositoryShortName repository={item.repository} />
-          </Card.Header>
-          <Label size="small">{item.branch}</Label>
-          {labels}
-          <Card.Description>
-            {item.description || "No description."}
-          </Card.Description>
-          <Divider horizontal={true}>
-            <Header as="h6">Latest Commits</Header>
-          </Divider>
-          <CommitFeed items={commits} />
-        </Card.Content>
-        <Card.Content extra={true}>
-          <div className="ui three buttons">
-            {buttons}
-          </div>
-        </Card.Content>
-      </Card>
-    );
+  } else {
+    buttons.push((
+      <Button
+        key="clone"
+        content="Clone"
+        color="teal"
+        icon="clone"
+        disabled={isCloning}
+        loading={isCloning}
+        onClick={handleClone}
+      />
+    ));
   }
 
+  if (isAhead) {
+    color = "purple";
+
+    labels.push((
+      <Label
+        key="ahead"
+        content="ahead"
+        color="purple"
+        size="small"
+      />
+    ));
+  }
+
+  if (isBehind) {
+    color = "pink";
+
+    labels.push((
+      <Label
+        key="behind"
+        content="behind"
+        color="pink"
+        size="small"
+      />
+    ));
+  }
+
+  return (
+    <Card
+      className="ProjectCard"
+      color={color}
+    >
+      <Dimmer
+        active={commits.edges.length < 1}
+        inverted={true}
+      >
+        <Loader content="Loading project commits..." />
+      </Dimmer>
+      <Card.Content>
+        <Card.Header>
+          <RepositoryShortName repository={repository} />
+        </Card.Header>
+        <Label size="small">{branch}</Label>
+        {labels}
+        <Card.Description>
+          {description || "No description."}
+        </Card.Description>
+        <Divider horizontal={true}>
+          <Header as="h6">Latest Commits</Header>
+        </Divider>
+        <CommitFeed items={commitNodes} />
+      </Card.Content>
+      <Card.Content extra={true}>
+        <div className="ui three buttons">
+          {buttons}
+        </div>
+      </Card.Content>
+    </Card>
+  );
 }
 
 export default createFragmentContainer(ProjectCard, graphql`

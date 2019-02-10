@@ -12,20 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
+import React, { Fragment } from "react";
 
 export interface IProps {
   repository: string;
 }
 
-export default class RepositoryShortName extends Component<IProps> {
+export default function({ repository }: IProps) {
+  let parts = repository.split("/");
+  parts = parts.splice(Math.max(parts.length - 2, 0));
+  parts[0] = parts[0].replace(/^.*:/, "");
+  const len = parts.length;
+  parts[len-1] = parts[len-1].replace(/\.git$/, "");
+  const shortName = parts.join("/");
 
-  public render() {
-    // TODO: more generic...
-    const shortName = this.props.repository
-      .replace(/^git@github\.com:/, "")
-      .replace(/\.git$/, "");
-
-    return <span>{shortName}</span>;
-  }
+  return <Fragment>{shortName}</Fragment>;
 }

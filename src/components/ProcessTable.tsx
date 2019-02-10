@@ -15,9 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Table,
- } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 
 import { ProcessTable_items } from "./__generated__/ProcessTable_items.graphql";
 
