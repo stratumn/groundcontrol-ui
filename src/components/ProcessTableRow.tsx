@@ -54,8 +54,10 @@ export function ProcessTableRow(props: IProps) {
     buttons.push((
       <Button
         key="start"
-        size="tiny"
+        compact={true}
+        size="mini"
         icon="play"
+        content="Start"
         onClick={handleStart}
       />
     ));
@@ -64,8 +66,10 @@ export function ProcessTableRow(props: IProps) {
     buttons.push((
       <Button
         key="stop"
-        size="tiny"
+        size="mini"
+        compact={true}
         icon="stop"
+        content="Stop"
         onClick={handleStop}
       />
     ));
@@ -74,8 +78,10 @@ export function ProcessTableRow(props: IProps) {
     buttons.push((
       <Button
         key="stop"
-        size="tiny"
+        size="mini"
+        compact={true}
         icon="stop"
+        content="Stop"
         disabled={true}
         loading={true}
       />
@@ -101,7 +107,10 @@ export function ProcessTableRow(props: IProps) {
       >
         {status}
       </Table.Cell>
-      <Table.Cell collapsing={true}>
+      <Table.Cell
+        className="ProcessTableRowActions"
+        collapsing={true}
+      >
         {buttons}
       </Table.Cell>
     </Table.Row>

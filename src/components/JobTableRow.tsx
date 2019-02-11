@@ -85,8 +85,10 @@ export function JobTableRow(props: IProps) {
     buttons.push((
       <Button
         key="stop"
-        size="tiny"
+        size="mini"
+        compact={true}
         icon="stop"
+        content="Stop"
         onClick={handleStop}
       />
     ));
@@ -116,7 +118,7 @@ export function JobTableRow(props: IProps) {
       >
         {status}
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className="JobTableRowActions">
         {buttons}
       </Table.Cell>
     </Table.Row>

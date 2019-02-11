@@ -79,6 +79,7 @@ export const Menu = ({
       <Sidebar
         as={SemanticMenu}
         vertical={true}
+        size="large"
         animation="push"
         visible={showSidebar}
         onHide={onHideSidebar}

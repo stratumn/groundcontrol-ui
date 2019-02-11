@@ -16,7 +16,7 @@ import graphql from "babel-plugin-relay/macro";
 import React, { Component } from "react";
 import { createFragmentContainer, RelayProp } from "react-relay";
 import { Disposable } from "relay-runtime";
-import { Segment } from "semantic-ui-react";
+import { Confirm, Segment } from "semantic-ui-react";
 
 import { SourceListPage_system } from "./__generated__/SourceListPage_system.graphql";
 import { SourceListPage_viewer } from "./__generated__/SourceListPage_viewer.graphql";
@@ -41,14 +41,18 @@ interface IState {
   directory: string;
   repository: string;
   branch: string;
+  showConfirmDelete: boolean;
+  deleteId: string;
 }
 
 export class SourceListPage extends Component<IProps, IState> {
 
   public state: IState = {
     branch: "",
+    deleteId: "",
     directory: "",
     repository: "",
+    showConfirmDelete: false,
     type: "directory",
   };
 
@@ -56,6 +60,7 @@ export class SourceListPage extends Component<IProps, IState> {
 
   public render() {
     const items = this.props.viewer.sources.edges.map(({ node }) => node);
+    const { showConfirmDelete } = this.state;
 
     return (
       <Page
@@ -75,10 +80,17 @@ export class SourceListPage extends Component<IProps, IState> {
           <h3>Current Sources</h3>
           <SourceList
             items={items}
-            onDeleteDirectorySource={this.handleDeleteSource}
-            onDeleteGitSource={this.handleDeleteSource}
+            onDeleteDirectorySource={this.handleDelete}
+            onDeleteGitSource={this.handleDelete}
           />
         </Segment>
+        <Confirm
+          content="Are you sure your want to delete this source?"
+          confirmButton="Delete"
+          open={showConfirmDelete}
+          onCancel={this.handleCancelDelete}
+          onConfirm={this.handleConfirmDelete}
+        />
       </Page>
     );
   }
@@ -99,7 +111,7 @@ export class SourceListPage extends Component<IProps, IState> {
   }
 
   private handleChange = (values: IAddSourceFormProps) => {
-    this.setState(values);
+    this.setState({ ...this.state, ...values });
   }
 
   private handleSubmit = (values: IAddSourceFormProps) => {
@@ -126,8 +138,17 @@ export class SourceListPage extends Component<IProps, IState> {
     });
   }
 
-  private handleDeleteSource = ({ item: { id } }: { item: { id: string } }) => {
-    deleteSource(this.props.relay.environment, id);
+  private handleDelete = ({ item: { id } }: { item: { id: string } }) => {
+    this.setState({ showConfirmDelete: true, deleteId: id });
+  }
+
+  private handleCancelDelete = () => {
+    this.setState({ showConfirmDelete: false });
+  }
+
+  private handleConfirmDelete = () => {
+    deleteSource(this.props.relay.environment, this.state.deleteId);
+    this.setState({ showConfirmDelete: false });
   }
 
 }

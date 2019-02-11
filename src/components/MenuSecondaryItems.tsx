@@ -41,7 +41,10 @@ export const MenuSecondaryItems = ({ jobMetrics, processMetrics, logMetrics }: I
       activePropName="active"
     >
       Jobs
-      <Label color="blue">
+      <Label
+        color="blue"
+        size="tiny"
+      >
         {jobMetrics.queued + jobMetrics.running}
       </Label>
     </Link>
@@ -51,7 +54,10 @@ export const MenuSecondaryItems = ({ jobMetrics, processMetrics, logMetrics }: I
       activePropName="active"
     >
       Processes
-      <Label color="blue">
+      <Label
+        color="blue"
+        size="tiny"
+      >
         {processMetrics.running}
       </Label>
     </Link>
@@ -61,7 +67,10 @@ export const MenuSecondaryItems = ({ jobMetrics, processMetrics, logMetrics }: I
       activePropName="active"
     >
       Logs
-      <Label color="pink">
+      <Label
+        color="pink"
+        size="tiny"
+      >
         {logMetrics.error}
       </Label>
     </Link>

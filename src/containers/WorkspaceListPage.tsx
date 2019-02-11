@@ -142,7 +142,7 @@ export class WorkspaceListPage extends Component<IProps, IState> {
   }
 
   private setItemsPerRow = () => {
-    let itemsPerRow = Math.floor(window.innerWidth / 400);
+    let itemsPerRow = Math.floor(window.innerWidth / 384);
     itemsPerRow = Math.min(Math.max(itemsPerRow, 1), 16);
     this.setState({ itemsPerRow: itemsPerRow as SemanticWIDTHS });
   }

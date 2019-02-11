@@ -22,3 +22,8 @@
   background: inherit !important;
   color: #e03997 !important;
 }
+
+.ui.table td.JobTableRowActions {
+  padding-top: 0;
+  padding-bottom: 0;
+}

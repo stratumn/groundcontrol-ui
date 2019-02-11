@@ -16,7 +16,7 @@ import graphql from "babel-plugin-relay/macro";
 import React, { Component } from "react";
 import { createFragmentContainer, RelayProp } from "react-relay";
 import { Disposable } from "relay-runtime";
-import { Segment } from "semantic-ui-react";
+import { Confirm, Segment } from "semantic-ui-react";
 
 import { KeyListPage_system } from "./__generated__/KeyListPage_system.graphql";
 import { KeyListPage_viewer } from "./__generated__/KeyListPage_viewer.graphql";
@@ -39,12 +39,16 @@ export interface IProps {
 interface IState {
   name: string;
   value: string;
+  showConfirmDelete: boolean;
+  deleteId: string;
 }
 
 export class KeyListPage extends Component<IProps, IState> {
 
   public state: IState = {
+    deleteId: "",
     name: "",
+    showConfirmDelete: false,
     value: "",
   };
 
@@ -58,6 +62,7 @@ export class KeyListPage extends Component<IProps, IState> {
 
   public render() {
     const items = this.props.viewer.keys.edges.map(({ node }) => node);
+    const { showConfirmDelete } = this.state;
 
     return (
       <Page
@@ -70,8 +75,9 @@ export class KeyListPage extends Component<IProps, IState> {
           <SetKeyForm
             {...this.state}
             ref={this.formRef}
-            onSubmit={this.handleSubmit}
             onChange={this.handleChange}
+            onSubmit={this.handleSubmit}
+            onReset={this.handleReset}
           />
         </Segment>
         <Segment>
@@ -82,6 +88,13 @@ export class KeyListPage extends Component<IProps, IState> {
             onDelete={this.handleDelete}
           />
         </Segment>
+        <Confirm
+          content="Are you sure your want to delete this key?"
+          confirmButton="Delete"
+          open={showConfirmDelete}
+          onCancel={this.handleCancelDelete}
+          onConfirm={this.handleConfirmDelete}
+        />
       </Page>
     );
   }
@@ -104,7 +117,7 @@ export class KeyListPage extends Component<IProps, IState> {
   }
 
   private handleChange = (values: ISetKeyFormProps) => {
-    this.setState(values);
+    this.setState({ ...this.state, ...values });
   }
 
   private handleSubmit = (values: ISetKeyFormProps) => {
@@ -115,6 +128,10 @@ export class KeyListPage extends Component<IProps, IState> {
       value,
     });
 
+    this.handleReset();
+  }
+
+  private handleReset = () => {
     this.setState({
       name: "",
       value: "",
@@ -139,7 +156,16 @@ export class KeyListPage extends Component<IProps, IState> {
   }
 
   private handleDelete = ({ item: { id } }: IKeyListItemProps) => {
-    deleteKey(this.props.relay.environment, id);
+    this.setState({ showConfirmDelete: true, deleteId: id });
+  }
+
+  private handleCancelDelete = () => {
+    this.setState({ showConfirmDelete: false });
+  }
+
+  private handleConfirmDelete = () => {
+    deleteKey(this.props.relay.environment, this.state.deleteId);
+    this.setState({ showConfirmDelete: false });
   }
 
 }

@@ -27,6 +27,7 @@ export interface IProps {
   value: string;
   onChange: (values: IProps) => any;
   onSubmit: (values: IProps) => any;
+  onReset: (values: IProps) => any;
 }
 
 export default class SetKeyForm extends Component<IProps> {
@@ -79,6 +80,11 @@ export default class SetKeyForm extends Component<IProps> {
           content="Set"
           disabled={disabled}
         />
+        <Button
+          type="reset"
+          content="Clear"
+          onClick={this.handleReset}
+        />
       </Form>
     );
   }
@@ -114,16 +120,20 @@ export default class SetKeyForm extends Component<IProps> {
     this.shouldFocusValue = true;
   }
 
-  private handleSubmit = () => {
-    this.props.onSubmit({ ...this.props });
-  }
-
   private handleChangeName = (_: React.SyntheticEvent<HTMLElement>, { value }: InputProps) => {
     this.props.onChange({ ...this.props, name: value });
   }
 
   private handleChangeValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.props.onChange({ ...this.props, value: event.currentTarget.value });
+  }
+
+  private handleSubmit = () => {
+    this.props.onSubmit({ ...this.props });
+  }
+
+  private handleReset = () => {
+    this.props.onReset({ ...this.props });
   }
 
 }

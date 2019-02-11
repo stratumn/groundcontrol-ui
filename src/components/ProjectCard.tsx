@@ -142,12 +142,6 @@ export function ProjectCard(props: IProps) {
       className="ProjectCard"
       color={color}
     >
-      <Dimmer
-        active={commits.edges.length < 1}
-        inverted={true}
-      >
-        <Loader content="Loading project commits..." />
-      </Dimmer>
       <Card.Content>
         <Card.Header>
           <RepositoryShortName repository={repository} />
@@ -167,6 +161,12 @@ export function ProjectCard(props: IProps) {
           {buttons}
         </div>
       </Card.Content>
+      <Dimmer
+        active={commits.edges.length < 1}
+        inverted={true}
+      >
+        <Loader content="Loading project commits..." />
+      </Dimmer>
     </Card>
   );
 }

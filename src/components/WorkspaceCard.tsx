@@ -38,7 +38,6 @@ export interface IProps {
 
 export function WorkspaceCard(props: IProps) {
   const {
-    item,
     item: {
       slug,
       name,

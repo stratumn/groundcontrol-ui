@@ -20,6 +20,9 @@ import groundcontrol from "./groundcontrol.env.relay";
 import Router from "./Router";
 import * as serviceWorker from "./serviceWorker";
 
+import "./vendor/github-markdown.css";
+import "./vendor/semantic/semantic.css";
+
 import "./index.css";
 
 ReactDOM.render(
