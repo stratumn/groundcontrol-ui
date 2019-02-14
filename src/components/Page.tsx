@@ -15,6 +15,7 @@
 
 import React from "react";
 import {
+  Container,
   Header,
   Icon,
   SemanticICONS,
@@ -45,6 +46,8 @@ export default ({
         <Header.Subheader>{subheader}</Header.Subheader>
       </Header.Content>
     </Header>
-    {children}
+    <Container fluid={true}>
+      {children}
+    </Container>
   </div>
 );

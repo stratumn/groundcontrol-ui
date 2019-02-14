@@ -17,7 +17,6 @@ import { Router } from "found";
 import React, { Component } from "react";
 import { createFragmentContainer, RelayProp } from "react-relay";
 import { Disposable } from "relay-runtime";
-import { Container } from "semantic-ui-react";
 
 import { App_system } from "./__generated__/App_system.graphql";
 
@@ -58,9 +57,7 @@ export class App extends Component<IProps, IState> {
           onShowSidebar={this.handleSidebar.bind(this, true)}
           onHideSidebar={this.handleSidebar.bind(this, false)}
         />
-        <Container fluid={true}>
-          {children}
-        </Container>
+        {children}
       </div>
     );
   }

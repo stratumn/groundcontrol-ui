@@ -46,9 +46,10 @@ export class LogEntryListPage extends Component<IProps> {
 
   private disposables: Disposable[] = [];
 
+  private shouldScrollToBottom = false;
+  private prevScrollHeight = 0;
+  private scrollHeightIncrease = 0;
   private prevScrollY = 0;
-  private previousScrollHeight = 0;
-  private shouldScrollDown = false;
 
   public render() {
     const items = this.props.system.logEntries.edges.map(({ node }) => node);
@@ -82,9 +83,9 @@ export class LogEntryListPage extends Component<IProps> {
   public componentDidMount() {
     const { relay: { environment }, system: { lastMessageId } } = this.props;
 
+    this.prevScrollHeight = document.body.scrollHeight;
     document.addEventListener("scroll", this.handleScroll);
     window.scrollTo(0, document.body.scrollHeight);
-    this.previousScrollHeight = document.body.scrollHeight;
 
     this.disposables.push(
       {
@@ -102,11 +103,17 @@ export class LogEntryListPage extends Component<IProps> {
   }
 
   public componentDidUpdate() {
-    if (this.shouldScrollDown) {
+    // If the user was at the bottom of the window, scoll all the way
+    // down.
+    if (this.shouldScrollToBottom) {
       window.scrollTo(0, document.body.scrollHeight);
     }
 
-    this.previousScrollHeight = document.body.scrollHeight;
+    // Keep track how much the height of the document increased because
+    // we might need to scroll to compensate.
+    const { scrollHeight } = document.body;
+    this.scrollHeightIncrease = scrollHeight - this.prevScrollHeight;
+    this.prevScrollHeight = scrollHeight;
   }
 
   public componentWillUnmount() {
@@ -120,6 +127,8 @@ export class LogEntryListPage extends Component<IProps> {
   private getLevel = () => this.props.params.level === undefined ?
     undefined : this.props.params.level.split(",")
 
+  private isChrome = () => !!(window as any).chrome;
+
   private loadMore() {
     const disposable = this.props.relay.loadMore(
       100,
@@ -128,14 +137,7 @@ export class LogEntryListPage extends Component<IProps> {
           console.log(err);
         }
 
-        const { scrollY } = window;
-        const { scrollHeight } = document.body;
-
-        if (this.previousScrollHeight < scrollHeight) {
-          window.scrollTo(0, scrollY + scrollHeight - this.previousScrollHeight);
-        }
-
-        this.previousScrollHeight = scrollHeight;
+        this.scrollDownAfterNewPage();
 
         // To hide loader.
         this.forceUpdate();
@@ -148,6 +150,51 @@ export class LogEntryListPage extends Component<IProps> {
 
     // To show loader.
     this.forceUpdate();
+  }
+
+  // On most browsers, after new entries are added to the begining of the page,
+  // we need to scroll the window so that it shows the same entries as before.
+  private scrollDownAfterNewPage() {
+    if (this.isChrome()) {
+      // Chrome already scrolls down.
+      return;
+    }
+
+    window.scrollBy(0, this.scrollHeightIncrease);
+  }
+
+  private handleScroll = () => {
+    const { scrollY, innerHeight } = window;
+    const { scrollHeight } = document.body;
+
+    // Check if the user is at the bottom of the window.
+    this.shouldScrollToBottom = scrollY + innerHeight >= scrollHeight - 1 ||
+      scrollHeight < innerHeight;
+
+    const prevScrollY = this.prevScrollY;
+    this.prevScrollY = scrollY;
+
+    // Don't load a page if scrolling up.
+    if (prevScrollY < scrollY) {
+      return;
+    }
+
+    const relay = this.props.relay;
+
+    if (!relay.hasMore()) {
+      return;
+    }
+
+    if (relay.isLoading()) {
+      return;
+    }
+
+    // Load a page as soon as there is less than one window worth of entries left.
+    if (scrollY > innerHeight) {
+      return;
+    }
+
+    this.loadMore();
   }
 
   private handleFiltersChange = ({ level, ownerId }: ILogEntryFilterProps) => {
@@ -163,38 +210,6 @@ export class LogEntryListPage extends Component<IProps> {
 
   private handleClickSourceFile = ({ item: { sourceFile } }: ILogEntryMessageProps) => {
     openEditor(this.props.relay.environment, sourceFile!);
-  }
-
-  private handleScroll = () => {
-    const { scrollY, innerHeight } = window;
-    const { scrollHeight } = document.body;
-
-    this.shouldScrollDown = scrollY + innerHeight >= scrollHeight - 1;
-
-    const prevScrollY = this.prevScrollY;
-    this.prevScrollY = scrollY;
-
-    if (prevScrollY < scrollY) {
-      return;
-    }
-
-    const relay = this.props.relay;
-
-    if (!relay.hasMore()) {
-      return;
-    }
-
-    if (relay.isLoading()) {
-      return;
-    }
-
-    if (scrollY > innerHeight) {
-      return;
-    }
-
-    this.previousScrollHeight = scrollHeight;
-
-    this.loadMore();
   }
 
 }
