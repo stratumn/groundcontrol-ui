@@ -22,6 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "gen": "relay-compiler --src ./src --schema ../groundcontrol/schema.graphql --language typescript",
+    "gen-ci": "relay-compiler --src ./src --schema schema.graphql --language typescript",
     "dev": "concurrently \"yarn gen --watch\" \"yarn start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
