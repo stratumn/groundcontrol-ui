@@ -10,3 +10,17 @@ body {
 .ui.menu, .ui.segment, .ui.card {
   box-shadow: none;
 }
+
+a {
+  color: #00B5AD;
+}
+
+a:hover {
+  color: #00B5AD;
+  text-decoration: underline;
+}
+
+a.header:hover {
+  color: #00B5AD !important;
+  text-decoration: none;
+}
