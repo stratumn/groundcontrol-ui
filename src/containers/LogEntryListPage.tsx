@@ -23,8 +23,10 @@ import { LogEntryListPage_system } from "./__generated__/LogEntryListPage_system
 import { LogEntryListPage_viewer } from "./__generated__/LogEntryListPage_viewer.graphql";
 
 import LogEntryFilter, { IProps as ILogEntryFilterProps } from "../components/LogEntryFilter";
+import { IProps as ILogEntryMessageProps } from "../components/LogEntryMessage";
 import LogEntryTable from "../components/LogEntryTable";
 
+import { commit as openEditor } from "../mutations/openEditor";
 import { subscribe } from "../subscriptions/logEntryAdded";
 
 import "./LogEntryListPage.css";
@@ -69,7 +71,10 @@ export class LogEntryListPage extends Component<IProps> {
           ownerId={ownerId}
           onChange={this.handleFiltersChange}
         />
-        <LogEntryTable items={items} />
+        <LogEntryTable
+          items={items}
+          onClickSourceFile={this.handleClickSourceFile}
+        />
       </Container>
     );
   }
@@ -154,6 +159,10 @@ export class LogEntryListPage extends Component<IProps> {
     }
 
     this.props.router.replace(`/logs/${level.join(",")};${ownerId || ""}`);
+  }
+
+  private handleClickSourceFile = ({ item: { sourceFile } }: ILogEntryMessageProps) => {
+    openEditor(this.props.relay.environment, sourceFile!);
   }
 
   private handleScroll = () => {

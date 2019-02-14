@@ -16,7 +16,6 @@ import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
 import React, { Fragment } from "react";
 import {
-  Accordion,
   Responsive,
   Table,
  } from "semantic-ui-react";
@@ -26,21 +25,26 @@ import { createFragmentContainer } from "react-relay";
 
 import { LogEntryTableRow_item } from "./__generated__/LogEntryTableRow_item.graphql";
 
+import LogEntryMessage, { IProps as ILogEntryMessageProps } from "./LogEntryMessage";
+
 import "./LogEntryTableRow.css";
 
 const dateFormat = "L LTS";
 
 export interface IProps {
   item: LogEntryTableRow_item;
+  onClickSourceFile: (values: ILogEntryMessageProps) => any;
 }
 
-export function LogEntryTableRow({ item: { createdAt, level, owner, message } }: IProps) {
-  const panels = [{
-    content: JSON.stringify(owner, null, 2),
-    key: "details",
-    title: message,
-  }];
-
+export function LogEntryTableRow({
+  item,
+  item: {
+    createdAt,
+    level,
+    owner,
+  },
+  onClickSourceFile,
+}: IProps) {
   let ownerEl: JSX.Element | null = null;
 
   if (owner) {
@@ -86,7 +90,10 @@ export function LogEntryTableRow({ item: { createdAt, level, owner, message } }:
         {ownerEl}
       </Table.Cell>
       <Table.Cell>
-        <Accordion panels={panels} />
+        <LogEntryMessage
+          item={item}
+          onClickSourceFile={onClickSourceFile}
+        />
       </Table.Cell>
     </Table.Row>
   );
@@ -96,33 +103,14 @@ export default createFragmentContainer(LogEntryTableRow, graphql`
   fragment LogEntryTableRow_item on LogEntry {
     createdAt
     level
-    message
+    ...LogEntryMessage_item
     owner {
       __typename
       id
       ... on Project {
         slug
         workspace {
-          id
           slug
-        }
-      }
-      ... on Job {
-        name
-        owner {
-          __typename
-          id
-        }
-      }
-      ... on Process {
-        command
-        project {
-          id
-          slug
-          workspace {
-            id
-            slug
-          }
         }
       }
     }

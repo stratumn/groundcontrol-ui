@@ -22,13 +22,15 @@ import {
 
 import { LogEntryTable_items } from "./__generated__/LogEntryTable_items.graphql";
 
+import { IProps as ILogEntryMessageProps } from "./LogEntryMessage";
 import LogEntryTableRow from "./LogEntryTableRow";
 
 export interface IProps {
   items: LogEntryTable_items;
+  onClickSourceFile: (values: ILogEntryMessageProps) => any;
 }
 
-export function LogEntryTable({ items }: IProps) {
+export function LogEntryTable({ items, onClickSourceFile }: IProps) {
   if (items.length < 1) {
     return <Segment>There are no log entries at this time.</Segment>;
   }
@@ -37,6 +39,7 @@ export function LogEntryTable({ items }: IProps) {
     <LogEntryTableRow
       key={item.id}
       item={item}
+      onClickSourceFile={onClickSourceFile}
     />
   ));
 
