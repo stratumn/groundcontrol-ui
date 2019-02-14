@@ -174,7 +174,7 @@ export class LogEntryListPage extends Component<IProps> {
     const prevScrollY = this.prevScrollY;
     this.prevScrollY = scrollY;
 
-    // Don't load a page if scrolling up.
+    // Don't load a page if scrolling down.
     if (prevScrollY < scrollY) {
       return;
     }
