@@ -7,6 +7,5 @@ cache: yarn
 
 script:
 - curl -O -s https://raw.githubusercontent.com/stratumn/groundcontrol/master/schema.graphql
-- yarn install
-- yarn gen
+- yarn gen-cij
 - yarn test
