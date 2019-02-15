@@ -39,7 +39,7 @@ interface IState {
 
 export class App extends Component<IProps, IState> {
 
-  public state: IState = {
+  public state = {
     showSidebar: false,
   };
 

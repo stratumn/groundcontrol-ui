@@ -21,7 +21,10 @@ import { Confirm, Segment } from "semantic-ui-react";
 import { SourceListPage_system } from "./__generated__/SourceListPage_system.graphql";
 import { SourceListPage_viewer } from "./__generated__/SourceListPage_viewer.graphql";
 
-import AddSourceForm, { IProps as IAddSourceFormProps } from "../components/AddSourceForm";
+import AddSourceForm, {
+  IProps as IAddSourceFormProps,
+  SourceType,
+} from "../components/AddSourceForm";
 import Page from "../components/Page";
 import SourceList from "../components/SourceList";
 import { commit as addDirectorySource } from "../mutations/addDirectorySource";
@@ -37,7 +40,7 @@ export interface IProps {
 }
 
 interface IState {
-  type: "directory" | "git";
+  type: SourceType;
   directory: string;
   repository: string;
   branch: string;
@@ -47,13 +50,13 @@ interface IState {
 
 export class SourceListPage extends Component<IProps, IState> {
 
-  public state: IState = {
+  public state = {
     branch: "",
     deleteId: "",
     directory: "",
     repository: "",
     showConfirmDelete: false,
-    type: "directory",
+    type: SourceType.Directory,
   };
 
   private disposables: Disposable[] = [];

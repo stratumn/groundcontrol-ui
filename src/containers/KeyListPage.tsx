@@ -45,7 +45,7 @@ interface IState {
 
 export class KeyListPage extends Component<IProps, IState> {
 
-  public state: IState = {
+  public state = {
     deleteId: "",
     name: "",
     showConfirmDelete: false,

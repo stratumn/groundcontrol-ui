@@ -21,8 +21,10 @@ import {
   InputProps,
 } from "semantic-ui-react";
 
+export enum SourceType { Directory = "directory", Git = "git" }
+
 export interface IProps {
-  type: "directory" | "git";
+  type: SourceType,
   directory: string;
   repository: string;
   branch: string;
@@ -35,10 +37,11 @@ export default class AddSourceForm extends Component<IProps> {
   public render() {
     const { type, directory, repository, branch } = this.props;
     const options = [
-      { key: "directory", text: "Directory", value: "directory" },
-      { key: "git", text: "Git", value: "git" },
+      { key: SourceType.Directory, text: "Directory", value: SourceType.Directory },
+      { key: SourceType.Git, text: "Git", value: SourceType.Git },
     ];
-    const disabled = type === "directory" && !directory || type === "git" && !repository;
+    const disabled = type === SourceType.Directory && !directory ||
+      type === SourceType.Git && !repository;
 
     let typeFields: JSX.Element;
 
@@ -82,7 +85,7 @@ export default class AddSourceForm extends Component<IProps> {
         <Form.Select
           label="Type"
           options={options}
-          defaultValue="directory"
+          value={type}
           width="3"
           onChange={this.handleChangeType}
         />
@@ -106,7 +109,7 @@ export default class AddSourceForm extends Component<IProps> {
     switch (value) {
     case "directory":
     case "git":
-      this.props.onChange({ ...this.props, type: value });
+      this.props.onChange({ ...this.props, type: value as SourceType });
       break;
     }
   }
