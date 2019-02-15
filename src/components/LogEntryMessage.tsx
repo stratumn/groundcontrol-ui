@@ -12,12 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import Ansi from "ansi-to-react";
 import graphql from "babel-plugin-relay/macro";
-import React, { Fragment } from "react";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
 
 import { createFragmentContainer } from "react-relay";
 
 import { LogEntryMessage_item } from "./__generated__/LogEntryMessage_item.graphql";
+
+import "./LogEntryMessage.css";
 
 export interface IProps {
   item: LogEntryMessage_item;
@@ -37,31 +41,47 @@ export function LogEntryMessage(props: IProps) {
 
   if (!sourceFile) {
     return (
-      <Fragment>
-        {message}
-      </Fragment>
+      <div className="LogEntryMessage">
+        <Ansi
+          linkify={true}
+          useClasses={true}
+        >
+          {message}
+        </Ansi>
+      </div>
     );
   }
 
-  const preSource = message.substring(0, sourceFileBegin!);
+  // This is a hackish way to deal with both Ansi escape sequences and links
+  // to source files, but a proper implementation will take time. Until then,
+  // while far from beautiful, this should do the trick.
+
+  const text = ReactDOMServer.renderToStaticMarkup(
+    <Ansi
+      linkify={true}
+      useClasses={true}
+    >
+      {message}
+    </Ansi>,
+  );
+
   const source = message.substring(sourceFileBegin!, sourceFileEnd!);
-  const postSource = message.substring(sourceFileEnd!);
-  const handleClickSource = (event: React.MouseEvent) => {
+  const link = `<a href="file:///${sourceFile}">${source}</a>`;
+  const html = text.replace(source, link);
+  const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
-    onClickSourceFile({ ...props });
+    const href = (event.target as any).href;
+    if (href) {
+      onClickSourceFile({ ...props });
+    }
   };
 
   return (
-    <Fragment>
-      {preSource}
-      <a
-        href={`file:///${sourceFile}`}
-        onClick={handleClickSource}
-      >
-        {source}
-      </a>
-      {postSource}
-    </Fragment>
+    <div
+      className="LogEntryMessage"
+      dangerouslySetInnerHTML={{ __html: html }}
+      onClick={handleClick}
+    />
   );
 }
 

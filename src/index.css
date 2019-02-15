@@ -11,6 +11,10 @@ body {
   box-shadow: none;
 }
 
+.ui.inverted.table {
+  background-color: #222;
+}
+
 a {
   color: #00B5AD;
 }
@@ -23,4 +27,8 @@ a:hover {
 a.header:hover {
   color: #00B5AD !important;
   text-decoration: none;
+}
+
+code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }

@@ -14,7 +14,7 @@
 
 import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
-import React, { Fragment } from "react";
+import React, { Component, Fragment } from "react";
 import {
   Responsive,
   Table,
@@ -24,46 +24,30 @@ import Moment from "react-moment";
 import { createFragmentContainer } from "react-relay";
 
 import { LogEntryTableRow_item } from "./__generated__/LogEntryTableRow_item.graphql";
+import { LogEntryTableRow_prevItem } from "./__generated__/LogEntryTableRow_prevItem.graphql";
 
 import LogEntryMessage, { IProps as ILogEntryMessageProps } from "./LogEntryMessage";
 
 import "./LogEntryTableRow.css";
 
-const dateFormat = "L LTS";
+const dateFormat = "LTS";
 
 export interface IProps {
   item: LogEntryTableRow_item;
+  prevItem?: LogEntryTableRow_prevItem;
   onClickSourceFile: (values: ILogEntryMessageProps) => any;
 }
 
-export function LogEntryTableRow({
-  item,
-  item: {
-    createdAt,
-    level,
-    owner,
-  },
-  onClickSourceFile,
-}: IProps) {
-  let ownerEl: JSX.Element | null = null;
+export function LogEntryTableRow(props: IProps) {
+  const {
+    item,
+    item: {
+      level,
+    },
+    onClickSourceFile,
+  } = props;
 
-  if (owner) {
-    switch (owner.__typename) {
-    case "Project":
-      const workspaceSlug = owner.workspace!.slug;
-      const projectSlug = owner.slug;
-      ownerEl = (
-        <Fragment>
-          <Link to={`/workspaces/${workspaceSlug}`}>
-            {workspaceSlug}
-          </Link>
-          &#47;
-          {projectSlug}
-        </Fragment>
-      );
-      break;
-    }
-  }
+  const showMeta = shouldShowMeta(props);
 
   return (
     <Table.Row
@@ -76,18 +60,18 @@ export function LogEntryTableRow({
         minWidth={992}
         collapsing={true}
       >
-        <Moment format={dateFormat}>{createdAt}</Moment>
+        {showMeta && <CreatedAt {...props} />}
       </Responsive>
+      <Table.Cell collapsing={true}>
+        {showMeta && <Owner {...props} />}
+      </Table.Cell>
       <Table.Cell
         className="LogEntryTableRowLevel"
         warning={level === "WARNING"}
         error={level === "ERROR"}
         collapsing={true}
       >
-        {level}
-      </Table.Cell>
-      <Table.Cell collapsing={true}>
-        {ownerEl}
+        {showMeta && level}
       </Table.Cell>
       <Table.Cell>
         <LogEntryMessage
@@ -97,6 +81,56 @@ export function LogEntryTableRow({
       </Table.Cell>
     </Table.Row>
   );
+}
+
+const CreatedAt = ({ item: { createdAt } }: IProps) => (
+  <Moment format={dateFormat}>
+    {createdAt}
+  </Moment>
+);
+
+const Owner = ({ item: { owner } }: IProps) => {
+  if (!owner || owner.__typename !== "Project") {
+    return null;
+  }
+
+  const workspaceSlug = owner.workspace!.slug;
+  const projectSlug = owner.slug;
+
+  return (
+    <Fragment>
+      <Link to={`/workspaces/${workspaceSlug}`}>
+        {workspaceSlug}
+      </Link>
+      &#47;
+      {projectSlug}
+    </Fragment>
+  );
+};
+
+function shouldShowMeta(props: IProps) {
+  const {
+    item: {
+      createdAt,
+      owner,
+      level,
+    },
+    prevItem,
+  } = props;
+
+  if (!prevItem) {
+    return true;
+  }
+
+  if (!owner !== !prevItem.owner) {
+    return true;
+  }
+
+  if (owner && prevItem.owner && owner.id !== prevItem.owner.id) {
+    return true;
+  }
+
+  return prevItem.level !== level || prevItem.createdAt !== createdAt;
 }
 
 export default createFragmentContainer(LogEntryTableRow, graphql`
@@ -114,5 +148,12 @@ export default createFragmentContainer(LogEntryTableRow, graphql`
         }
       }
     }
-  }`,
-);
+  }
+  fragment LogEntryTableRow_prevItem on LogEntry {
+    createdAt
+    level
+    owner {
+      id
+    }
+  }
+`);

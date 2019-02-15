@@ -1,8 +1,11 @@
-.LogEntryTableRow td {
+.ui.table .LogEntryTableRow td {
   word-break: break-all;
   white-space: pre-wrap;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: .9em;
+  padding-top: .25em;
+  padding-bottom: .25em;
+  border-top: none;
 }
 
 .ui.table .LogEntryTableRow td.warning {
@@ -13,10 +16,4 @@
 .ui.table .LogEntryTableRow td.error {
   background: inherit !important;
   color: #e03997 !important;
-}
-
-.LogEntryTableRow .ui.accordion .title:not(.ui) {
-  font: inherit;
-  color: inherit;
-  padding: 0;
 }

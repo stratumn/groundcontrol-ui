@@ -35,10 +35,11 @@ export function LogEntryTable({ items, onClickSourceFile }: IProps) {
     return <Segment>There are no log entries at this time.</Segment>;
   }
 
-  const rows = items.map((item) => (
+  const rows = items.map((item, index) => (
     <LogEntryTableRow
       key={item.id}
       item={item}
+      prevItem={index > 0 ? items[index - 1] : undefined}
       onClickSourceFile={onClickSourceFile}
     />
   ));
@@ -54,6 +55,7 @@ export default createFragmentContainer(LogEntryTable, graphql`
   fragment LogEntryTable_items on LogEntry
     @relay(plural: true) {
     ...LogEntryTableRow_item
+    ...LogEntryTableRow_prevItem
     id
   }`,
 );

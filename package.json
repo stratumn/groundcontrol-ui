@@ -2,6 +2,7 @@
   "name": "groundcontrol-ui",
   "private": true,
   "dependencies": {
+    "ansi-to-react": "^5.0.0",
     "apollo-link": "^1.2.6",
     "apollo-link-ws": "^1.0.12",
     "debounce": "^1.2.0",

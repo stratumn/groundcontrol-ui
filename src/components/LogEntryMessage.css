@@ -1,0 +1,68 @@
+.LogEntryMessage a {
+  color: inherit !important;
+  text-decoration: underline;
+}
+
+.LogEntryMessage .ansi-black {
+  color: #333;
+}
+
+.LogEntryMessage .ansi-red {
+  color: #db2828;
+}
+
+.LogEntryMessage .ansi-green {
+  color: #21ba45;
+}
+
+.LogEntryMessage .ansi-yellow {
+  color: #fbbd08;
+}
+
+.LogEntryMessage .ansi-blue {
+  color: #2185d0;
+}
+
+.LogEntryMessage .ansi-magenta {
+  color: #e03997;
+}
+
+.LogEntryMessage .ansi-cyan {
+  color: #00b5ad;
+}
+
+.LogEntryMessage .ansi-white {
+  color: #fff;
+}
+
+.LogEntryMessage .ansi-bright-black {
+  background-color: #333;
+}
+
+.LogEntryMessage .ansi-bright-red {
+  background-color: #db2828;
+}
+
+.LogEntryMessage .ansi-bright-green {
+  background-color: #21ba45;
+}
+
+.LogEntryMessage .ansi-bright-yellow {
+  background-color: #fbbd08;
+}
+
+.LogEntryMessage .ansi-bright-blue {
+  background-color: #2185d0;
+}
+
+.LogEntryMessage .ansi-bright-magenta {
+  background-color: #e03997;
+}
+
+.LogEntryMessage .ansi-bright-cyan {
+  background-color: #00b5ad;
+}
+
+.LogEntryMessage .ansi-bright-white {
+  background-color: #fff;
+}
