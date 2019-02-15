@@ -24,7 +24,7 @@ import {
 export enum SourceType { Directory = "directory", Git = "git" }
 
 export interface IProps {
-  type: SourceType,
+  type: SourceType;
   directory: string;
   repository: string;
   branch: string;
