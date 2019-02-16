@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export function createFragmentContainer<P = {}>(Component: React.ComponentType<P>) {
-  return Component;
-}
+export { createFragmentContainer } from "react-relay";
 
 export const requestSubscription = jest.fn(() => ({ dispose: () => null }));

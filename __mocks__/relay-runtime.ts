@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export const Environment = jest.fn();
 export const Network = jest.fn();
 export const RecordSource = jest.fn();
 export const Store = jest.fn();
+
+export class Environment {}

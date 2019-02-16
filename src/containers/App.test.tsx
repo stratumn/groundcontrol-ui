@@ -23,9 +23,9 @@ import { subscribe as subscribeJobMetrics } from "../subscriptions/jobMetricsUpd
 import { subscribe as subscribeLogMetrics } from "../subscriptions/logMetricsUpdated";
 import { subscribe as subscribeProcessMetrics } from "../subscriptions/processMetricsUpdated";
 
-import { Menu } from "../components/Menu";
+import Menu from "../components/Menu";
 
-import App from "./App";
+import { App } from "./App";
 
 jest.mock("../subscriptions/jobMetricsUpdated");
 jest.mock("../subscriptions/logMetricsUpdated");
@@ -48,6 +48,15 @@ beforeEach(() => {
 });
 
 describe("<App />", () => {
+
+  it("renders correctly", () => {
+    const wrapper = shallow(
+      <App {...props}>
+        <p>Hello, World!</p>
+      </App>,
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
 
   it("renders children when passed in", () => {
     const wrapper = shallow(
