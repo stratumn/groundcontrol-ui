@@ -27,3 +27,5 @@ export class Router {
   public push = jest.fn();
   public replace = jest.fn();
 }
+
+export const Link = () => "Link";

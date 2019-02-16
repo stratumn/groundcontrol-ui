@@ -65,5 +65,8 @@
     "tslint-react": "^3.6.0",
     "typescript": "^3.2.4",
     "yarn": "^1.13.0"
+  },
+  "jest": {
+    "collectCoverageFrom" : ["src/**/*.{ts,tsx}", "!src/**/__generated__/*", "!src/testing/*", "!src/serviceWorker.ts", "!src/setupTests.ts"]
   }
 }

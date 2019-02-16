@@ -17,7 +17,7 @@ import React from "react";
 
 import {  mockQueryPropAttrs } from "../testing/relay";
 
-import { CommitFeed } from "./CommitFeed";
+import { JobTable } from "./JobTable";
 
 const props = {
   items: [{
@@ -27,12 +27,18 @@ const props = {
     ...mockQueryPropAttrs(),
     id: "id2",
   }],
+  onStop: jest.fn(),
 };
 
-describe("<CommitFeed />", () => {
+describe("<JobTable />", () => {
 
   it("renders items correctly", () => {
-    const wrapper = shallow(<CommitFeed {...props} />);
+    const wrapper = shallow(<JobTable {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("renders correctly without items", () => {
+    const wrapper = shallow(<JobTable {...props} items={[]} />);
     expect(wrapper).toMatchSnapshot();
   });
 

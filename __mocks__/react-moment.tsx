@@ -12,28 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { shallow } from "enzyme";
-import React from "react";
-
-import {  mockQueryPropAttrs } from "../testing/relay";
-
-import { CommitFeed } from "./CommitFeed";
-
-const props = {
-  items: [{
-    ...mockQueryPropAttrs(),
-    id: "id1",
-  }, {
-    ...mockQueryPropAttrs(),
-    id: "id2",
-  }],
-};
-
-describe("<CommitFeed />", () => {
-
-  it("renders items correctly", () => {
-    const wrapper = shallow(<CommitFeed {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
-
-});
+export default function Moment() { return "Moment"; }

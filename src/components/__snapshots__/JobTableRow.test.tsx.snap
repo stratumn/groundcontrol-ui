@@ -1,0 +1,207 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<JobTableRow /> renders correctly 1`] = `
+<TableRow
+  as="tr"
+  cellAs="td"
+  className="JobTableRow"
+>
+  <TableCell
+    as="td"
+  >
+    name
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    -
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <_default
+      repository="-"
+    />
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    -
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <Moment
+      format="L LTS"
+    >
+      createdAt
+    </Moment>
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <Moment
+      format="L LTS"
+    >
+      updatedAt
+    </Moment>
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    NORMAL
+  </TableCell>
+  <TableCell
+    as="td"
+    error={false}
+    positive={false}
+    warning={false}
+  >
+    QUEUED
+  </TableCell>
+  <TableCell
+    as="td"
+    className="JobTableRowActions"
+  />
+</TableRow>
+`;
+
+exports[`<JobTableRow /> renders correctly when the owner is a project 1`] = `
+<TableRow
+  as="tr"
+  cellAs="td"
+  className="JobTableRow"
+>
+  <TableCell
+    as="td"
+  >
+    name
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <Link
+      to="/workspaces/workspaceSlug"
+    >
+      workspaceName
+    </Link>
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <_default
+      repository="repository"
+    />
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    branch
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <Moment
+      format="L LTS"
+    >
+      createdAt
+    </Moment>
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <Moment
+      format="L LTS"
+    >
+      updatedAt
+    </Moment>
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    NORMAL
+  </TableCell>
+  <TableCell
+    as="td"
+    error={false}
+    positive={false}
+    warning={false}
+  >
+    QUEUED
+  </TableCell>
+  <TableCell
+    as="td"
+    className="JobTableRowActions"
+  />
+</TableRow>
+`;
+
+exports[`<JobTableRow /> renders correctly when the owner is a workspace 1`] = `
+<TableRow
+  as="tr"
+  cellAs="td"
+  className="JobTableRow"
+>
+  <TableCell
+    as="td"
+  >
+    name
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <Link
+      to="/workspaces/workspaceSlug"
+    >
+      workspaceName
+    </Link>
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <_default
+      repository="-"
+    />
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    -
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <Moment
+      format="L LTS"
+    >
+      createdAt
+    </Moment>
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <Moment
+      format="L LTS"
+    >
+      updatedAt
+    </Moment>
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    NORMAL
+  </TableCell>
+  <TableCell
+    as="td"
+    error={false}
+    positive={false}
+    warning={false}
+  >
+    QUEUED
+  </TableCell>
+  <TableCell
+    as="td"
+    className="JobTableRowActions"
+  />
+</TableRow>
+`;

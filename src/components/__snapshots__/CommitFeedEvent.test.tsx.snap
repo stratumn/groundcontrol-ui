@@ -13,24 +13,11 @@ exports[`<CommitFeedEvent /> renders correctly 1`] = `
       <strong>
         author
       </strong>
-      <t
-        ago={false}
-        calendar={false}
-        decimal={false}
-        element="time"
-        filter={[Function]}
+      <Moment
         fromNow={true}
-        interval={60000}
-        onChange={[Function]}
-        titleFormat=""
-        toNow={false}
-        unit={null}
-        unix={false}
-        utc={false}
-        withTitle={false}
       >
-        2006-01-02T15:04:05-0700
-      </t>
+        date
+      </Moment>
     </FeedMeta>
   </FeedContent>
 </FeedEvent>

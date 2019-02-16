@@ -36,7 +36,7 @@ describe("<JobFilter />", () => {
 
   it("checks all the radio buttons when status isn't set", () => {
     const wrapper = shallow(<JobFilter {...props} status={undefined} />);
-    expect(wrapper.find("[checked]")).toHaveLength(allStatus.length);
+    expect(wrapper.find("[checked=true]")).toHaveLength(allStatus.length);
   });
 
   it("triggers onChange when a radio button is unchecked", () => {

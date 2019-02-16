@@ -23,7 +23,7 @@ const props = {
   item: {
     ...mockQueryPropAttrs(),
     author: "author",
-    date: "2006-01-02T15:04:05-0700",
+    date: "date",
     headline: "headline",
   },
   relay: mockRelayProp(),
