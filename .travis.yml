@@ -9,3 +9,4 @@ script:
 - curl -O -s https://raw.githubusercontent.com/stratumn/groundcontrol/master/schema.graphql
 - yarn gen-ci
 - yarn test
+- yarn lint

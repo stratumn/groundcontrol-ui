@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import "jest-enzyme";
+export function createFragmentContainer<P = {}>(Component: React.ComponentType<P>) {
+  return Component;
+}
 
-configure({ adapter: new Adapter() });
+export const requestSubscription = jest.fn(() => ({ dispose: () => null }));

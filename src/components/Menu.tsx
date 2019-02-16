@@ -30,70 +30,77 @@ import MenuSecondaryItems from "./MenuSecondaryItems";
 export interface IProps {
   system: Menu_system;
   showSidebar: boolean;
-  onShowSidebar: () => any;
-  onHideSidebar: () => any;
+  onShowSidebar: (values: IProps) => any;
+  onHideSidebar: (values: IProps) => any;
 }
 
-export const Menu = ({
-  system: {
-    jobMetrics,
-    processMetrics,
-    logMetrics,
-  },
-  showSidebar,
-  onShowSidebar,
-  onHideSidebar,
-}: IProps) => (
-  <Fragment>
-    <SemanticMenu
-      fixed="top"
-      size="large"
-      color="teal"
-      inverted={true}
-    >
-      <Container fluid={true}>
-        <Responsive
-          as={SemanticMenu.Item}
-          icon="bars"
-          maxWidth={767}
-          onClick={onShowSidebar}
-        />
-        <Responsive
-          as={MenuPrimaryItems}
-          minWidth={768}
-        />
-        <Responsive
-          as={SemanticMenu.Menu}
-          position="right"
-          minWidth={768}
+export function Menu(props: IProps) {
+  const {
+    system: {
+      jobMetrics,
+      processMetrics,
+      logMetrics,
+    },
+    showSidebar,
+    onShowSidebar,
+    onHideSidebar,
+  } = props;
+
+  const handleShowSidebar = () => onShowSidebar({...props});
+  const handleHideSidebar = () => onHideSidebar({...props});
+
+  return (
+    <Fragment>
+      <SemanticMenu
+        fixed="top"
+        size="large"
+        color="teal"
+        inverted={true}
+      >
+        <Container fluid={true}>
+          <Responsive
+            as={SemanticMenu.Item}
+            icon="bars"
+            maxWidth={767}
+            onClick={handleShowSidebar}
+          />
+          <Responsive
+            as={MenuPrimaryItems}
+            minWidth={768}
+          />
+          <Responsive
+            as={SemanticMenu.Menu}
+            position="right"
+            minWidth={768}
+          >
+            <MenuSecondaryItems
+              jobMetrics={jobMetrics}
+              processMetrics={processMetrics}
+              logMetrics={logMetrics}
+            />
+          </Responsive>
+        </Container>
+      </SemanticMenu>
+      <Responsive maxWidth={767}>
+        <Sidebar
+          as={SemanticMenu}
+          vertical={true}
+          size="large"
+          animation="push"
+          visible={showSidebar}
+          onHide={handleHideSidebar}
         >
+          <MenuPrimaryItems />
           <MenuSecondaryItems
             jobMetrics={jobMetrics}
             processMetrics={processMetrics}
             logMetrics={logMetrics}
           />
-        </Responsive>
-      </Container>
-    </SemanticMenu>
-    <Responsive maxWidth={767}>
-      <Sidebar
-        as={SemanticMenu}
-        vertical={true}
-        size="large"
-        animation="push"
-        visible={showSidebar}
-        onHide={onHideSidebar}
-      >
-        <MenuPrimaryItems />
-        <MenuSecondaryItems
-          jobMetrics={jobMetrics}
-          processMetrics={processMetrics}
-          logMetrics={logMetrics}
-        />
-      </Sidebar>
-    </Responsive>
-  </Fragment>
-);
+        </Sidebar>
+      </Responsive>
+    </Fragment>
+  );
+}
 
 export default createFragmentContainer(Menu, graphql`
   fragment Menu_system on System {

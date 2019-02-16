@@ -12,8 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import "jest-enzyme";
-
-configure({ adapter: new Adapter() });
+export class Router {
+  public addTransitionHook = jest.fn(() => jest.fn());
+  public createHref = jest.fn();
+  public createLocation = jest.fn();
+  public go = jest.fn();
+  public isActive = jest.fn();
+  public matcher = {
+    format: jest.fn(),
+    getRoutes: jest.fn(),
+    isActive: jest.fn(),
+    match: jest.fn(),
+  };
+  public push = jest.fn();
+  public replace = jest.fn();
+}

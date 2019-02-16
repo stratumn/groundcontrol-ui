@@ -12,8 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import "jest-enzyme";
+import {
+  Environment,
+  Network,
+  RecordSource,
+  Store,
+} from "relay-runtime";
 
-configure({ adapter: new Adapter() });
+export const mockQueryPropAttrs = () => ({
+  " $fragmentRefs": null,
+  " $refType": null,
+});
+
+export const mockRelayProp = () => ({
+  environment: new Environment({
+    network: new Network(),
+    store: new Store(new RecordSource()),
+  }),
+});
