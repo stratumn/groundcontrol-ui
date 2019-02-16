@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CommitFeed /> renders items correctly 1`] = `
+<Feed>
+  <ForwardRef(Relay(CommitFeedEvent))
+    item={
+      Object {
+        " $fragmentRefs": null,
+        " $refType": null,
+        "id": "id1",
+      }
+    }
+    key="id1"
+  />
+  <ForwardRef(Relay(CommitFeedEvent))
+    item={
+      Object {
+        " $fragmentRefs": null,
+        " $refType": null,
+        "id": "id2",
+      }
+    }
+    key="id2"
+  />
+</Feed>
+`;

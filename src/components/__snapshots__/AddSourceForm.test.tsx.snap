@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AddSourceForm /> renders correctly when a Git source type is selected 1`] = `
+<Form
+  as="form"
+  onSubmit={[Function]}
+>
+  <FormSelect
+    as={[Function]}
+    control={[Function]}
+    label="Type"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "key": "directory",
+          "text": "Directory",
+          "value": "directory",
+        },
+        Object {
+          "key": "git",
+          "text": "Git",
+          "value": "git",
+        },
+      ]
+    }
+    value="git"
+    width="3"
+  />
+  <FormField>
+    <label>
+      Repository
+    </label>
+    <FormInput
+      as={[Function]}
+      control={[Function]}
+      name="repository"
+      onChange={[Function]}
+      value="repository"
+    />
+  </FormField>
+  <FormField>
+    <label>
+      Branch
+    </label>
+    <FormInput
+      as={[Function]}
+      control={[Function]}
+      name="branch"
+      onChange={[Function]}
+      placeholder="master"
+      value="branch"
+    />
+  </FormField>
+  <Button
+    as="button"
+    color="teal"
+    content="Add"
+    disabled={false}
+    icon="add"
+    type="submit"
+  />
+</Form>
+`;
+
+exports[`<AddSourceForm /> renders correctly when a directory source type is selected 1`] = `
+<Form
+  as="form"
+  onSubmit={[Function]}
+>
+  <FormSelect
+    as={[Function]}
+    control={[Function]}
+    label="Type"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "key": "directory",
+          "text": "Directory",
+          "value": "directory",
+        },
+        Object {
+          "key": "git",
+          "text": "Git",
+          "value": "git",
+        },
+      ]
+    }
+    value="directory"
+    width="3"
+  />
+  <FormField>
+    <label>
+      Directory (absolute path)
+    </label>
+    <FormInput
+      as={[Function]}
+      control={[Function]}
+      name="directory"
+      onChange={[Function]}
+      value="directory"
+    />
+  </FormField>
+  <Button
+    as="button"
+    color="teal"
+    content="Add"
+    disabled={false}
+    icon="add"
+    type="submit"
+  />
+</Form>
+`;

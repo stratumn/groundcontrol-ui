@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<JobFilter /> renders correctly 1`] = `
+<div
+  className="JobFilter"
+>
+  <Radio
+    checked={false}
+    key="0"
+    label="QUEUED"
+    onClick={[Function]}
+    type="radio"
+  />
+  <Radio
+    checked={true}
+    key="1"
+    label="RUNNING"
+    onClick={[Function]}
+    type="radio"
+  />
+  <Radio
+    checked={false}
+    key="2"
+    label="STOPPING"
+    onClick={[Function]}
+    type="radio"
+  />
+  <Radio
+    checked={false}
+    key="3"
+    label="DONE"
+    onClick={[Function]}
+    type="radio"
+  />
+  <Radio
+    checked={true}
+    key="4"
+    label="FAILED"
+    onClick={[Function]}
+    type="radio"
+  />
+</div>
+`;

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DirectorySourceListItem /> renders correctly 1`] = `
+<ListItem>
+  <ListContent>
+    <Button
+      as="button"
+      color="pink"
+      floated="right"
+      icon="delete"
+      onClick={[Function]}
+      size="small"
+    />
+    <ListHeader>
+      directory
+    </ListHeader>
+    <ListDescription>
+      Directory
+    </ListDescription>
+  </ListContent>
+</ListItem>
+`;

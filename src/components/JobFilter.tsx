@@ -22,7 +22,7 @@ export interface IProps {
   onChange: (values: IProps) => any;
 }
 
-const allStatus = ["QUEUED", "RUNNING", "STOPPING", "DONE", "FAILED"];
+export const allStatus = ["QUEUED", "RUNNING", "STOPPING", "DONE", "FAILED"];
 
 // Note: we consider undefined filter to be the same as all status.
 export default class JobFilter extends Component<IProps> {

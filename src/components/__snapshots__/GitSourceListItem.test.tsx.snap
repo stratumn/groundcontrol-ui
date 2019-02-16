@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GitSourceListItem /> renders correctly 1`] = `
+<ListItem>
+  <ListContent>
+    <Button
+      as="button"
+      color="pink"
+      floated="right"
+      icon="delete"
+      onClick={[Function]}
+      size="small"
+    />
+    <ListHeader>
+      repository
+      @
+      branch
+    </ListHeader>
+    <ListDescription>
+      Git Repository
+    </ListDescription>
+  </ListContent>
+</ListItem>
+`;
