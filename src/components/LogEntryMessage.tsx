@@ -71,8 +71,7 @@ export function LogEntryMessage(props: IProps) {
   const html = text.replace(source, link);
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
-    const h = (event.target as any).href;
-    if (h === href) {
+    if ("href" in event.target ) {
       onClickSourceFile({ ...props });
     }
   };

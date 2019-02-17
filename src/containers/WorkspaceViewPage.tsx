@@ -38,6 +38,7 @@ import { commit as pullProject } from "../mutations/pullProject";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
 import { commit as run } from "../mutations/run";
 import { subscribe } from "../subscriptions/workspaceUpserted";
+import ErrorPage from "./ErrorPage";
 
 import "./WorkspaceViewPage.css";
 
@@ -62,7 +63,15 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   private taskID?: string;
 
   public render() {
-    const workspace = this.props.viewer.workspace!;
+    const workspace = this.props.viewer.workspace;
+
+    if (!workspace) {
+      return (
+        <ErrorPage
+          error={new Error("This workspace doesn't exist.")}
+        />
+      );
+    }
     const items = workspace.projects.edges.map(({ node }) => node);
     const description = workspace.description || "This workspace doesn't have a description.";
     const notes = workspace.notes || "This workspace doesn't have notes.";
@@ -112,8 +121,13 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
+    const { workspace } = this.props.viewer;
+    if (!workspace) {
+      return;
+    }
+
     const { relay: { environment }, system: { lastMessageId } } = this.props;
-    const { id } = this.props.viewer.workspace!;
+    const { id } = workspace;
 
     this.setItemsPerRow();
     window.addEventListener("resize", this.setItemsPerRow);

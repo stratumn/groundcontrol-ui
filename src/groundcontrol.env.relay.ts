@@ -28,7 +28,7 @@ import { GroundControlPort } from "./constants";
 const host = `localhost:${GroundControlPort}/query`;
 
 async function fetchQuery(operation: RequestNode, variables: Variables) {
-  return fetch("http://" + host, {
+  const response = await fetch("http://" + host, {
     body: JSON.stringify({
       query: operation.text,
       variables,
@@ -37,9 +37,9 @@ async function fetchQuery(operation: RequestNode, variables: Variables) {
       "Content-Type": "application/json",
     },
     method: "POST",
-  }).then((response) => {
-    return response.json();
   });
+
+  return response.json();
 }
 
 const setupSubscription: SubscribeFunction = (config, variables, _, observer) => {

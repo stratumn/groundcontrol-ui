@@ -128,10 +128,8 @@ function prepareLogEntryListVariables({ level, ownerId }: { level: string, owner
 }
 
 function render(args: RouteRenderArgs) {
-  // Only way I could find to get relay errors :(
-  const error = ((args as any).error);
-  if (error) {
-    return <ErrorPage error={error} />;
+  if (args.error) {
+    return <ErrorPage error={args.error} />;
   }
 
   if (args.Component && args.props) {

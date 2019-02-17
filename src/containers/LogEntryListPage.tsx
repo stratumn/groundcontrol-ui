@@ -107,7 +107,7 @@ export class LogEntryListPage extends Component<IProps> {
   }
 
   public componentDidUpdate() {
-    // If the user was at the bottom of the window, scoll all the way
+    // If the user was at the bottom of the window, scroll all the way
     // down.
     if (this.shouldScrollToBottom) {
       window.scrollTo(0, document.body.scrollHeight);
@@ -131,7 +131,7 @@ export class LogEntryListPage extends Component<IProps> {
   private getLevel = () => this.props.params.level === undefined ?
     undefined : this.props.params.level.split(",")
 
-  private isChrome = () => !!(window as any).chrome;
+  private isChrome = () => "chrome" in window;
 
   private loadMore() {
     const disposable = this.props.relay.loadMore(
