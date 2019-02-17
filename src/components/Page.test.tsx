@@ -46,13 +46,13 @@ describe("<Page />", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("renders correctly without a container", () => {
+  it("renders correctly when fullWidth is set to true", () => {
     const wrapper = shallow(
       <Page
         header="header"
         subheader="subheader"
         icon="rocket"
-        container={false}
+        fullWidth={true}
       >
         <p>Hello, World!</p>
       </Page>,

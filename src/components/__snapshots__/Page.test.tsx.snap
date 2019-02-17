@@ -2,7 +2,35 @@
 
 exports[`<Page /> renders correctly 1`] = `
 <div
-  className="Page "
+  className="Page  "
+>
+  <Header
+    as="h1"
+  >
+    <Icon
+      as="i"
+      name="rocket"
+    />
+    <HeaderContent>
+      header
+      <HeaderSubheader>
+        subheader
+      </HeaderSubheader>
+    </HeaderContent>
+  </Header>
+  <Container
+    fluid={true}
+  >
+    <p>
+      Hello, World!
+    </p>
+  </Container>
+</div>
+`;
+
+exports[`<Page /> renders correctly when fullWidth is set to true 1`] = `
+<div
+  className="Page PageFullWidth "
 >
   <Header
     as="h1"
@@ -30,7 +58,7 @@ exports[`<Page /> renders correctly 1`] = `
 
 exports[`<Page /> renders correctly with a CSS class 1`] = `
 <div
-  className="Page className"
+  className="Page  className"
 >
   <Header
     as="h1"
@@ -53,29 +81,5 @@ exports[`<Page /> renders correctly with a CSS class 1`] = `
       Hello, World!
     </p>
   </Container>
-</div>
-`;
-
-exports[`<Page /> renders correctly without a container 1`] = `
-<div
-  className="Page "
->
-  <Header
-    as="h1"
-  >
-    <Icon
-      as="i"
-      name="rocket"
-    />
-    <HeaderContent>
-      header
-      <HeaderSubheader>
-        subheader
-      </HeaderSubheader>
-    </HeaderContent>
-  </Header>
-  <p>
-    Hello, World!
-  </p>
 </div>
 `;

@@ -29,7 +29,7 @@ export interface IProps {
   header: string;
   subheader: string;
   children: React.ReactNode;
-  container?: boolean;
+  fullWidth?: boolean;
 }
 
 const Page = ({
@@ -38,31 +38,20 @@ const Page = ({
   header,
   subheader,
   children,
-  container,
-}: IProps) => {
-  let content: JSX.Element;
-
-  if (container === false) {
-    content = <Fragment>{children}</Fragment>;
-  } else {
-    content = (
-      <Container fluid={true}>
-        {children}
-      </Container>
-    );
-  }
-  return (
-    <div className={`Page ${className || ""}`}>
-      <Header as="h1">
-        <Icon name={icon} />
-        <Header.Content>
-          {header}
-          <Header.Subheader>{subheader}</Header.Subheader>
-        </Header.Content>
-      </Header>
-      {content}
-    </div>
-  );
-};
+  fullWidth,
+}: IProps) => (
+  <div className={`Page ${fullWidth ? "PageFullWidth" : ""} ${className || ""}`}>
+    <Header as="h1">
+      <Icon name={icon} />
+      <Header.Content>
+        {header}
+        <Header.Subheader>{subheader}</Header.Subheader>
+      </Header.Content>
+    </Header>
+    <Container fluid={true}>
+      {children}
+    </Container>
+  </div>
+);
 
 export default Page;
