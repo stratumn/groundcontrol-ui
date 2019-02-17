@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Page /> renders correctly 1`] = `
+<div
+  className="Page "
+>
+  <Header
+    as="h1"
+  >
+    <Icon
+      as="i"
+      name="rocket"
+    />
+    <HeaderContent>
+      header
+      <HeaderSubheader>
+        subheader
+      </HeaderSubheader>
+    </HeaderContent>
+  </Header>
+  <Container
+    fluid={true}
+  >
+    <p>
+      Hello, World!
+    </p>
+  </Container>
+</div>
+`;

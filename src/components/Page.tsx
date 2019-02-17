@@ -31,7 +31,7 @@ export interface IProps {
   children: React.ReactNode;
 }
 
-export default ({
+const Page = ({
   className,
   icon,
   header,
@@ -51,3 +51,5 @@ export default ({
     </Container>
   </div>
 );
+
+export default Page;
