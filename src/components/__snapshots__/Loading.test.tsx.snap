@@ -6,7 +6,6 @@ exports[`<Loading /> renders correctly 1`] = `
 >
   <Loader
     active={true}
-    size="massive"
   />
 </div>
 `;

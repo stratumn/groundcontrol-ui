@@ -15,6 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import { Router } from "found";
 import React, { Component } from "react";
+import Helmet from "react-helmet";
 import { createFragmentContainer, RelayProp } from "react-relay";
 import { Disposable } from "relay-runtime";
 
@@ -51,6 +52,7 @@ export class App extends Component<IProps, IState> {
 
     return (
       <div className="App">
+        <Helmet titleTemplate="%s | Ground Control" />
         <Menu
           system={system}
           showSidebar={showSidebar}

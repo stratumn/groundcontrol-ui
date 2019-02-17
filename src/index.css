@@ -31,6 +31,10 @@ body {
   background-color: var(--background-color);
 }
 
+body.inverted {
+  background-color: var(--charcoal);
+}
+
 a {
   color: var(--teal);
 }

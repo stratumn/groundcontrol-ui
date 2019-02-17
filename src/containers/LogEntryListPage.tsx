@@ -15,6 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import { Router } from "found";
 import React, { Component } from "react";
+import Helmet from "react-helmet";
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import { Disposable } from "relay-runtime";
 import { Container, Loader } from "semantic-ui-react";
@@ -62,6 +63,9 @@ export class LogEntryListPage extends Component<IProps> {
         className="LogEntryListPage"
         fluid={true}
       >
+        <Helmet>
+          <body className="inverted" />
+        </Helmet>
         <Loader
           inverted={true}
           active={isLoading}

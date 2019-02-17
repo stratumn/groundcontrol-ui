@@ -13,7 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Fragment } from "react";
+import React from "react";
+import Helmet from "react-helmet";
 import {
   Container,
   Header,
@@ -41,6 +42,9 @@ const Page = ({
   fullWidth,
 }: IProps) => (
   <div className={`Page ${fullWidth ? "PageFullWidth" : ""} ${className || ""}`}>
+    <Helmet>
+      <title>{header}</title>
+    </Helmet>
     <Header as="h1">
       <Icon name={icon} />
       <Header.Content>

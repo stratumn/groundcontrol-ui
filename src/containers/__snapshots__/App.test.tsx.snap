@@ -4,6 +4,9 @@ exports[`<App /> renders correctly 1`] = `
 <div
   className="App"
 >
+  <Helmet
+    titleTemplate="%s | Ground Control"
+  />
   <ForwardRef(Relay(Menu))
     onHideSidebar={[Function]}
     onShowSidebar={[Function]}
