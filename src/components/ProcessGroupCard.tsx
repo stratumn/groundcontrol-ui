@@ -66,13 +66,10 @@ export function ProcessGroupCard(props: IProps) {
         key="stop"
         color="teal"
         floated="right"
-        icon={true}
-        labelPosition="left"
+        icon="stop"
+        content="Stop Group"
         onClick={handleStop}
-      >
-        <Icon name="stop" />
-        Stop Group
-      </Button>
+      />
     ));
     break;
   case "DONE":
@@ -82,13 +79,10 @@ export function ProcessGroupCard(props: IProps) {
         key="start"
         color="teal"
         floated="right"
-        icon={true}
-        labelPosition="left"
+        icon="play"
+        content="Start Group"
         onClick={handleStart}
-      >
-        <Icon name="play" />
-        Start Group
-      </Button>
+      />
     ));
     break;
   }

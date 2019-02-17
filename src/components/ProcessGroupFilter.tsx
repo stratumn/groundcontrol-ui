@@ -22,7 +22,7 @@ export interface IProps {
   onChange: (values: IProps) => any;
 }
 
-const allStatus = ["RUNNING", "DONE", "FAILED"];
+export const allStatus = ["RUNNING", "DONE", "FAILED"];
 
 // Note: we consider undefined status to be the same as all status.
 export default class ProcessGroupFilter extends Component<IProps> {
