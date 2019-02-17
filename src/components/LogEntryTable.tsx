@@ -39,7 +39,7 @@ export function LogEntryTable({ items, onClickSourceFile }: IProps) {
     <LogEntryTableRow
       key={item.id}
       item={item}
-      prevItem={index > 0 ? items[index - 1] : undefined}
+      prevItem={index > 0 ? items[index - 1] : null}
       onClickSourceFile={onClickSourceFile}
     />
   ));

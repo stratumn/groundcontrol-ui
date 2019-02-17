@@ -14,7 +14,7 @@
 
 import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import {
   Responsive,
   Table,
@@ -34,7 +34,7 @@ const dateFormat = "LTS";
 
 export interface IProps {
   item: LogEntryTableRow_item;
-  prevItem?: LogEntryTableRow_prevItem;
+  prevItem: LogEntryTableRow_prevItem | null;
   onClickSourceFile: (values: ILogEntryMessageProps) => any;
 }
 
