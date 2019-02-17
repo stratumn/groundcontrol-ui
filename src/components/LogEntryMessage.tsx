@@ -23,6 +23,14 @@ import { LogEntryMessage_item } from "./__generated__/LogEntryMessage_item.graph
 
 import "./LogEntryMessage.css";
 
+interface IAnchor {
+  href: string;
+}
+
+function isAnchor(el: any): el is IAnchor {
+  return "href" in el;
+}
+
 export interface IProps {
   item: LogEntryMessage_item;
   onClickSourceFile: (values: IProps) => any;
@@ -71,7 +79,7 @@ export function LogEntryMessage(props: IProps) {
   const html = text.replace(source, link);
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
-    if ("href" in event.target ) {
+    if (isAnchor(event.target) && event.target.href === href ) {
       onClickSourceFile({ ...props });
     }
   };
