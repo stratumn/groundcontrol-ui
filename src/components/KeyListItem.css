@@ -11,7 +11,7 @@
 }
 
 .KeyListItem .description code {
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font: var(--mono-font);
   word-break: break-all;
   white-space: pre-wrap;
 }

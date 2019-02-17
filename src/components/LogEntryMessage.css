@@ -4,65 +4,65 @@
 }
 
 .LogEntryMessage .ansi-black {
-  color: #333;
+  color: var(--charcoal);
 }
 
 .LogEntryMessage .ansi-red {
-  color: #db2828;
+  color: var(--red);
 }
 
 .LogEntryMessage .ansi-green {
-  color: #21ba45;
+  color: var(--olive);
 }
 
 .LogEntryMessage .ansi-yellow {
-  color: #fbbd08;
+  color: var(--orange);
 }
 
 .LogEntryMessage .ansi-blue {
-  color: #2185d0;
+  color: var(--blue);
 }
 
 .LogEntryMessage .ansi-magenta {
-  color: #e03997;
+  color: var(--pink);
 }
 
 .LogEntryMessage .ansi-cyan {
-  color: #00b5ad;
+  color: var(--teal);
 }
 
 .LogEntryMessage .ansi-white {
-  color: #fff;
+  color: var(--white);
 }
 
 .LogEntryMessage .ansi-bright-black {
-  background-color: #333;
+  background-color: var(--charcoal);
 }
 
 .LogEntryMessage .ansi-bright-red {
-  background-color: #db2828;
+  background-color: var(--red);
 }
 
 .LogEntryMessage .ansi-bright-green {
-  background-color: #21ba45;
+  background-color: var(--olive);
 }
 
 .LogEntryMessage .ansi-bright-yellow {
-  background-color: #fbbd08;
+  background-color: var(--orange);
 }
 
 .LogEntryMessage .ansi-bright-blue {
-  background-color: #2185d0;
+  background-color: var(--blue);
 }
 
 .LogEntryMessage .ansi-bright-magenta {
-  background-color: #e03997;
+  background-color: var(--pink);
 }
 
 .LogEntryMessage .ansi-bright-cyan {
-  background-color: #00b5ad;
+  background-color: var(--teal);
 }
 
 .LogEntryMessage .ansi-bright-white {
-  background-color: #fff;
+  background-color: var(--white);
 }

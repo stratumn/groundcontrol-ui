@@ -1,10 +1,52 @@
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --white: #fff;
+  --red: #db2828;
+  --orange: #f2711c;
+  --yellow: #fbbd08;
+  --olive: #b5cc18;
+  --green: #21ba45;
+  --teal: #00b5ad;
+  --blue: #2185d0;
+  --violet: #6435c9;
+  --purple: #a333c8;
+  --pink: #e03997;
+  --brown: #a5673f;
+  --grey: #767676;
+  --charcoal: #222;
+  --black: #1b1c1d;
+
+  --background-color: #f5f5f5;
+  --primary-color: var(--teal);
+  --link-color: var(--teal);
+  --success-color: var(--olive);
+  --warning-color: var(--orange);
+  --error-color: var(--red);
+
+  --mono-font: .9em "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 body {
-  background-color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+}
+
+a {
+  color: var(--teal);
+}
+
+a:hover {
+  color: var(--teal);
+  text-decoration: underline;
+}
+
+a.header:hover {
+  color: var(--teal) !important;
+  text-decoration: none;
+}
+
+code {
+  font: var(--mono-font);
 }
 
 .ui.menu, .ui.segment, .ui.card {
@@ -12,23 +54,20 @@ body {
 }
 
 .ui.inverted.table {
-  background-color: #222;
+  background-color: var(--charcoal);
 }
 
-a {
-  color: #00B5AD;
+.ui.inverted.table td.positive {
+  background: inherit !important;
+  color: var(--success-color) !important;
 }
 
-a:hover {
-  color: #00B5AD;
-  text-decoration: underline;
+.ui.inverted.table td.warning {
+  background: inherit !important;
+  color: var(--warning-color) !important;
 }
 
-a.header:hover {
-  color: #00B5AD !important;
-  text-decoration: none;
-}
-
-code {
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+.ui.inverted.table td.error {
+  background: inherit !important;
+  color: var(--error-color) !important;
 }

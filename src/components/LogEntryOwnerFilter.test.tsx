@@ -51,7 +51,7 @@ describe("<LogEntryOwnerFilter />", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("triggers onChange the dropdown value is changed", () => {
+  it("triggers onChange when the dropdown value is changed", () => {
     const wrapper = shallow(<LogEntryOwnerFilter {...props} />);
     wrapper.find("Dropdown").simulate("change", null, { value: "id1" });
     expect(props.onChange).toBeCalledTimes(1);
