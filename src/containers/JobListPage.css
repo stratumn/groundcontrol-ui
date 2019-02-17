@@ -1,0 +1,11 @@
+.JobListPage .ui.table {
+  border-radius: 0;
+}
+
+.JobListPage .JobFilter {
+  margin: 1.2em 1em .8em;
+}
+
+.JobListPage .ui.container > button {
+  margin: 0 1em;
+}

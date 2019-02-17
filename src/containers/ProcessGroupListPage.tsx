@@ -51,7 +51,7 @@ export class ProcessGroupListPage extends Component<IProps> {
     return (
       <Page
         header="Processes"
-        subheader="Processes may be launched by tasks and run in the background"
+        subheader="Processes may be launched by tasks and run in the background."
         icon="list"
       >
         <ProcessGroupFilter

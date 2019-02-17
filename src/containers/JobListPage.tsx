@@ -29,6 +29,8 @@ import { commit as stopJob } from "../mutations/stopJob";
 
 import { subscribe } from "../subscriptions/jobUpserted";
 
+import "./JobListPage.css";
+
 export interface IProps {
   relay: RelayPaginationProp;
   router: Router;
@@ -50,6 +52,8 @@ export class JobListPage extends Component<IProps> {
         header="Jobs"
         subheader="Jobs are short lived tasks such as cloning a repository."
         icon="tasks"
+        className="JobListPage"
+        fullWidth={true}
       >
         <JobFilter
           status={this.getStatus()}

@@ -24,6 +24,7 @@ exports[`<LogEntryTable /> renders items correctly 1`] = `
       }
       key="id1"
       onClickSourceFile={[MockFunction]}
+      prevItem={null}
     />
     <ForwardRef(Relay(LogEntryTableRow))
       item={
