@@ -16,7 +16,7 @@ import { shallow } from "enzyme";
 import React from "react";
 import { mocked } from "ts-jest/utils";
 
-import {  mockQueryPropAttrs, mockRelayProp } from "../testing/relay";
+import { mockQueryPropAttrs } from "../testing/relay";
 
 import { GitSourceListItem } from "./GitSourceListItem";
 
@@ -28,7 +28,6 @@ const props = {
     repository: "repository",
   },
   onDelete: jest.fn(),
-  relay: mockRelayProp(),
 };
 
 beforeEach(() => {

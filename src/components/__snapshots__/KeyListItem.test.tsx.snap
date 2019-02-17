@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<KeyListItem /> renders correctly 1`] = `
+<ListItem
+  className="KeyListItem"
+>
+  <ListContent>
+    <ListHeader>
+      name
+    </ListHeader>
+    <ListDescription>
+      <code>
+        value
+      </code>
+    </ListDescription>
+    <Button
+      as="button"
+      color="teal"
+      content="Edit"
+      icon="edit"
+      onClick={[Function]}
+      size="small"
+    />
+    <Button
+      as="button"
+      color="pink"
+      icon="delete"
+      onClick={[Function]}
+      size="small"
+    />
+  </ListContent>
+</ListItem>
+`;

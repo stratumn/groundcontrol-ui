@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LogEntryOwnerFilter /> renders items correctly 1`] = `
+<Dropdown
+  additionLabel="Add "
+  additionPosition="top"
+  className="LogEntryOwnerFilter"
+  clearable={true}
+  closeOnBlur={true}
+  deburr={false}
+  icon="dropdown"
+  minCharacters={1}
+  noResultsMessage="No results found."
+  onChange={[Function]}
+  openOnFocus={true}
+  options={
+    Array [
+      Object {
+        "key": "id1",
+        "text": "workspaceSlug1/projectSlug1",
+        "value": "id1",
+      },
+      Object {
+        "key": "id2",
+        "text": "workspaceSlug2/projectSlug2",
+        "value": "id2",
+      },
+    ]
+  }
+  placeholder="Choose Project..."
+  renderLabel={[Function]}
+  search={true}
+  searchInput="text"
+  selectOnBlur={true}
+  selectOnNavigation={true}
+  selection={true}
+  value="id2"
+  wrapSelection={true}
+/>
+`;

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LogEntryMessage /> renders correctly with a source file 1`] = `
+<div
+  className="LogEntryMessage"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "message (<a href=\\"file:///path/to/message.ts:10\\">message.ts:10</a>)",
+    }
+  }
+  onClick={[Function]}
+/>
+`;
+
+exports[`<LogEntryMessage /> renders correctly without a source file 1`] = `
+<div
+  className="LogEntryMessage"
+>
+  <Ansi
+    linkify={true}
+    useClasses={true}
+  >
+    message
+  </Ansi>
+</div>
+`;

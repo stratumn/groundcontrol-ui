@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MenuSecondaryItems /> renders correctly 1`] = `
+<Fragment>
+  <Link
+    Component={[Function]}
+    activePropName="active"
+    to="/jobs"
+  >
+    Jobs
+    <Label
+      color="blue"
+      size="tiny"
+    >
+      3
+    </Label>
+  </Link>
+  <Link
+    Component={[Function]}
+    activePropName="active"
+    to="/processes"
+  >
+    Processes
+    <Label
+      color="blue"
+      size="tiny"
+    >
+      4
+    </Label>
+  </Link>
+  <Link
+    Component={[Function]}
+    activePropName="active"
+    to="/logs"
+  >
+    Logs
+    <Label
+      color="pink"
+      size="tiny"
+    >
+      3
+    </Label>
+  </Link>
+  <MenuItem
+    href="http://localhost:3333/graphql"
+  >
+    GraphQL
+  </MenuItem>
+</Fragment>
+`;

@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menu /> renders correctly 1`] = `
+<Fragment>
+  <Menu
+    color="teal"
+    fixed="top"
+    inverted={true}
+    size="large"
+  >
+    <Container
+      fluid={true}
+    >
+      <Responsive
+        as={[Function]}
+        getWidth={[Function]}
+        icon="bars"
+        maxWidth={767}
+        onClick={[Function]}
+      />
+      <Responsive
+        as={[Function]}
+        getWidth={[Function]}
+        minWidth={768}
+      />
+      <Responsive
+        as={[Function]}
+        getWidth={[Function]}
+        minWidth={768}
+        position="right"
+      >
+        <ForwardRef(Relay(MenuSecondaryItems))
+          jobMetrics={
+            Object {
+              " $fragmentRefs": null,
+              " $refType": null,
+            }
+          }
+          logMetrics={
+            Object {
+              " $fragmentRefs": null,
+              " $refType": null,
+            }
+          }
+          processMetrics={
+            Object {
+              " $fragmentRefs": null,
+              " $refType": null,
+            }
+          }
+        />
+      </Responsive>
+    </Container>
+  </Menu>
+  <Responsive
+    as={Symbol(react.fragment)}
+    getWidth={[Function]}
+    maxWidth={767}
+  >
+    <Sidebar
+      animation="push"
+      as={[Function]}
+      direction="left"
+      duration={500}
+      onHide={[Function]}
+      size="large"
+      vertical={true}
+      visible={true}
+    >
+      <MenuPrimaryItems />
+      <ForwardRef(Relay(MenuSecondaryItems))
+        jobMetrics={
+          Object {
+            " $fragmentRefs": null,
+            " $refType": null,
+          }
+        }
+        logMetrics={
+          Object {
+            " $fragmentRefs": null,
+            " $refType": null,
+          }
+        }
+        processMetrics={
+          Object {
+            " $fragmentRefs": null,
+            " $refType": null,
+          }
+        }
+      />
+    </Sidebar>
+  </Responsive>
+</Fragment>
+`;

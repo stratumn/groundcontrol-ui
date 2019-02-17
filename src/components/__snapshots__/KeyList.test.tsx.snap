@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<KeyList /> renders correctly without items 1`] = `
+<p>
+  There are no keys at this time.
+</p>
+`;
+
+exports[`<KeyList /> renders items correctly 1`] = `
+<List
+  divided={true}
+>
+  <ForwardRef(Relay(KeyListItem))
+    item={
+      Object {
+        " $fragmentRefs": null,
+        " $refType": null,
+        "id": "id1",
+        "name": "name1",
+        "value": "value1",
+      }
+    }
+    key="id1"
+    onDelete={[MockFunction]}
+    onEdit={[MockFunction]}
+  />
+  <ForwardRef(Relay(KeyListItem))
+    item={
+      Object {
+        " $fragmentRefs": null,
+        " $refType": null,
+        "id": "id2",
+        "name": "name2",
+        "value": "value2",
+      }
+    }
+    key="id2"
+    onDelete={[MockFunction]}
+    onEdit={[MockFunction]}
+  />
+</List>
+`;

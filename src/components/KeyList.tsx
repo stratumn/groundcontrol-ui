@@ -51,7 +51,6 @@ export function KeyList({ items, onEdit, onDelete }: IProps) {
 export default createFragmentContainer(KeyList, graphql`
   fragment KeyList_items on Key
     @relay(plural: true) {
-    __typename
     id
     name
     value

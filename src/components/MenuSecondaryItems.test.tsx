@@ -17,22 +17,28 @@ import React from "react";
 
 import { mockQueryPropAttrs } from "../testing/relay";
 
-import { CommitFeed } from "./CommitFeed";
+import { MenuSecondaryItems } from "./MenuSecondaryItems";
 
 const props = {
-  items: [{
+  jobMetrics: {
     ...mockQueryPropAttrs(),
-    id: "id1",
-  }, {
+    queued: 1,
+    running: 2,
+  },
+  logMetrics: {
     ...mockQueryPropAttrs(),
-    id: "id2",
-  }],
+    error: 3,
+  },
+  processMetrics: {
+    ...mockQueryPropAttrs(),
+    running: 4,
+  },
 };
 
-describe("<CommitFeed />", () => {
+describe("<MenuSecondaryItems />", () => {
 
-  it("renders items correctly", () => {
-    const wrapper = shallow(<CommitFeed {...props} />);
+  it("renders correctly", () => {
+    const wrapper = shallow(<MenuSecondaryItems {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 

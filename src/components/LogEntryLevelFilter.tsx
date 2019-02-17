@@ -22,7 +22,7 @@ export interface IProps {
   onChange: (values: IProps) => any;
 }
 
-const allLevel = ["DEBUG", "INFO", "WARNING", "ERROR"];
+export const allLevel = ["DEBUG", "INFO", "WARNING", "ERROR"];
 
 // Note: we consider undefined level to be the same as all level.
 export default class LogEntryLevelFilter extends Component<IProps> {

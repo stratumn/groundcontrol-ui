@@ -14,26 +14,48 @@
 
 import { shallow } from "enzyme";
 import React from "react";
+import { mocked } from "ts-jest/utils";
 
 import { mockQueryPropAttrs } from "../testing/relay";
 
-import { CommitFeed } from "./CommitFeed";
+import { LogEntryOwnerFilter } from "./LogEntryOwnerFilter";
 
 const props = {
   items: [{
     ...mockQueryPropAttrs(),
     id: "id1",
+    slug: "projectSlug1",
+    workspace: {
+      slug: "workspaceSlug1",
+    },
   }, {
     ...mockQueryPropAttrs(),
     id: "id2",
+    slug: "projectSlug2",
+    workspace: {
+      slug: "workspaceSlug2",
+    },
   }],
+  onChange: jest.fn(),
+  ownerId: "id2",
 };
 
-describe("<CommitFeed />", () => {
+beforeEach(() => {
+  mocked(props.onChange).mockClear();
+});
+
+describe("<LogEntryOwnerFilter />", () => {
 
   it("renders items correctly", () => {
-    const wrapper = shallow(<CommitFeed {...props} />);
+    const wrapper = shallow(<LogEntryOwnerFilter {...props} />);
     expect(wrapper).toMatchSnapshot();
+  });
+
+  it("triggers onChange the dropdown value is changed", () => {
+    const wrapper = shallow(<LogEntryOwnerFilter {...props} />);
+    wrapper.find("Dropdown").simulate("change", null, { value: "id1" });
+    expect(props.onChange).toBeCalledTimes(1);
+    expect(props.onChange).toBeCalledWith({...props, ownerId: "id1"});
   });
 
 });

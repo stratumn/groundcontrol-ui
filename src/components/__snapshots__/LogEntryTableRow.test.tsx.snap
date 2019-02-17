@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LogEntryTableRow /> renders correctly 1`] = `
+<TableRow
+  as="tr"
+  cellAs="td"
+  className="LogEntryTableRow"
+  verticalAlign="top"
+>
+  <Responsive
+    as={[Function]}
+    className="LogEntryTableRowCreatedAt"
+    collapsing={true}
+    getWidth={[Function]}
+    minWidth={992}
+  >
+    <CreatedAt
+      item={
+        Object {
+          " $fragmentRefs": null,
+          " $refType": null,
+          "createdAt": "createdAt",
+          "level": "INFO",
+          "owner": Object {
+            "__typename": "%other",
+            "id": "otherId",
+          },
+        }
+      }
+      onClickSourceFile={[MockFunction]}
+    />
+  </Responsive>
+  <TableCell
+    as="td"
+    collapsing={true}
+  >
+    <Owner
+      item={
+        Object {
+          " $fragmentRefs": null,
+          " $refType": null,
+          "createdAt": "createdAt",
+          "level": "INFO",
+          "owner": Object {
+            "__typename": "%other",
+            "id": "otherId",
+          },
+        }
+      }
+      onClickSourceFile={[MockFunction]}
+    />
+  </TableCell>
+  <TableCell
+    as="td"
+    className="LogEntryTableRowLevel"
+    collapsing={true}
+    error={false}
+    warning={false}
+  >
+    INFO
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <ForwardRef(Relay(LogEntryMessage))
+      item={
+        Object {
+          " $fragmentRefs": null,
+          " $refType": null,
+          "createdAt": "createdAt",
+          "level": "INFO",
+          "owner": Object {
+            "__typename": "%other",
+            "id": "otherId",
+          },
+        }
+      }
+      onClickSourceFile={[MockFunction]}
+    />
+  </TableCell>
+</TableRow>
+`;
+
+exports[`<LogEntryTableRow /> renders correctly when the owner is a project 1`] = `
+<TableRow
+  as="tr"
+  cellAs="td"
+  className="LogEntryTableRow"
+  verticalAlign="top"
+>
+  <Responsive
+    as={[Function]}
+    className="LogEntryTableRowCreatedAt"
+    collapsing={true}
+    getWidth={[Function]}
+    minWidth={992}
+  >
+    <CreatedAt
+      item={
+        Object {
+          " $fragmentRefs": null,
+          " $refType": null,
+          "createdAt": "createdAt",
+          "level": "INFO",
+          "owner": Object {
+            "__typename": "Project",
+            "id": "projectId",
+            "slug": "projectSlug",
+            "workspace": Object {
+              "slug": "workspaceSlug",
+            },
+          },
+        }
+      }
+      onClickSourceFile={[MockFunction]}
+    />
+  </Responsive>
+  <TableCell
+    as="td"
+    collapsing={true}
+  >
+    <Owner
+      item={
+        Object {
+          " $fragmentRefs": null,
+          " $refType": null,
+          "createdAt": "createdAt",
+          "level": "INFO",
+          "owner": Object {
+            "__typename": "Project",
+            "id": "projectId",
+            "slug": "projectSlug",
+            "workspace": Object {
+              "slug": "workspaceSlug",
+            },
+          },
+        }
+      }
+      onClickSourceFile={[MockFunction]}
+    />
+  </TableCell>
+  <TableCell
+    as="td"
+    className="LogEntryTableRowLevel"
+    collapsing={true}
+    error={false}
+    warning={false}
+  >
+    INFO
+  </TableCell>
+  <TableCell
+    as="td"
+  >
+    <ForwardRef(Relay(LogEntryMessage))
+      item={
+        Object {
+          " $fragmentRefs": null,
+          " $refType": null,
+          "createdAt": "createdAt",
+          "level": "INFO",
+          "owner": Object {
+            "__typename": "Project",
+            "id": "projectId",
+            "slug": "projectSlug",
+            "workspace": Object {
+              "slug": "workspaceSlug",
+            },
+          },
+        }
+      }
+      onClickSourceFile={[MockFunction]}
+    />
+  </TableCell>
+</TableRow>
+`;

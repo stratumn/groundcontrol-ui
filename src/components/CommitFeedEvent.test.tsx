@@ -15,7 +15,7 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import {  mockQueryPropAttrs, mockRelayProp } from "../testing/relay";
+import { mockQueryPropAttrs } from "../testing/relay";
 
 import { CommitFeedEvent } from "./CommitFeedEvent";
 
@@ -26,7 +26,6 @@ const props = {
     date: "date",
     headline: "headline",
   },
-  relay: mockRelayProp(),
 };
 
 describe("<CommitFeedEvent />", () => {

@@ -17,7 +17,7 @@ import React from "react";
 
 import { mockQueryPropAttrs } from "../testing/relay";
 
-import { CommitFeed } from "./CommitFeed";
+import { LogEntryTable } from "./LogEntryTable";
 
 const props = {
   items: [{
@@ -27,12 +27,18 @@ const props = {
     ...mockQueryPropAttrs(),
     id: "id2",
   }],
+  onClickSourceFile: jest.fn(),
 };
 
-describe("<CommitFeed />", () => {
+describe("<LogEntryTable />", () => {
 
   it("renders items correctly", () => {
-    const wrapper = shallow(<CommitFeed {...props} />);
+    const wrapper = shallow(<LogEntryTable {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("renders correctly without items", () => {
+    const wrapper = shallow(<LogEntryTable {...props} items={[]} />);
     expect(wrapper).toMatchSnapshot();
   });
 

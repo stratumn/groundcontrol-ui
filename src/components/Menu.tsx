@@ -81,7 +81,10 @@ export function Menu(props: IProps) {
           </Responsive>
         </Container>
       </SemanticMenu>
-      <Responsive maxWidth={767}>
+      <Responsive
+        as={Fragment}
+        maxWidth={767}
+      >
         <Sidebar
           as={SemanticMenu}
           vertical={true}

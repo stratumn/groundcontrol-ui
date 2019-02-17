@@ -15,7 +15,7 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import {  mockQueryPropAttrs } from "../testing/relay";
+import { mockQueryPropAttrs } from "../testing/relay";
 
 import { JobTable } from "./JobTable";
 

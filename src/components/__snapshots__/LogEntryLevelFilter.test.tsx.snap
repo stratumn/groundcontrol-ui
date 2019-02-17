@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LogEntryLevelFilter /> renders correctly 1`] = `
+<div
+  className="LogEntryLevelFilter"
+>
+  <Radio
+    checked={false}
+    key="0"
+    label="DEBUG"
+    onClick={[Function]}
+    type="radio"
+  />
+  <Radio
+    checked={true}
+    key="1"
+    label="INFO"
+    onClick={[Function]}
+    type="radio"
+  />
+  <Radio
+    checked={true}
+    key="2"
+    label="WARNING"
+    onClick={[Function]}
+    type="radio"
+  />
+  <Radio
+    checked={false}
+    key="3"
+    label="ERROR"
+    onClick={[Function]}
+    type="radio"
+  />
+</div>
+`;

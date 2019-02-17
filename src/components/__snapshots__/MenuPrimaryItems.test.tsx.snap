@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MenuPrimaryItems /> renders correctly 1`] = `
+<Fragment>
+  <Link
+    Component={[Function]}
+    activePropName="active"
+    to="/workspaces"
+  >
+    Workspaces
+  </Link>
+  <Link
+    Component={[Function]}
+    activePropName="active"
+    to="/sources"
+  >
+    Sources
+  </Link>
+  <Link
+    Component={[Function]}
+    activePropName="active"
+    to="/keys"
+  >
+    Keys
+  </Link>
+</Fragment>
+`;

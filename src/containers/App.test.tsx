@@ -17,7 +17,7 @@ import { Router } from "found";
 import React from "react";
 import { mocked } from "ts-jest/utils";
 
-import {  mockQueryPropAttrs, mockRelayProp } from "../testing/relay";
+import { mockQueryPropAttrs, mockRelayProp } from "../testing/relay";
 
 import { subscribe as subscribeJobMetrics } from "../subscriptions/jobMetricsUpdated";
 import { subscribe as subscribeLogMetrics } from "../subscriptions/logMetricsUpdated";

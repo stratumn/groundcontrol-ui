@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LogEntryTable /> renders correctly without items 1`] = `
+<Segment>
+  There are no log entries at this time.
+</Segment>
+`;
+
+exports[`<LogEntryTable /> renders items correctly 1`] = `
+<Table
+  as="table"
+  inverted={true}
+>
+  <TableBody
+    as="tbody"
+  >
+    <ForwardRef(Relay(LogEntryTableRow))
+      item={
+        Object {
+          " $fragmentRefs": null,
+          " $refType": null,
+          "id": "id1",
+        }
+      }
+      key="id1"
+      onClickSourceFile={[MockFunction]}
+    />
+    <ForwardRef(Relay(LogEntryTableRow))
+      item={
+        Object {
+          " $fragmentRefs": null,
+          " $refType": null,
+          "id": "id2",
+        }
+      }
+      key="id2"
+      onClickSourceFile={[MockFunction]}
+      prevItem={
+        Object {
+          " $fragmentRefs": null,
+          " $refType": null,
+          "id": "id1",
+        }
+      }
+    />
+  </TableBody>
+</Table>
+`;

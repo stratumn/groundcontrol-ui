@@ -12,34 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Link } from "found";
-import React, { Fragment } from "react";
-import { Menu } from "semantic-ui-react";
+import { shallow } from "enzyme";
+import React from "react";
 
-const MenuPrimaryItems = () => (
-  <Fragment>
-    <Link
-      to="/workspaces"
-      Component={Menu.Item}
-      activePropName="active"
-    >
-      Workspaces
-    </Link>
-    <Link
-      to="/sources"
-      Component={Menu.Item}
-      activePropName="active"
-    >
-      Sources
-    </Link>
-    <Link
-      to="/keys"
-      Component={Menu.Item}
-      activePropName="active"
-    >
-      Keys
-    </Link>
-  </Fragment>
-);
+import Loading from "./Loading";
 
-export default MenuPrimaryItems;
+describe("<Loading />", () => {
+
+  it("renders correctly", () => {
+    const wrapper = shallow(<Loading />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+});

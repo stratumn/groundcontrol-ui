@@ -18,7 +18,7 @@ import { mocked } from "ts-jest/utils";
 
 import { JobTableRow_item } from "./__generated__/JobTableRow_item.graphql";
 
-import {  mockQueryPropAttrs } from "../testing/relay";
+import { mockQueryPropAttrs } from "../testing/relay";
 
 import { IProps, JobTableRow } from "./JobTableRow";
 
@@ -114,7 +114,7 @@ describe("<JobTableRow />", () => {
     expect(wrapper.find("[positive=true]")).toHaveLength(1);
   });
 
-  it("sets the positive attribute of the status cell to true when the job is running", () => {
+  it("sets the warning attribute of the status cell to true when the job is running", () => {
     const wrapper = shallow(
       <JobTableRow
         {...{...otherProps, item: { ...other, status: "RUNNING" } }}
@@ -123,7 +123,7 @@ describe("<JobTableRow />", () => {
     expect(wrapper.find("[warning=true]")).toHaveLength(1);
   });
 
-  it("sets the positive attribute of the status cell to true when the job failed", () => {
+  it("sets the error attribute of the status cell to true when the job failed", () => {
     const wrapper = shallow(
       <JobTableRow
         {...{...otherProps, item: { ...other, status: "FAILED" } }}

@@ -18,33 +18,43 @@ import { mocked } from "ts-jest/utils";
 
 import { mockQueryPropAttrs } from "../testing/relay";
 
-import { DirectorySourceListItem } from "./DirectorySourceListItem";
+import { KeyListItem } from "./KeyListItem";
 
 const props = {
   item: {
     ...mockQueryPropAttrs(),
-    directory: "directory",
     id: "id",
+    name: "name",
+    value: "value",
   },
   onDelete: jest.fn(),
+  onEdit: jest.fn(),
 };
 
 beforeEach(() => {
   mocked(props.onDelete).mockClear();
+  mocked(props.onEdit).mockClear();
 });
 
-describe("<DirectorySourceListItem />", () => {
+describe("<KeyListItem />", () => {
 
   it("renders correctly", () => {
-    const wrapper = shallow(<DirectorySourceListItem {...props} />);
+    const wrapper = shallow(<KeyListItem {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it("triggers onDelete when the delete button is clicked", () => {
-    const wrapper = shallow(<DirectorySourceListItem {...props} />);
+    const wrapper = shallow(<KeyListItem {...props} />);
     wrapper.find("Button[icon='delete']").simulate("click");
     expect(props.onDelete).toBeCalledTimes(1);
     expect(props.onDelete).toBeCalledWith(props);
+  });
+
+  it("triggers onEdit when the edit button is clicked", () => {
+    const wrapper = shallow(<KeyListItem {...props} />);
+    wrapper.find("Button[icon='edit']").simulate("click");
+    expect(props.onEdit).toBeCalledTimes(1);
+    expect(props.onEdit).toBeCalledWith(props);
   });
 
 });

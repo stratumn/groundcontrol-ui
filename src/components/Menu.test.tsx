@@ -17,22 +17,30 @@ import React from "react";
 
 import { mockQueryPropAttrs } from "../testing/relay";
 
-import { CommitFeed } from "./CommitFeed";
+import { Menu } from "./Menu";
 
 const props = {
-  items: [{
+  onHideSidebar: jest.fn(),
+  onShowSidebar: jest.fn(),
+  showSidebar: true,
+  system: {
     ...mockQueryPropAttrs(),
-    id: "id1",
-  }, {
-    ...mockQueryPropAttrs(),
-    id: "id2",
-  }],
+    jobMetrics: {
+      ...mockQueryPropAttrs(),
+    },
+    logMetrics: {
+      ...mockQueryPropAttrs(),
+    },
+    processMetrics: {
+      ...mockQueryPropAttrs(),
+    },
+  },
 };
 
-describe("<CommitFeed />", () => {
+describe("<Menu />", () => {
 
-  it("renders items correctly", () => {
-    const wrapper = shallow(<CommitFeed {...props} />);
+  it("renders correctly", () => {
+    const wrapper = shallow(<Menu {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
