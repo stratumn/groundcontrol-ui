@@ -90,8 +90,12 @@ const CreatedAt = ({ item: { createdAt } }: IProps) => (
 );
 
 const Owner = ({ item: { owner } }: IProps) => {
-  if (!owner || owner.__typename !== "Project") {
+  if (!owner) {
     return null;
+  }
+
+  if (owner.__typename !== "Project") {
+    return <Fragment>{owner.__typename}</Fragment>;
   }
 
   const workspaceSlug = owner.workspace!.slug;
