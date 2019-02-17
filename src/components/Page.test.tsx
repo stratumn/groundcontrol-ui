@@ -32,6 +32,34 @@ describe("<Page />", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it("renders correctly with a CSS class", () => {
+    const wrapper = shallow(
+      <Page
+        header="header"
+        subheader="subheader"
+        icon="rocket"
+        className="className"
+      >
+        <p>Hello, World!</p>
+      </Page>,
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("renders correctly without a container", () => {
+    const wrapper = shallow(
+      <Page
+        header="header"
+        subheader="subheader"
+        icon="rocket"
+        container={false}
+      >
+        <p>Hello, World!</p>
+      </Page>,
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it("renders children when passed in", () => {
     const wrapper = shallow(
       <Page

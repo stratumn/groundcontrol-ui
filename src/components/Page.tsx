@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Container,
   Header,
@@ -29,6 +29,7 @@ export interface IProps {
   header: string;
   subheader: string;
   children: React.ReactNode;
+  container?: boolean;
 }
 
 const Page = ({
@@ -37,19 +38,31 @@ const Page = ({
   header,
   subheader,
   children,
-}: IProps) => (
-  <div className={`Page ${className || ""}`}>
-    <Header as="h1">
-      <Icon name={icon} />
-      <Header.Content>
-        {header}
-        <Header.Subheader>{subheader}</Header.Subheader>
-      </Header.Content>
-    </Header>
-    <Container fluid={true}>
-      {children}
-    </Container>
-  </div>
-);
+  container,
+}: IProps) => {
+  let content: JSX.Element;
+
+  if (container === false) {
+    content = <Fragment>{children}</Fragment>;
+  } else {
+    content = (
+      <Container fluid={true}>
+        {children}
+      </Container>
+    );
+  }
+  return (
+    <div className={`Page ${className || ""}`}>
+      <Header as="h1">
+        <Icon name={icon} />
+        <Header.Content>
+          {header}
+          <Header.Subheader>{subheader}</Header.Subheader>
+        </Header.Content>
+      </Header>
+      {content}
+    </div>
+  );
+};
 
 export default Page;
