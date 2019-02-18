@@ -28,6 +28,7 @@ exports[`<LogEntryTableRow /> renders correctly 1`] = `
         }
       }
       onClickSourceFile={[MockFunction]}
+      prevItem={null}
     />
   </Responsive>
   <TableCell
@@ -48,6 +49,7 @@ exports[`<LogEntryTableRow /> renders correctly 1`] = `
         }
       }
       onClickSourceFile={[MockFunction]}
+      prevItem={null}
     />
   </TableCell>
   <TableCell
@@ -113,6 +115,7 @@ exports[`<LogEntryTableRow /> renders correctly when the owner is a project 1`] 
         }
       }
       onClickSourceFile={[MockFunction]}
+      prevItem={null}
     />
   </Responsive>
   <TableCell
@@ -137,6 +140,7 @@ exports[`<LogEntryTableRow /> renders correctly when the owner is a project 1`] 
         }
       }
       onClickSourceFile={[MockFunction]}
+      prevItem={null}
     />
   </TableCell>
   <TableCell

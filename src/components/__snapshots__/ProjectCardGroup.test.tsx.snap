@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ProjectCardGroup /> renders items correctly 1`] = `
+<CardGroup
+  itemsPerRow={3}
+>
+  <ForwardRef(Relay(ProjectCard))
+    item={
+      Object {
+        " $fragmentRefs": null,
+        " $refType": null,
+        "id": "id1",
+      }
+    }
+    key="id1"
+    onClone={[MockFunction]}
+    onPull={[MockFunction]}
+  />
+  <ForwardRef(Relay(ProjectCard))
+    item={
+      Object {
+        " $fragmentRefs": null,
+        " $refType": null,
+        "id": "id2",
+      }
+    }
+    key="id2"
+    onClone={[MockFunction]}
+    onPull={[MockFunction]}
+  />
+</CardGroup>
+`;

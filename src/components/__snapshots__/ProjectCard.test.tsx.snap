@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ProjectCard /> renders correctly 1`] = `
+<Card
+  className="ProjectCard"
+  color="grey"
+>
+  <CardContent>
+    <CardHeader>
+      <RepositoryShortName
+        repository="repository"
+      />
+    </CardHeader>
+    <Label
+      size="small"
+    >
+      branch
+    </Label>
+    <CardDescription>
+      description
+    </CardDescription>
+    <Divider
+      horizontal={true}
+    >
+      <Header
+        as="h6"
+      >
+        Latest Commits
+      </Header>
+    </Divider>
+    <ForwardRef(Relay(CommitFeed))
+      items={
+        Array [
+          Object {
+            " $fragmentRefs": null,
+            " $refType": null,
+          },
+          Object {
+            " $fragmentRefs": null,
+            " $refType": null,
+          },
+        ]
+      }
+    />
+  </CardContent>
+  <CardContent
+    extra={true}
+  >
+    <div
+      className="ui three buttons"
+    >
+      <Button
+        as="button"
+        color="teal"
+        content="Clone"
+        disabled={false}
+        icon="clone"
+        key="clone"
+        loading={false}
+        onClick={[Function]}
+      />
+    </div>
+  </CardContent>
+  <Dimmer
+    active={false}
+    inverted={true}
+  >
+    <Loader
+      content="Loading project commits..."
+    />
+  </Dimmer>
+</Card>
+`;

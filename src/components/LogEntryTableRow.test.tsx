@@ -58,11 +58,13 @@ const prevItem: LogEntryTableRow_prevItem = {
 const otherProps = {
   item: other,
   onClickSourceFile: jest.fn(),
+  prevItem: null,
 };
 
 const projectProps = {
   item: project,
   onClickSourceFile: jest.fn(),
+  prevItem: null,
 };
 
 const similarProps = {
