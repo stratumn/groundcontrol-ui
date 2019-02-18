@@ -30,12 +30,13 @@ export interface IProps {
 }
 
 export function ProcessTable(props: IProps) {
-  const { items } = props;
+  const { items, onStartProcess, onStopProcess } = props;
   const rows = items.map((item) => (
     <ProcessTableRow
-      {...props}
       key={item.id}
       item={item}
+      onStartProcess={onStartProcess}
+      onStopProcess={onStopProcess}
     />
   ));
 

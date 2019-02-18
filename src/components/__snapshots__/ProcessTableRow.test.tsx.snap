@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ProcessTableRow /> renders correctly 1`] = `
+<TableRow
+  as="tr"
+  cellAs="td"
+  className="ProcessTableRow"
+>
+  <TableCell
+    as="td"
+    collapsing={true}
+  >
+    <RepositoryShortName
+      repository="repository"
+    />
+  </TableCell>
+  <TableCell
+    as="td"
+    className="ProcessTableRowCommand"
+  >
+    command
+  </TableCell>
+  <TableCell
+    as="td"
+    collapsing={true}
+    error={false}
+    positive={false}
+    warning={true}
+  >
+    RUNNING
+  </TableCell>
+  <TableCell
+    as="td"
+    className="ProcessTableRowActions"
+    collapsing={true}
+  >
+    <Button
+      as="button"
+      compact={true}
+      content="Stop"
+      icon="stop"
+      key="stop"
+      onClick={[Function]}
+      size="mini"
+    />
+  </TableCell>
+</TableRow>
+`;

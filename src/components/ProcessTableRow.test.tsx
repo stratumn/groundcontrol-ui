@@ -16,101 +16,95 @@ import { shallow } from "enzyme";
 import React from "react";
 import { mocked } from "ts-jest/utils";
 
-import { ProcessGroupCard_item } from "./__generated__/ProcessGroupCard_item.graphql";
+import { ProcessTableRow_item } from "./__generated__/ProcessTableRow_item.graphql";
 
 import { mockQueryPropAttrs } from "../testing/relay";
 
-import { IProps, ProcessGroupCard } from "./ProcessGroupCard";
+import { IProps, ProcessTableRow } from "./ProcessTableRow";
 
-const item: ProcessGroupCard_item = {
+jest.mock("./RepositoryShortName", () => "RepositoryShortName");
+
+const item: ProcessTableRow_item = {
   ...mockQueryPropAttrs(),
-  createdAt: "createdAt",
+  command: "command",
   id: "id",
-  processes: {
-    edges: [{
-      node: {
-        ...mockQueryPropAttrs(),
-      },
-    }, {
-      node: {
-        ...mockQueryPropAttrs(),
-      },
-    }],
+  project: {
+    repository: "repository",
   },
   status: "RUNNING",
-  task: {
-    name: "taskName",
-    workspace: {
-      name: "workspaceName",
-      slug: "workspaceSlug",
-    },
-  },
 };
 
 const props = {
   item,
-  onStartGroup: jest.fn(),
   onStartProcess: jest.fn(),
-  onStopGroup: jest.fn(),
   onStopProcess: jest.fn(),
 };
 
 beforeEach(() => {
-  mocked(props.onStartGroup).mockClear();
-  mocked(props.onStopGroup).mockClear();
+  mocked(props.onStartProcess).mockClear();
+  mocked(props.onStopProcess).mockClear();
 });
 
-describe("<ProcessGroupCard />", () => {
+describe("<ProcessTableRow />", () => {
 
   it("renders correctly", () => {
-    const wrapper = shallow(<ProcessGroupCard {...props} />);
+    const wrapper = shallow(<ProcessTableRow {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("shows a stop group button if the process group is running", () => {
+  it("shows a stop button if the process is running", () => {
     const wrapper = shallow(
-      <ProcessGroupCard
+      <ProcessTableRow
         {...{...props, item: { ...item, status: "RUNNING" } }}
       />,
     );
     expect(wrapper.find("Button[icon='stop']")).toHaveLength(1);
   });
 
-  it("shows a start group button if the process group is done", () => {
+  it("shows a start button if the process is done", () => {
     const wrapper = shallow(
-      <ProcessGroupCard
+      <ProcessTableRow
         {...{...props, item: { ...item, status: "DONE" } }}
       />,
     );
     expect(wrapper.find("Button[icon='play']")).toHaveLength(1);
   });
 
-  it("shows a start group button if the process group failed", () => {
+  it("shows a start button if the process failed", () => {
     const wrapper = shallow(
-      <ProcessGroupCard
+      <ProcessTableRow
         {...{...props, item: { ...item, status: "FAILED" } }}
       />,
     );
     expect(wrapper.find("Button[icon='play']")).toHaveLength(1);
   });
 
-  it("triggers onStopGroup when the stop group button is clicked", () => {
+  it("shows a disabled stop button if the process is stopping", () => {
     const wrapper = shallow(
-      <ProcessGroupCard
+      <ProcessTableRow
+        {...{...props, item: { ...item, status: "STOPPING" } }}
+      />,
+    );
+    expect(wrapper.find("Button[icon='stop'][disabled=true]")).toHaveLength(1);
+  });
+
+  it("triggers onStopProcess when the stop button is clicked", () => {
+    const wrapper = shallow(
+      <ProcessTableRow
         {...{...props, item: { ...item, status: "RUNNING" } }}
       />,
     );
     wrapper.find("Button[icon='stop']").simulate("click");
-    expect(props.onStopGroup).toBeCalledTimes(1);
-    expect(props.onStopGroup).toBeCalledWith(props);
+    expect(props.onStopProcess).toBeCalledTimes(1);
+    expect(props.onStopProcess).toBeCalledWith(props);
   });
 
-  it("triggers onStartGroup when the start group button is clicked", () => {
+  it("triggers onStartProcess when the process button is clicked", () => {
     const doneProps: IProps = {...props, item: { ...item, status: "DONE" } };
-    const wrapper = shallow(<ProcessGroupCard {...doneProps} />);
+    const wrapper = shallow(<ProcessTableRow {...doneProps} />);
     wrapper.find("Button[icon='play']").simulate("click");
-    expect(doneProps.onStartGroup).toBeCalledTimes(1);
-    expect(doneProps.onStartGroup).toBeCalledWith(doneProps);
+    expect(doneProps.onStartProcess).toBeCalledTimes(1);
+    expect(doneProps.onStartProcess).toBeCalledWith(doneProps);
   });
 
 });
