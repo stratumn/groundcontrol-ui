@@ -23,8 +23,8 @@ import { GitSourceListItem } from "./GitSourceListItem";
 const props = {
   item: {
     ...mockQueryPropAttrs(),
-    branch: "branch",
     id: "id",
+    reference: "reference",
     repository: "repository",
   },
   onDelete: jest.fn(),

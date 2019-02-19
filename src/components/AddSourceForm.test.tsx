@@ -19,10 +19,10 @@ import { mocked } from "ts-jest/utils";
 import AddSourceForm, { SourceType } from "./AddSourceForm";
 
 const props = {
-  branch: "branch",
   directory: "directory",
   onChange: jest.fn(),
   onSubmit: jest.fn(),
+  reference: "reference",
   repository: "repository",
   type: SourceType.Directory,
 };

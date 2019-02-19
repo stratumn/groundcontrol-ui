@@ -53,7 +53,7 @@ export function JobTableRow(props: IProps) {
   let workspaceSlug = "-";
   let workspaceName = "-";
   let projectRepository = "-";
-  let projectBranch = "-";
+  let projectReference = "-";
 
   switch (owner.__typename) {
   case "Workspace":
@@ -64,7 +64,7 @@ export function JobTableRow(props: IProps) {
     workspaceSlug = owner.workspace.slug;
     workspaceName = owner.workspace.name;
     projectRepository = owner.repository;
-    projectBranch = owner.branch;
+    projectReference = owner.reference;
     break;
   }
 
@@ -103,7 +103,7 @@ export function JobTableRow(props: IProps) {
       <Table.Cell>
         <RepositoryShortName repository={projectRepository} />
       </Table.Cell>
-      <Table.Cell>{projectBranch}</Table.Cell>
+      <Table.Cell>{projectReference}</Table.Cell>
       <Table.Cell>
         <Moment format={dateFormat}>{createdAt}</Moment>
       </Table.Cell>
@@ -139,7 +139,7 @@ export default createFragmentContainer(JobTableRow, graphql`
       }
       ... on Project {
         repository
-        branch
+        reference
         workspace {
           slug
           name

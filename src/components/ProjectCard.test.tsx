@@ -26,8 +26,15 @@ jest.mock("./RepositoryShortName", () => "RepositoryShortName");
 
 const item: ProjectCard_item = {
   ...mockQueryPropAttrs(),
-  branch: "branch",
-  commits: {
+  description: "description",
+  id: "id",
+  isAhead: false,
+  isBehind: false,
+  isCloned: false,
+  isCloning: false,
+  isPulling: false,
+  localReferenceShort: "localReferenceShort",
+  remoteCommits: {
     edges: [{
       node: {
         ...mockQueryPropAttrs(),
@@ -38,13 +45,7 @@ const item: ProjectCard_item = {
       },
     }],
   },
-  description: "description",
-  id: "id",
-  isAhead: false,
-  isBehind: false,
-  isCloned: false,
-  isCloning: false,
-  isPulling: false,
+  remoteReferenceShort: "remoteReferenceShort",
   repository: "repository",
 };
 

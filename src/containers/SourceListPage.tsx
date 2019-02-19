@@ -43,7 +43,7 @@ interface IState {
   type: SourceType;
   directory: string;
   repository: string;
-  branch: string;
+  reference: string;
   showConfirmDelete: boolean;
   deleteId: string;
 }
@@ -51,9 +51,9 @@ interface IState {
 export class SourceListPage extends Component<IProps, IState> {
 
   public state = {
-    branch: "",
     deleteId: "",
     directory: "",
+    reference: "",
     repository: "",
     showConfirmDelete: false,
     type: SourceType.Directory,
@@ -118,7 +118,7 @@ export class SourceListPage extends Component<IProps, IState> {
   }
 
   private handleSubmit = (values: IAddSourceFormProps) => {
-    const { type, directory, repository, branch } = values;
+    const { type, directory, repository, reference } = values;
 
     switch (type) {
     case "directory":
@@ -128,15 +128,15 @@ export class SourceListPage extends Component<IProps, IState> {
       break;
     case "git":
       addGitSource(this.props.relay.environment, {
-        branch,
+        reference: reference || "refs/heads/master", // TODO: move default elsewhere
         repository,
       });
       break;
     }
 
     this.setState({
-      branch: "",
       directory: "",
+      reference: "",
       repository: "",
     });
   }
