@@ -15,10 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Segment,
-  Table,
- } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 
 import { LogEntryTable_items } from "./__generated__/LogEntryTable_items.graphql";
 
@@ -32,7 +29,15 @@ export interface IProps {
 
 export function LogEntryTable({ items, onClickSourceFile }: IProps) {
   if (items.length < 1) {
-    return <Segment>There are no log entries at this time.</Segment>;
+    return (
+      <Table inverted={true}>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>There are no log entries at this time.</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+    );
   }
 
   const rows = items.map((item, index) => (
