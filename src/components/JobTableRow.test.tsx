@@ -57,7 +57,6 @@ const project: JobTableRow_item = {
   name: "name",
   owner: {
     __typename: "Project",
-    reference: "reference",
     repository: "repository",
     workspace: {
       name: "workspaceName",

@@ -26,13 +26,8 @@ exports[`<JobTableRow /> renders correctly 1`] = `
   <TableCell
     as="td"
   >
-    -
-  </TableCell>
-  <TableCell
-    as="td"
-  >
     <Moment
-      format="L LTS"
+      format="LTS"
     >
       createdAt
     </Moment>
@@ -41,7 +36,7 @@ exports[`<JobTableRow /> renders correctly 1`] = `
     as="td"
   >
     <Moment
-      format="L LTS"
+      format="LTS"
     >
       updatedAt
     </Moment>
@@ -96,13 +91,8 @@ exports[`<JobTableRow /> renders correctly when the owner is a project 1`] = `
   <TableCell
     as="td"
   >
-    reference
-  </TableCell>
-  <TableCell
-    as="td"
-  >
     <Moment
-      format="L LTS"
+      format="LTS"
     >
       createdAt
     </Moment>
@@ -111,7 +101,7 @@ exports[`<JobTableRow /> renders correctly when the owner is a project 1`] = `
     as="td"
   >
     <Moment
-      format="L LTS"
+      format="LTS"
     >
       updatedAt
     </Moment>
@@ -166,13 +156,8 @@ exports[`<JobTableRow /> renders correctly when the owner is a workspace 1`] = `
   <TableCell
     as="td"
   >
-    -
-  </TableCell>
-  <TableCell
-    as="td"
-  >
     <Moment
-      format="L LTS"
+      format="LTS"
     >
       createdAt
     </Moment>
@@ -181,7 +166,7 @@ exports[`<JobTableRow /> renders correctly when the owner is a workspace 1`] = `
     as="td"
   >
     <Moment
-      format="L LTS"
+      format="LTS"
     >
       updatedAt
     </Moment>

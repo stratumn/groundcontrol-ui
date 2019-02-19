@@ -24,7 +24,7 @@ const props = {
   item: {
     ...mockQueryPropAttrs(),
     id: "id",
-    reference: "reference",
+    referenceShort: "shortReference",
     repository: "repository",
   },
   onDelete: jest.fn(),

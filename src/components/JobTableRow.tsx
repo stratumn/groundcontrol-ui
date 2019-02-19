@@ -29,7 +29,7 @@ import RepositoryShortName from "./RepositoryShortName";
 
 import "./JobTableRow.css";
 
-const dateFormat = "L LTS";
+const dateFormat = "LTS";
 
 export interface IProps {
   item: JobTableRow_item;
@@ -53,7 +53,6 @@ export function JobTableRow(props: IProps) {
   let workspaceSlug = "-";
   let workspaceName = "-";
   let projectRepository = "-";
-  let projectReference = "-";
 
   switch (owner.__typename) {
   case "Workspace":
@@ -64,7 +63,6 @@ export function JobTableRow(props: IProps) {
     workspaceSlug = owner.workspace.slug;
     workspaceName = owner.workspace.name;
     projectRepository = owner.repository;
-    projectReference = owner.reference;
     break;
   }
 
@@ -103,7 +101,6 @@ export function JobTableRow(props: IProps) {
       <Table.Cell>
         <RepositoryShortName repository={projectRepository} />
       </Table.Cell>
-      <Table.Cell>{projectReference}</Table.Cell>
       <Table.Cell>
         <Moment format={dateFormat}>{createdAt}</Moment>
       </Table.Cell>
@@ -139,7 +136,6 @@ export default createFragmentContainer(JobTableRow, graphql`
       }
       ... on Project {
         repository
-        reference
         workspace {
           slug
           name
