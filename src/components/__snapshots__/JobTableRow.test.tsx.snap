@@ -96,7 +96,7 @@ exports[`<JobTableRow /> renders correctly when the owner is a project 1`] = `
   <TableCell
     as="td"
   >
-    branch
+    reference
   </TableCell>
   <TableCell
     as="td"

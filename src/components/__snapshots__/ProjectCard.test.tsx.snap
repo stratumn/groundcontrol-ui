@@ -14,7 +14,7 @@ exports[`<ProjectCard /> renders correctly 1`] = `
     <Label
       size="small"
     >
-      branch
+      localReferenceShort » remoteReferenceShort
     </Label>
     <CardDescription>
       description

@@ -26,7 +26,7 @@ export interface IProps {
 }
 
 export function GitSourceListItem(props: IProps) {
-  const{ item: { repository, branch }, onDelete } = props;
+  const{ item: { repository, reference }, onDelete } = props;
   const handleDelete = () => onDelete({ ...props });
 
   return (
@@ -39,7 +39,7 @@ export function GitSourceListItem(props: IProps) {
           size="small"
           onClick={handleDelete}
         />
-        <List.Header>{repository}@{branch}</List.Header>
+        <List.Header>{repository}@{reference}</List.Header>
         <List.Description>Git Repository</List.Description>
       </List.Content>
     </List.Item>
@@ -50,6 +50,6 @@ export default createFragmentContainer(GitSourceListItem, graphql`
   fragment GitSourceListItem_item on GitSource {
     id
     repository
-    branch
+    reference
   }`,
 );

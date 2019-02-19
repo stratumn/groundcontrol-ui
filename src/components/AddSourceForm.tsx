@@ -27,7 +27,7 @@ export interface IProps {
   type: SourceType;
   directory: string;
   repository: string;
-  branch: string;
+  reference: string;
   onChange: (values: IProps) => any;
   onSubmit: (values: IProps) => any;
 }
@@ -35,7 +35,7 @@ export interface IProps {
 export default class AddSourceForm extends Component<IProps> {
 
   public render() {
-    const { type, directory, repository, branch } = this.props;
+    const { type, directory, repository, reference } = this.props;
     const options = [
       { key: SourceType.Directory, text: "Directory", value: SourceType.Directory },
       { key: SourceType.Git, text: "Git", value: SourceType.Git },
@@ -68,11 +68,11 @@ export default class AddSourceForm extends Component<IProps> {
             />
           </Form.Field>
           <Form.Field>
-            <label>Branch</label>
+            <label>Reference</label>
             <Form.Input
-              name="branch"
-              placeholder="master"
-              value={branch}
+              name="reference"
+              placeholder="refs/heads/master"
+              value={reference}
               onChange={this.handleChangeInput}
             />
           </Form.Field>
@@ -124,8 +124,8 @@ export default class AddSourceForm extends Component<IProps> {
     case "repository":
       onChange({ ...this.props, repository: value });
       break;
-    case "branch":
-      onChange({ ...this.props, branch: value });
+    case "reference":
+      onChange({ ...this.props, reference: value });
       break;
     }
   }

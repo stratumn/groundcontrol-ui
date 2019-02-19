@@ -16,20 +16,32 @@ export interface IProps {
   item: ProjectListItem_item;
 }
 
-export const ProjectListItem = ({ item: { repository, branch } }: IProps) => (
-  <List.Item className="ProjectListItem">
-    <List.Content floated="right">
-      <Label size="small">{branch}</Label>
-    </List.Content>
-    <List.Content>
-      <RepositoryShortName repository={repository} />
-    </List.Content>
-  </List.Item>
-);
+export function ProjectListItem({
+  item: {
+    localReferenceShort,
+    repository,
+    remoteReferenceShort,
+  },
+}: IProps) {
+  const reference = remoteReferenceShort === localReferenceShort ?
+    remoteReferenceShort : `${localReferenceShort} » ${remoteReferenceShort}`;
+
+  return (
+    <List.Item className="ProjectListItem">
+      <List.Content floated="right">
+        <Label size="small">{reference}</Label>
+      </List.Content>
+      <List.Content>
+        <RepositoryShortName repository={repository} />
+      </List.Content>
+    </List.Item>
+  );
+}
 
 export default createFragmentContainer(ProjectListItem, graphql`
   fragment ProjectListItem_item on Project {
     repository
-    branch
+    remoteReferenceShort
+    localReferenceShort
   }`,
 );

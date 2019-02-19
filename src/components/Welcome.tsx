@@ -47,7 +47,7 @@ export default () => (
       <p>
         Workspaces are defined using YAML files which can easily be shared.
         A workspace contains multiple projects.
-        A project corresponds to a branch of a repository.
+        A project corresponds to a reference (such as a branch or tag) of a repository.
       </p>
       <p>
         The Ground Control user interface allows you to perform operations across the projects of a workspace,

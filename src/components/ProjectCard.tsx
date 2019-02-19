@@ -43,23 +43,26 @@ export function ProjectCard(props: IProps) {
     item,
     item: {
       repository,
-      branch,
+      remoteReferenceShort,
       description,
-      commits,
+      remoteCommits,
       isCloned,
       isCloning,
       isPulling,
       isAhead,
       isBehind,
+      localReferenceShort,
     },
     onClone,
     onPull,
   } = props;
-  const commitNodes = item.commits.edges.map(({ node }) => node);
+  const commitNodes = item.remoteCommits.edges.map(({ node }) => node);
   const labels: JSX.Element[] = [];
   const buttons: JSX.Element[] = [];
   const handleClone = () => onClone({ ...props });
   const handlePull = () => onPull({ ...props });
+  const reference = remoteReferenceShort === localReferenceShort ?
+    remoteReferenceShort : `${localReferenceShort} » ${remoteReferenceShort}`;
 
   let color: "grey" | "teal" | "pink" | "purple" = "grey";
 
@@ -146,7 +149,7 @@ export function ProjectCard(props: IProps) {
         <Card.Header>
           <RepositoryShortName repository={repository} />
         </Card.Header>
-        <Label size="small">{branch}</Label>
+        <Label size="small">{reference}</Label>
         {labels}
         <Card.Description>
           {description || "No description."}
@@ -162,7 +165,7 @@ export function ProjectCard(props: IProps) {
         </div>
       </Card.Content>
       <Dimmer
-        active={commits.edges.length < 1}
+        active={remoteCommits.edges.length < 1}
         inverted={true}
       >
         <Loader content="Loading project commits..." />
@@ -178,14 +181,15 @@ export default createFragmentContainer(ProjectCard, graphql`
     ) {
     id
     repository
-    branch
+    remoteReferenceShort
+    localReferenceShort
     description
     isCloning
     isCloned
     isPulling
     isBehind
     isAhead
-    commits(first: $commitsLimit) {
+    remoteCommits(first: $commitsLimit) {
       edges {
         node {
           ...CommitFeed_items

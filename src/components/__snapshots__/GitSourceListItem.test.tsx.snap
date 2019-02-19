@@ -14,7 +14,7 @@ exports[`<GitSourceListItem /> renders correctly 1`] = `
     <ListHeader>
       repository
       @
-      branch
+      reference
     </ListHeader>
     <ListDescription>
       Git Repository

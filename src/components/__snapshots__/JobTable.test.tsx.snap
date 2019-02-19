@@ -36,7 +36,7 @@ exports[`<JobTable /> renders items correctly 1`] = `
       <TableHeaderCell
         as="th"
       >
-        Branch
+        Reference
       </TableHeaderCell>
       <TableHeaderCell
         as="th"

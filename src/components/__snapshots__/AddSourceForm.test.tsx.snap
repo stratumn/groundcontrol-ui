@@ -41,15 +41,15 @@ exports[`<AddSourceForm /> renders correctly when a Git source type is selected 
   </FormField>
   <FormField>
     <label>
-      Branch
+      Reference
     </label>
     <FormInput
       as={[Function]}
       control={[Function]}
-      name="branch"
+      name="reference"
       onChange={[Function]}
-      placeholder="master"
-      value="branch"
+      placeholder="refs/heads/master"
+      value="reference"
     />
   </FormField>
   <Button
