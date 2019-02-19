@@ -1,6 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ProjectCard /> renders correctly 1`] = `
+exports[`<ProjectCard /> renders correctly when cloned 1`] = `
+<Card
+  className="ProjectCard"
+  color="teal"
+>
+  <CardContent>
+    <CardHeader>
+      <RepositoryShortName
+        repository="repository"
+      />
+    </CardHeader>
+    <Label
+      size="small"
+    >
+      localReferenceShort » remoteReferenceShort
+    </Label>
+    <Label
+      color="blue"
+      content="cloned"
+      key="cloned"
+      size="small"
+    />
+    <Label
+      color="teal"
+      content="up-to-date"
+      key="uptodate"
+      size="small"
+    />
+    <CardDescription>
+      description
+    </CardDescription>
+    <Tab
+      grid={
+        Object {
+          "paneWidth": 12,
+          "tabWidth": 4,
+        }
+      }
+      menu={
+        Object {
+          "size": "tiny",
+          "tabular": true,
+        }
+      }
+      panes={
+        Array [
+          Object {
+            "menuItem": "Remote",
+            "render": [Function],
+          },
+          Object {
+            "menuItem": "Local",
+            "render": [Function],
+          },
+        ]
+      }
+      renderActiveOnly={true}
+    />
+  </CardContent>
+  <CardContent
+    extra={true}
+  >
+    <div
+      className="ui three buttons"
+    >
+      <Button
+        as="button"
+        color="teal"
+        content="Pull"
+        disabled={true}
+        icon="download"
+        key="pull"
+        loading={false}
+        onClick={[Function]}
+      />
+    </div>
+  </CardContent>
+  <Dimmer
+    active={false}
+    inverted={true}
+  >
+    <Loader
+      content="Loading project commits..."
+    />
+  </Dimmer>
+</Card>
+`;
+
+exports[`<ProjectCard /> renders correctly when not cloned 1`] = `
 <Card
   className="ProjectCard"
   color="grey"
@@ -19,28 +107,28 @@ exports[`<ProjectCard /> renders correctly 1`] = `
     <CardDescription>
       description
     </CardDescription>
-    <Divider
-      horizontal={true}
-    >
-      <Header
-        as="h6"
-      >
-        Latest Commits
-      </Header>
-    </Divider>
-    <ForwardRef(Relay(CommitFeed))
-      items={
+    <Tab
+      grid={
+        Object {
+          "paneWidth": 12,
+          "tabWidth": 4,
+        }
+      }
+      menu={
+        Object {
+          "size": "tiny",
+          "tabular": true,
+        }
+      }
+      panes={
         Array [
           Object {
-            " $fragmentRefs": null,
-            " $refType": null,
-          },
-          Object {
-            " $fragmentRefs": null,
-            " $refType": null,
+            "menuItem": "Remote",
+            "render": [Function],
           },
         ]
       }
+      renderActiveOnly={true}
     />
   </CardContent>
   <CardContent

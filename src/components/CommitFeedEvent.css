@@ -1,3 +1,7 @@
+.ui.feed .CommitFeedEvent.event > .content > .meta {
+  margin-top: 0;
+}
+
 .ui.feed .CommitFeedEvent.event > .content > .meta > time {
   margin-left: 0;
 }

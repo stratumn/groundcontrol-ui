@@ -33,6 +33,17 @@ const item: ProjectCard_item = {
   isCloned: false,
   isCloning: false,
   isPulling: false,
+  localCommits: {
+    edges: [{
+      node: {
+        ...mockQueryPropAttrs(),
+      },
+    }, {
+      node: {
+        ...mockQueryPropAttrs(),
+      },
+    }],
+  },
   localReferenceShort: "localReferenceShort",
   remoteCommits: {
     edges: [{
@@ -62,8 +73,17 @@ beforeEach(() => {
 
 describe("<ProjectCard />", () => {
 
-  it("renders correctly", () => {
-    const wrapper = shallow(<ProjectCard {...props} />);
+  it("renders correctly when not cloned", () => {
+    const wrapper = shallow(
+      <ProjectCard {...{...props, item: {...props.item, isCloned: false}}} />,
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("renders correctly when cloned", () => {
+    const wrapper = shallow(
+      <ProjectCard {...{...props, item: {...props.item, isCloned: true}}} />,
+    );
     expect(wrapper).toMatchSnapshot();
   });
 

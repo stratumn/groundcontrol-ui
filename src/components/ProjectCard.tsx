@@ -19,10 +19,9 @@ import {
   Button,
   Card,
   Dimmer,
-  Divider,
-  Header,
   Label,
   Loader,
+  Tab,
  } from "semantic-ui-react";
 
 import { ProjectCard_item } from "./__generated__/ProjectCard_item.graphql";
@@ -56,13 +55,22 @@ export function ProjectCard(props: IProps) {
     onClone,
     onPull,
   } = props;
-  const commitNodes = item.remoteCommits.edges.map(({ node }) => node);
-  const labels: JSX.Element[] = [];
-  const buttons: JSX.Element[] = [];
+  const remoteCommitNodes = item.remoteCommits.edges.map(({ node }) => node);
+  const localCommitNodes = item.localCommits.edges.map(({ node }) => node);
   const handleClone = () => onClone({ ...props });
   const handlePull = () => onPull({ ...props });
   const reference = remoteReferenceShort === localReferenceShort ?
     remoteReferenceShort : `${localReferenceShort} » ${remoteReferenceShort}`;
+  const labels: JSX.Element[] = [];
+  const buttons: JSX.Element[] = [];
+  const menuProps = {
+    size: "tiny",
+    tabular: true,
+  };
+  const panes = [{
+    menuItem: "Remote",
+    render: () => <CommitFeed items={remoteCommitNodes} />,
+  }];
 
   let color: "grey" | "teal" | "pink" | "purple" = "grey";
 
@@ -100,6 +108,11 @@ export function ProjectCard(props: IProps) {
         />
       ));
     }
+
+    panes.push({
+      menuItem: "Local",
+      render: () => <CommitFeed items={localCommitNodes} />,
+    });
   } else {
     buttons.push((
       <Button
@@ -154,10 +167,10 @@ export function ProjectCard(props: IProps) {
         <Card.Description>
           {description || "No description."}
         </Card.Description>
-        <Divider horizontal={true}>
-          <Header as="h6">Latest Commits</Header>
-        </Divider>
-        <CommitFeed items={commitNodes} />
+        <Tab
+          panes={panes}
+          menu={menuProps}
+        />
       </Card.Content>
       <Card.Content extra={true}>
         <div className="ui three buttons">
@@ -190,6 +203,13 @@ export default createFragmentContainer(ProjectCard, graphql`
     isBehind
     isAhead
     remoteCommits(first: $commitsLimit) {
+      edges {
+        node {
+          ...CommitFeed_items
+        }
+      }
+    }
+    localCommits(first: $commitsLimit) {
       edges {
         node {
           ...CommitFeed_items
