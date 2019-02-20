@@ -1,9 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LogEntryTable /> renders correctly without items 1`] = `
-<Segment>
-  There are no log entries at this time.
-</Segment>
+<Table
+  as="table"
+  inverted={true}
+>
+  <TableBody
+    as="tbody"
+  >
+    <TableRow
+      as="tr"
+      cellAs="td"
+    >
+      <TableCell
+        as="td"
+      >
+        There are no log entries at this time.
+      </TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
 `;
 
 exports[`<LogEntryTable /> renders items correctly 1`] = `
