@@ -20,6 +20,9 @@ const subscription = graphql`
   subscription projectStoredSubscription($lastMessageId: ID) {
     projectStored(lastMessageId: $lastMessageId) {
       ...ProjectCard_item
+      workspace {
+        ...WorkspaceCard_item
+      }
     }
   }
 `;

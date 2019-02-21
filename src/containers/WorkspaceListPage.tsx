@@ -29,6 +29,7 @@ import WorkspaceCardGroup from "../components/WorkspaceCardGroup";
 import WorkspaceSearch, { IProps as IWorkspaceSearchProps } from "../components/WorkspaceSearch";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
+import { subscribe as subscribeProjectStored } from "../subscriptions/projectStored";
 import { subscribe as subscribeSourceStored } from "../subscriptions/sourceStored";
 import { subscribe as subscribeUserStored } from "../subscriptions/userStored";
 import { subscribe as subscribeWorkspaceStored } from "../subscriptions/workspaceStored";
@@ -119,6 +120,7 @@ export class WorkspaceListPage extends Component<IProps, IState> {
       subscribeUserStored(environment, lastMessageId),
       subscribeSourceStored(environment, lastMessageId),
       subscribeWorkspaceStored(environment, lastMessageId),
+      subscribeProjectStored(environment, lastMessageId),
     );
   }
 
