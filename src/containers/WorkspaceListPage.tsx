@@ -30,6 +30,7 @@ import WorkspaceSearch, { IProps as IWorkspaceSearchProps } from "../components/
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
 import { subscribe as subscribeSourceStored } from "../subscriptions/sourceStored";
+import { subscribe as subscribeUserStored } from "../subscriptions/userStored";
 import { subscribe as subscribeWorkspaceStored } from "../subscriptions/workspaceStored";
 
 export interface IProps {
@@ -115,6 +116,7 @@ export class WorkspaceListPage extends Component<IProps, IState> {
           window.removeEventListener("resize", this.setItemsPerRow);
         },
       },
+      subscribeUserStored(environment, lastMessageId),
       subscribeSourceStored(environment, lastMessageId),
       subscribeWorkspaceStored(environment, lastMessageId),
     );

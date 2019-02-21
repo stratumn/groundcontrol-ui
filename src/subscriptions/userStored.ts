@@ -16,19 +16,10 @@ import graphql from "babel-plugin-relay/macro";
 import { requestSubscription } from "react-relay";
 import { Environment } from "relay-runtime";
 
-// TODO: load everything needed by workspace page.
 const subscription = graphql`
-  subscription workspaceStoredSubscription($lastMessageId: ID, $id: ID) {
-    workspaceStored(lastMessageId: $lastMessageId, id: $id) {
-      ...WorkspaceCard_item
-      ...WorkspaceMenu_item
-      projects {
-        edges {
-          node {
-            ...ProjectCard_item
-          }
-        }
-      }
+  subscription userStoredSubscription($lastMessageId: ID) {
+    userStored(lastMessageId: $lastMessageId) {
+      ...WorkspaceListPage_viewer
     }
   }
 `;
