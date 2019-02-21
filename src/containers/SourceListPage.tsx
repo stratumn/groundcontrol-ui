@@ -31,7 +31,7 @@ import { commit as addDirectorySource } from "../mutations/addDirectorySource";
 import { commit as addGitSource } from "../mutations/addGitSource";
 import { commit as deleteSource } from "../mutations/deleteSource";
 import { subscribe as subscribeSourceDeleted } from "../subscriptions/sourceDeleted";
-import { subscribe as subscribeSourceUpserted } from "../subscriptions/sourceUpserted";
+import { subscribe as subscribeSourceStored } from "../subscriptions/sourceStored";
 
 export interface IProps {
   relay: RelayProp;
@@ -101,7 +101,7 @@ export class SourceListPage extends Component<IProps, IState> {
   public componentDidMount() {
     const { relay: { environment }, system: { lastMessageId } } = this.props;
 
-    this.disposables.push(subscribeSourceUpserted(environment, lastMessageId));
+    this.disposables.push(subscribeSourceStored(environment, lastMessageId));
     this.disposables.push(subscribeSourceDeleted(environment, lastMessageId));
   }
 

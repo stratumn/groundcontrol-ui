@@ -17,44 +17,31 @@ import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription processGroupUpsertedSubscription($lastMessageId: ID) {
-    processGroupUpserted(lastMessageId: $lastMessageId) {
-      ...ProcessGroupCardGroup_items
+  subscription keyStoredSubscription($lastMessageId: ID) {
+    keyStored(lastMessageId: $lastMessageId) {
+      ...KeyListItem_item
     }
   }
 `;
 
-export function subscribe(
-  environment: Environment,
-  getStatus: () => string[] | undefined,
-  lastMessageId?: string,
-) {
+export function subscribe(environment: Environment, lastMessageId?: string) {
   return requestSubscription(
     environment,
     {
       onError: (error) => console.error(error),
       subscription,
       updater: (store) => {
-        const record = store.getRootField("processGroupUpserted")!;
+        const record = store.getRootField("keyStored")!;
         const recordId = record.getValue("id");
-        const system = store.getRoot().getLinkedRecord("system");
-        const newStatus = record!.getValue("status");
-        const status = getStatus();
+        const viewer = store.getRoot().getLinkedRecord("viewer");
 
         const connection = ConnectionHandler.getConnection(
-          system,
-          "ProcessGroupListPage_processGroups",
-          { status },
+          viewer,
+          "KeyListPage_keys",
         );
 
         if (!connection) {
           return;
-        }
-
-        const contains = !status || status.indexOf(newStatus) >= 0;
-
-        if (!contains) {
-          ConnectionHandler.deleteNode(connection, recordId);
         }
 
         const edges = connection.getLinkedRecords("edges");
@@ -71,9 +58,9 @@ export function subscribe(
           store,
           connection,
           record,
-          "ProcessGroupsConnection",
+          "KeysConnection",
         );
-        ConnectionHandler.insertEdgeBefore(connection, edge);
+        ConnectionHandler.insertEdgeAfter(connection, edge);
     },
       variables: {
         lastMessageId,

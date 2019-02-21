@@ -17,8 +17,8 @@ import { requestSubscription } from "react-relay";
 import { Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription jobMetricsUpdatedSubscription($lastMessageId: ID) {
-    jobMetricsUpdated(lastMessageId: $lastMessageId) {
+  subscription jobMetricsStoredSubscription($lastMessageId: ID) {
+    jobMetricsStored(lastMessageId: $lastMessageId) {
       ...MenuSecondaryItems_jobMetrics
     }
   }

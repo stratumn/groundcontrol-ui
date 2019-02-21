@@ -17,56 +17,38 @@ import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription logEntryAddedSubscription($lastMessageId: ID) {
-    logEntryAdded(lastMessageId: $lastMessageId) {
-      ...LogEntryTable_items
+  subscription sourceStoredSubscription($lastMessageId: ID) {
+    sourceStored(lastMessageId: $lastMessageId) {
+      ... on DirectorySource {
+        ...DirectorySourceListItem_item
+      }
+      ... on GitSource {
+        ...GitSourceListItem_item
+      }
+      user {
+        ...WorkspaceListPage_viewer
+      }
     }
   }
 `;
 
-export function subscribe(
-  environment: Environment,
-  getLevel: () => string[] | undefined,
-  getOwnerId: () => string | undefined,
-  lastMessageId?: string,
-) {
+export function subscribe(environment: Environment, lastMessageId?: string) {
   return requestSubscription(
     environment,
     {
       onError: (error) => console.error(error),
       subscription,
       updater: (store) => {
-        const record = store.getRootField("logEntryAdded")!;
+        const record = store.getRootField("sourceStored")!;
         const recordId = record.getValue("id");
-        const system = store.getRoot().getLinkedRecord("system");
-        const newLevel = record!.getValue("level");
-        const owner = record.getLinkedRecord("owner");
-        const newOwnerId = owner ? owner.getValue("id") : undefined;
-        const level = getLevel();
-        const ownerId = getOwnerId();
+        const viewer = store.getRoot().getLinkedRecord("viewer");
 
         const connection = ConnectionHandler.getConnection(
-          system,
-          "LogEntryListPage_logEntries",
-          { level, ownerId },
+          viewer,
+          "SourceListPage_sources",
         );
 
         if (!connection) {
-          return;
-        }
-
-        let contains = true;
-
-        if (level && level.indexOf(newLevel) < 0) {
-          contains = false;
-        }
-
-        if (ownerId && ownerId !== newOwnerId) {
-          contains = false;
-        }
-
-        if (!contains) {
-          ConnectionHandler.deleteNode(connection, recordId);
           return;
         }
 
@@ -84,7 +66,7 @@ export function subscribe(
           store,
           connection,
           record,
-          "LogEntrysConnection",
+          "SourcesConnection",
         );
         ConnectionHandler.insertEdgeAfter(connection, edge);
     },

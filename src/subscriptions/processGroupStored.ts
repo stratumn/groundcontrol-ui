@@ -17,9 +17,9 @@ import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription jobUpsertedSubscription($lastMessageId: ID) {
-    jobUpserted(lastMessageId: $lastMessageId) {
-      ...JobTable_items
+  subscription processGroupStoredSubscription($lastMessageId: ID) {
+    processGroupStored(lastMessageId: $lastMessageId) {
+      ...ProcessGroupCardGroup_items
     }
   }
 `;
@@ -35,15 +35,15 @@ export function subscribe(
       onError: (error) => console.error(error),
       subscription,
       updater: (store) => {
-        const record = store.getRootField("jobUpserted")!;
+        const record = store.getRootField("processGroupStored")!;
         const recordId = record.getValue("id");
         const system = store.getRoot().getLinkedRecord("system");
-        const newStatus = record!.getValue("status") as string;
+        const newStatus = record!.getValue("status");
         const status = getStatus();
 
         const connection = ConnectionHandler.getConnection(
           system,
-          "JobListPage_jobs",
+          "ProcessGroupListPage_processGroups",
           { status },
         );
 
@@ -55,7 +55,6 @@ export function subscribe(
 
         if (!contains) {
           ConnectionHandler.deleteNode(connection, recordId);
-          return;
         }
 
         const edges = connection.getLinkedRecords("edges");
@@ -72,7 +71,7 @@ export function subscribe(
           store,
           connection,
           record,
-          "JobsConnection",
+          "ProcessGroupsConnection",
         );
         ConnectionHandler.insertEdgeBefore(connection, edge);
     },

@@ -22,9 +22,9 @@ import { Disposable } from "relay-runtime";
 import { App_system } from "./__generated__/App_system.graphql";
 
 import Menu from "../components/Menu";
-import { subscribe as subscribeJobMetrics } from "../subscriptions/jobMetricsUpdated";
-import { subscribe as subscribeLogMetrics } from "../subscriptions/logMetricsUpdated";
-import { subscribe as subscribeProcessMetrics } from "../subscriptions/processMetricsUpdated";
+import { subscribe as subscribeJobMetrics } from "../subscriptions/jobMetricsStored";
+import { subscribe as subscribeLogMetrics } from "../subscriptions/logMetricsStored";
+import { subscribe as subscribeProcessMetrics } from "../subscriptions/processMetricsStored";
 
 import "./App.css";
 

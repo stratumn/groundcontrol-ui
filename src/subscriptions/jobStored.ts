@@ -17,47 +17,53 @@ import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription workspaceUpsertedSubscription($lastMessageId: ID, $id: ID) {
-    workspaceUpserted(lastMessageId: $lastMessageId, id: $id) {
-      ...WorkspaceCard_item
-      ...WorkspaceMenu_item
-      projects {
-        edges {
-          node {
-            ...ProjectCard_item
-          }
-        }
-      }
+  subscription jobStoredSubscription($lastMessageId: ID) {
+    jobStored(lastMessageId: $lastMessageId) {
+      ...JobTable_items
     }
   }
 `;
 
-export function subscribe(environment: Environment, lastMessageId?: string, id?: string) {
+export function subscribe(
+  environment: Environment,
+  getStatus: () => string[] | undefined,
+  lastMessageId?: string,
+) {
   return requestSubscription(
     environment,
     {
       onError: (error) => console.error(error),
       subscription,
       updater: (store) => {
-        const record = store.getRootField("workspaceUpserted")!;
+        const record = store.getRootField("jobStored")!;
         const recordId = record.getValue("id");
-        const viewer = store.getRoot().getLinkedRecord("viewer");
+        const system = store.getRoot().getLinkedRecord("system");
+        const newStatus = record!.getValue("status") as string;
+        const status = getStatus();
 
         const connection = ConnectionHandler.getConnection(
-          viewer,
-          "WorkspaceListPage_workspaces",
+          system,
+          "JobListPage_jobs",
+          { status },
         );
 
         if (!connection) {
           return;
         }
 
+        const contains = !status || status.indexOf(newStatus) >= 0;
+
+        if (!contains) {
+          ConnectionHandler.deleteNode(connection, recordId);
+          return;
+        }
+
         const edges = connection.getLinkedRecords("edges");
 
         for (const e of edges) {
-          const nodeId = e.getLinkedRecord("node")!.getValue("id");
+          const id = e.getLinkedRecord("node")!.getValue("id");
 
-          if (recordId === nodeId) {
+          if (recordId === id) {
             return;
           }
         }
@@ -66,12 +72,11 @@ export function subscribe(environment: Environment, lastMessageId?: string, id?:
           store,
           connection,
           record,
-          "WorkspacesConnection",
+          "JobsConnection",
         );
         ConnectionHandler.insertEdgeBefore(connection, edge);
     },
       variables: {
-        id,
         lastMessageId,
       },
     },

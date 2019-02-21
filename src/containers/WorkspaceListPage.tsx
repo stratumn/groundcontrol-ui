@@ -29,8 +29,9 @@ import WorkspaceCardGroup from "../components/WorkspaceCardGroup";
 import WorkspaceSearch, { IProps as IWorkspaceSearchProps } from "../components/WorkspaceSearch";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
-import { subscribe as subscribeSourceUpserted } from "../subscriptions/sourceUpserted";
-import { subscribe as subscribeWorkspaceUpserted } from "../subscriptions/workspaceUpserted";
+import { subscribe as subscribeSourceStored } from "../subscriptions/sourceStored";
+import { subscribe as subscribeUserStored } from "../subscriptions/userStored";
+import { subscribe as subscribeWorkspaceStored } from "../subscriptions/workspaceStored";
 
 export interface IProps {
   relay: RelayProp;
@@ -115,8 +116,9 @@ export class WorkspaceListPage extends Component<IProps, IState> {
           window.removeEventListener("resize", this.setItemsPerRow);
         },
       },
-      subscribeSourceUpserted(environment, lastMessageId),
-      subscribeWorkspaceUpserted(environment, lastMessageId),
+      subscribeUserStored(environment, lastMessageId),
+      subscribeSourceStored(environment, lastMessageId),
+      subscribeWorkspaceStored(environment, lastMessageId),
     );
   }
 
@@ -148,12 +150,6 @@ export class WorkspaceListPage extends Component<IProps, IState> {
   }
 }
 
-export const fragments = graphql`
-  fragment WorkspaceListPage_source on Source {
-    isLoading
-  }
-`;
-
 export default createFragmentContainer(WorkspaceListPage, graphql`
   fragment WorkspaceListPage_system on System {
     lastMessageId
@@ -162,7 +158,7 @@ export default createFragmentContainer(WorkspaceListPage, graphql`
     sources(first: 10000) {
       edges {
         node {
-          ...WorkspaceListPage_source @relay(mask: false)
+          isLoading
         }
       }
     }

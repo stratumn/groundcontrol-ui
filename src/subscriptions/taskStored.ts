@@ -17,14 +17,16 @@ import { requestSubscription } from "react-relay";
 import { Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription processMetricsUpdatedSubscription($lastMessageId: ID) {
-    processMetricsUpdated(lastMessageId: $lastMessageId) {
-      ...MenuSecondaryItems_processMetrics
+  subscription taskStoredSubscription($lastMessageId: ID) {
+    taskStored(lastMessageId: $lastMessageId) {
+      workspace {
+        ...WorkspaceMenu_item
+      }
     }
   }
 `;
 
-export function subscribe(environment: Environment, lastMessageId?: string) {
+export function subscribe( environment: Environment, lastMessageId?: string) {
   return requestSubscription(
     environment,
     {
