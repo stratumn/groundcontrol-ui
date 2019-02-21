@@ -21,6 +21,7 @@ const subscription = graphql`
   subscription workspaceStoredSubscription($lastMessageId: ID, $id: ID) {
     workspaceStored(lastMessageId: $lastMessageId, id: $id) {
       ...WorkspaceCard_item
+      ...WorkspaceNotes_item
       ...WorkspaceMenu_item
       projects {
         edges {

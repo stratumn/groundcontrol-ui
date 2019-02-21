@@ -14,10 +14,9 @@
 
 import graphql from "babel-plugin-relay/macro";
 import React, { Component } from "react";
-import ReactMarkdown from "react-markdown";
 import { createFragmentContainer, RelayProp } from "react-relay";
 import { Disposable } from "relay-runtime";
-import { Segment, SemanticWIDTHS } from "semantic-ui-react";
+import { SemanticWIDTHS } from "semantic-ui-react";
 
 import { WorkspaceViewPage_system } from "./__generated__/WorkspaceViewPage_system.graphql";
 import { WorkspaceViewPage_viewer } from "./__generated__/WorkspaceViewPage_viewer.graphql";
@@ -30,6 +29,7 @@ import { IProps as IVariableFormProps} from "../components/VariableForm";
 import { IProps as IVariableFormFieldProps} from "../components/VariableFormField";
 import VariableFormModal from "../components/VariableFormModal";
 import WorkspaceMenu from "../components/WorkspaceMenu";
+import WorkspaceNotes from "../components/WorkspaceNotes";
 import { IProps as IWorkspaceTaskDropdownProps } from "../components/WorkspaceTaskDropdown";
 import { commit as cloneProject } from "../mutations/cloneProject";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
@@ -41,8 +41,6 @@ import { subscribe as subscribeProject } from "../subscriptions/projectStored";
 import { subscribe as subscribeTask } from "../subscriptions/taskStored";
 import { subscribe as subscribeWorkspace } from "../subscriptions/workspaceStored";
 import ErrorPage from "./ErrorPage";
-
-import "./WorkspaceViewPage.css";
 
 export interface IProps {
   relay: RelayProp;
@@ -76,7 +74,6 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     }
     const items = workspace.projects.edges.map(({ node }) => node);
     const description = workspace.description || "This workspace doesn't have a description.";
-    const notes = workspace.notes || "This workspace doesn't have notes.";
     const { itemsPerRow, variables } = this.state;
 
     let modal: JSX.Element | null = null;
@@ -105,12 +102,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
           onPull={this.handlePullWorkspace}
           onRun={this.handleRun}
         />
-        <Segment className="WorkspaceViewPageDescription">
-          <ReactMarkdown
-            source={notes}
-            className="markdown-body"
-          />
-        </Segment>
+        <WorkspaceNotes item={workspace} />
         <ProjectCardGroup
           items={items}
           itemsPerRow={itemsPerRow}
@@ -266,7 +258,6 @@ export default createFragmentContainer(WorkspaceViewPage, graphql`
       id
       name
       description
-      notes
       tasks {
         edges {
           node {
@@ -289,6 +280,7 @@ export default createFragmentContainer(WorkspaceViewPage, graphql`
           }
         }
       }
+      ...WorkspaceNotes_item
       ...WorkspaceMenu_item
     }
     keys {
