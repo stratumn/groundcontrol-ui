@@ -29,8 +29,8 @@ import WorkspaceCardGroup from "../components/WorkspaceCardGroup";
 import WorkspaceSearch, { IProps as IWorkspaceSearchProps } from "../components/WorkspaceSearch";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
-import { subscribe as subscribeSourceUpserted } from "../subscriptions/sourceUpserted";
-import { subscribe as subscribeWorkspaceUpserted } from "../subscriptions/workspaceUpserted";
+import { subscribe as subscribeSourceStored } from "../subscriptions/sourceStored";
+import { subscribe as subscribeWorkspaceStored } from "../subscriptions/workspaceStored";
 
 export interface IProps {
   relay: RelayProp;
@@ -115,8 +115,8 @@ export class WorkspaceListPage extends Component<IProps, IState> {
           window.removeEventListener("resize", this.setItemsPerRow);
         },
       },
-      subscribeSourceUpserted(environment, lastMessageId),
-      subscribeWorkspaceUpserted(environment, lastMessageId),
+      subscribeSourceStored(environment, lastMessageId),
+      subscribeWorkspaceStored(environment, lastMessageId),
     );
   }
 

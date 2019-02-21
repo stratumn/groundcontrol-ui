@@ -28,7 +28,7 @@ import SetKeyForm, { IProps as ISetKeyFormProps } from "../components/SetKeyForm
 import { commit as deleteKey } from "../mutations/deleteKey";
 import { commit as setKey } from "../mutations/setKey";
 import { subscribe as subscribeKeyDeleted } from "../subscriptions/keyDeleted";
-import { subscribe as subscribeKeyUpserted } from "../subscriptions/keyUpserted";
+import { subscribe as subscribeKeyStored } from "../subscriptions/keyStored";
 
 export interface IProps {
   relay: RelayProp;
@@ -103,7 +103,7 @@ export class KeyListPage extends Component<IProps, IState> {
     const { relay: { environment }, system: { lastMessageId } } = this.props;
 
     this.disposables.push(
-      subscribeKeyUpserted(environment, lastMessageId),
+      subscribeKeyStored(environment, lastMessageId),
       subscribeKeyDeleted(environment, lastMessageId),
     );
   }

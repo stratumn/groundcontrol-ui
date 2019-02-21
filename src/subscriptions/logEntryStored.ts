@@ -17,30 +17,56 @@ import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription keyUpsertedSubscription($lastMessageId: ID) {
-    keyUpserted(lastMessageId: $lastMessageId) {
-      ...KeyListItem_item
+  subscription logEntryStoredSubscription($lastMessageId: ID) {
+    logEntryStored(lastMessageId: $lastMessageId) {
+      ...LogEntryTable_items
     }
   }
 `;
 
-export function subscribe(environment: Environment, lastMessageId?: string) {
+export function subscribe(
+  environment: Environment,
+  getLevel: () => string[] | undefined,
+  getOwnerId: () => string | undefined,
+  lastMessageId?: string,
+) {
   return requestSubscription(
     environment,
     {
       onError: (error) => console.error(error),
       subscription,
       updater: (store) => {
-        const record = store.getRootField("keyUpserted")!;
+        const record = store.getRootField("logEntryStored")!;
         const recordId = record.getValue("id");
-        const viewer = store.getRoot().getLinkedRecord("viewer");
+        const system = store.getRoot().getLinkedRecord("system");
+        const newLevel = record!.getValue("level");
+        const owner = record.getLinkedRecord("owner");
+        const newOwnerId = owner ? owner.getValue("id") : undefined;
+        const level = getLevel();
+        const ownerId = getOwnerId();
 
         const connection = ConnectionHandler.getConnection(
-          viewer,
-          "KeyListPage_keys",
+          system,
+          "LogEntryListPage_logEntries",
+          { level, ownerId },
         );
 
         if (!connection) {
+          return;
+        }
+
+        let contains = true;
+
+        if (level && level.indexOf(newLevel) < 0) {
+          contains = false;
+        }
+
+        if (ownerId && ownerId !== newOwnerId) {
+          contains = false;
+        }
+
+        if (!contains) {
+          ConnectionHandler.deleteNode(connection, recordId);
           return;
         }
 
@@ -58,7 +84,7 @@ export function subscribe(environment: Environment, lastMessageId?: string) {
           store,
           connection,
           record,
-          "KeysConnection",
+          "LogEntrysConnection",
         );
         ConnectionHandler.insertEdgeAfter(connection, edge);
     },

@@ -28,7 +28,7 @@ import { IProps as ILogEntryMessageProps } from "../components/LogEntryMessage";
 import LogEntryTable from "../components/LogEntryTable";
 
 import { commit as openEditor } from "../mutations/openEditor";
-import { subscribe } from "../subscriptions/logEntryAdded";
+import { subscribe } from "../subscriptions/logEntryStored";
 
 import "./LogEntryListPage.css";
 

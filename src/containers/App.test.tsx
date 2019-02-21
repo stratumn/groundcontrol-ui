@@ -19,17 +19,17 @@ import { mocked } from "ts-jest/utils";
 
 import { mockQueryPropAttrs, mockRelayProp } from "../testing/relay";
 
-import { subscribe as subscribeJobMetrics } from "../subscriptions/jobMetricsUpdated";
-import { subscribe as subscribeLogMetrics } from "../subscriptions/logMetricsUpdated";
-import { subscribe as subscribeProcessMetrics } from "../subscriptions/processMetricsUpdated";
+import { subscribe as subscribeJobMetrics } from "../subscriptions/jobMetricsStored";
+import { subscribe as subscribeLogMetrics } from "../subscriptions/logMetricsStored";
+import { subscribe as subscribeProcessMetrics } from "../subscriptions/processMetricsStored";
 
 import Menu from "../components/Menu";
 
 import { App } from "./App";
 
-jest.mock("../subscriptions/jobMetricsUpdated");
-jest.mock("../subscriptions/logMetricsUpdated");
-jest.mock("../subscriptions/processMetricsUpdated");
+jest.mock("../subscriptions/jobMetricsStored");
+jest.mock("../subscriptions/logMetricsStored");
+jest.mock("../subscriptions/processMetricsStored");
 
 const props = {
   relay: mockRelayProp(),
@@ -92,7 +92,7 @@ describe("<App />", () => {
     expect(wrapper.find(Menu).props().showSidebar).toBe(false);
   });
 
-  it("subscribes to jobMetricsUpdated", () => {
+  it("subscribes to jobMetricsStored", () => {
     shallow(<App {...props} />);
     expect(subscribeJobMetrics).toBeCalledTimes(1);
     expect(subscribeJobMetrics).toBeCalledWith(
@@ -101,7 +101,7 @@ describe("<App />", () => {
     );
   });
 
-  it("subscribes to logMetricsUpdated", () => {
+  it("subscribes to logMetricsStored", () => {
     shallow(<App {...props} />);
     expect(subscribeLogMetrics).toBeCalledTimes(1);
     expect(subscribeLogMetrics).toBeCalledWith(
@@ -110,7 +110,7 @@ describe("<App />", () => {
     );
   });
 
-  it("subscribes to processMetricsUpdated", () => {
+  it("subscribes to processMetricsStored", () => {
     shallow(<App {...props} />);
     expect(subscribeProcessMetrics).toBeCalledTimes(1);
     expect(subscribeProcessMetrics).toBeCalledWith(

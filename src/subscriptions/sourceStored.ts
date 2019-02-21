@@ -17,8 +17,8 @@ import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription sourceUpsertedSubscription($lastMessageId: ID) {
-    sourceUpserted(lastMessageId: $lastMessageId) {
+  subscription sourceStoredSubscription($lastMessageId: ID) {
+    sourceStored(lastMessageId: $lastMessageId) {
       ...WorkspaceListPage_source
       ... on DirectorySource {
         ...DirectorySourceListItem_item
@@ -37,7 +37,7 @@ export function subscribe(environment: Environment, lastMessageId?: string) {
       onError: (error) => console.error(error),
       subscription,
       updater: (store) => {
-        const record = store.getRootField("sourceUpserted")!;
+        const record = store.getRootField("sourceStored")!;
         const recordId = record.getValue("id");
         const viewer = store.getRoot().getLinkedRecord("viewer");
 

@@ -27,7 +27,7 @@ import { IProps as IJobTableRowProps } from "../components/JobTableRow";
 import Page from "../components/Page";
 import { commit as stopJob } from "../mutations/stopJob";
 
-import { subscribe } from "../subscriptions/jobUpserted";
+import { subscribe } from "../subscriptions/jobStored";
 
 import "./JobListPage.css";
 

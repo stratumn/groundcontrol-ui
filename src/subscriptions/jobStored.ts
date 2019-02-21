@@ -17,17 +17,16 @@ import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription logEntryAddedSubscription($lastMessageId: ID) {
-    logEntryAdded(lastMessageId: $lastMessageId) {
-      ...LogEntryTable_items
+  subscription jobStoredSubscription($lastMessageId: ID) {
+    jobStored(lastMessageId: $lastMessageId) {
+      ...JobTable_items
     }
   }
 `;
 
 export function subscribe(
   environment: Environment,
-  getLevel: () => string[] | undefined,
-  getOwnerId: () => string | undefined,
+  getStatus: () => string[] | undefined,
   lastMessageId?: string,
 ) {
   return requestSubscription(
@@ -36,34 +35,23 @@ export function subscribe(
       onError: (error) => console.error(error),
       subscription,
       updater: (store) => {
-        const record = store.getRootField("logEntryAdded")!;
+        const record = store.getRootField("jobStored")!;
         const recordId = record.getValue("id");
         const system = store.getRoot().getLinkedRecord("system");
-        const newLevel = record!.getValue("level");
-        const owner = record.getLinkedRecord("owner");
-        const newOwnerId = owner ? owner.getValue("id") : undefined;
-        const level = getLevel();
-        const ownerId = getOwnerId();
+        const newStatus = record!.getValue("status") as string;
+        const status = getStatus();
 
         const connection = ConnectionHandler.getConnection(
           system,
-          "LogEntryListPage_logEntries",
-          { level, ownerId },
+          "JobListPage_jobs",
+          { status },
         );
 
         if (!connection) {
           return;
         }
 
-        let contains = true;
-
-        if (level && level.indexOf(newLevel) < 0) {
-          contains = false;
-        }
-
-        if (ownerId && ownerId !== newOwnerId) {
-          contains = false;
-        }
+        const contains = !status || status.indexOf(newStatus) >= 0;
 
         if (!contains) {
           ConnectionHandler.deleteNode(connection, recordId);
@@ -84,9 +72,9 @@ export function subscribe(
           store,
           connection,
           record,
-          "LogEntrysConnection",
+          "JobsConnection",
         );
-        ConnectionHandler.insertEdgeAfter(connection, edge);
+        ConnectionHandler.insertEdgeBefore(connection, edge);
     },
       variables: {
         lastMessageId,

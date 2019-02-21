@@ -37,7 +37,9 @@ import { commit as loadWorkspaceCommits } from "../mutations/loadWorkspaceCommit
 import { commit as pullProject } from "../mutations/pullProject";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
 import { commit as run } from "../mutations/run";
-import { subscribe } from "../subscriptions/workspaceUpserted";
+import { subscribe as subscribeProject } from "../subscriptions/projectStored";
+import { subscribe as subscribeTask } from "../subscriptions/taskStored";
+import { subscribe as subscribeWorkspace } from "../subscriptions/workspaceStored";
 import ErrorPage from "./ErrorPage";
 
 import "./WorkspaceViewPage.css";
@@ -138,7 +140,9 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
           window.removeEventListener("resize", this.setItemsPerRow);
         },
       },
-      subscribe(environment, lastMessageId, id),
+      subscribeWorkspace(environment, lastMessageId, id),
+      subscribeTask(environment, lastMessageId),
+      subscribeProject(environment, lastMessageId),
     );
 
     loadWorkspaceCommits(environment, id);
