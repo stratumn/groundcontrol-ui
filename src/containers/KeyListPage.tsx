@@ -64,6 +64,8 @@ export class KeyListPage extends Component<IProps, IState> {
     const items = this.props.viewer.keys.edges.map(({ node }) => node);
     const { showConfirmDelete } = this.state;
 
+    this.sortItems(items);
+
     return (
       <Page
         header="Keys"
@@ -114,6 +116,20 @@ export class KeyListPage extends Component<IProps, IState> {
     }
 
     this.disposables = [];
+  }
+
+  private sortItems(items: Array<{ name: string }>) {
+    items.sort((a, b) => {
+      const u = a.name.toLowerCase();
+      const v = b.name.toLowerCase();
+      if (u < v) {
+        return -1;
+      }
+      if (u > v) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   private handleChange = (values: ISetKeyFormProps) => {
@@ -178,6 +194,7 @@ export default createFragmentContainer(KeyListPage, graphql`
     keys(first: 1000) @connection(key: "KeyListPage_keys") {
       edges {
         node {
+          name
           ...KeyList_items
         }
       }

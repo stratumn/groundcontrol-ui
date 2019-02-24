@@ -65,6 +65,8 @@ export class SourceListPage extends Component<IProps, IState> {
     const items = this.props.viewer.sources.edges.map(({ node }) => node);
     const { showConfirmDelete } = this.state;
 
+    this.sortItems(items);
+
     return (
       <Page
         header="Sources"
@@ -111,6 +113,20 @@ export class SourceListPage extends Component<IProps, IState> {
     }
 
     this.disposables = [];
+  }
+
+  private sortItems(items: Array<{ directory?: string, repository?: string }>) {
+    items.sort((a, b) => {
+      const u = (a.directory || a.repository || "").toLowerCase();
+      const v = (b.directory || b.repository || "").toLowerCase();
+      if (u < v) {
+        return -1;
+      }
+      if (u > v) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   private handleChange = (values: IAddSourceFormProps) => {
@@ -164,6 +180,12 @@ export default createFragmentContainer(SourceListPage, graphql`
     sources(first: 1000) @connection(key: "SourceListPage_sources") {
       edges {
         node {
+          ... on DirectorySource {
+            directory
+          }
+          ... on GitSource {
+            repository
+          }
           ...SourceList_items
         }
       }
