@@ -30,6 +30,7 @@ const item: ProjectCard_item = {
   id: "id",
   isAhead: false,
   isBehind: false,
+  isClean: true,
   isCloned: false,
   isCloning: false,
   isPulling: false,
@@ -166,6 +167,15 @@ describe("<ProjectCard />", () => {
       />,
     );
     expect(wrapper.find("Label[content='ahead']")).toHaveLength(1);
+  });
+
+  it("shows a dirty label if the project isn't clean", () => {
+    const wrapper = shallow(
+      <ProjectCard
+        {...{...props, item: { ...item, isCloned: true, isClean: false } }}
+      />,
+    );
+    expect(wrapper.find("Label[content='dirty']")).toHaveLength(1);
   });
 
   it("triggers onClone when the clone button is clicked", () => {

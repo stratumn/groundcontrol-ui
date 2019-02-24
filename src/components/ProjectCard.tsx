@@ -50,6 +50,7 @@ export function ProjectCard(props: IProps) {
       isPulling,
       isAhead,
       isBehind,
+      isClean,
       localReferenceShort,
     },
     onClone,
@@ -72,7 +73,7 @@ export function ProjectCard(props: IProps) {
     render: () => <CommitFeed items={remoteCommitNodes} />,
   }];
 
-  let color: "grey" | "teal" | "pink" | "purple" = "grey";
+  let color: "grey" | "teal" | "violet" | "purple" | "pink" = "grey";
 
   if (isCloned) {
     labels.push((
@@ -128,25 +129,38 @@ export function ProjectCard(props: IProps) {
   }
 
   if (isAhead) {
-    color = "purple";
+    color = "violet";
 
     labels.push((
       <Label
         key="ahead"
         content="ahead"
-        color="purple"
+        color="violet"
         size="small"
       />
     ));
   }
 
   if (isBehind) {
-    color = "pink";
+    color = "purple";
 
     labels.push((
       <Label
         key="behind"
         content="behind"
+        color="purple"
+        size="small"
+      />
+    ));
+  }
+
+  if (!isClean) {
+    color = "pink";
+
+    labels.push((
+      <Label
+        key="dirty"
+        content="dirty"
         color="pink"
         size="small"
       />
@@ -202,6 +216,7 @@ export default createFragmentContainer(ProjectCard, graphql`
     isPulling
     isBehind
     isAhead
+    isClean
     remoteCommits(first: $commitsLimit) {
       edges {
         node {

@@ -48,6 +48,7 @@ export function WorkspaceCard(props: IProps) {
       isPulling,
       isBehind,
       isAhead,
+      isClean,
     },
     onClone,
     onPull,
@@ -58,7 +59,7 @@ export function WorkspaceCard(props: IProps) {
   const handleClone = () => onClone({ ...props });
   const handlePull = () => onPull({ ...props });
 
-  let color: "grey" | "teal" | "pink" | "purple" = "grey";
+  let color: "grey" | "teal" | "violet" | "purple" | "pink" = "grey";
 
   if (isCloned) {
     color = "teal";
@@ -111,25 +112,38 @@ export function WorkspaceCard(props: IProps) {
   }
 
   if (isAhead) {
-    color = "purple";
+    color = "violet";
 
     labels.push((
       <Label
         key="ahead"
         content="ahead"
-        color="purple"
+        color="violet"
         size="small"
       />
     ));
   }
 
   if (isBehind) {
-    color = "pink";
+    color = "purple";
 
     labels.push((
       <Label
         key="behind"
         content="behind"
+        color="purple"
+        size="small"
+      />
+    ));
+  }
+
+  if (!isClean) {
+    color = "pink";
+
+    labels.push((
+      <Label
+        key="dirty"
+        content="dirty"
         color="pink"
         size="small"
       />
@@ -183,6 +197,7 @@ export default createFragmentContainer(WorkspaceCard, graphql`
     isPulling
     isBehind
     isAhead
+    isClean
     projects {
       edges {
         node {
