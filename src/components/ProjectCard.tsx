@@ -34,6 +34,7 @@ import "./ProjectCard.css";
 export interface IProps {
   item: ProjectCard_item;
   onClone: (values: IProps) => any;
+  onClickPath: (values: IProps) => any;
   onPull: (values: IProps) => any;
 }
 
@@ -44,6 +45,8 @@ export function ProjectCard(props: IProps) {
       repository,
       remoteReferenceShort,
       description,
+      path,
+      shortPath,
       remoteCommits,
       isCloned,
       isCloning,
@@ -53,11 +56,13 @@ export function ProjectCard(props: IProps) {
       isClean,
       localReferenceShort,
     },
+    onClickPath,
     onClone,
     onPull,
   } = props;
   const remoteCommitNodes = item.remoteCommits.edges.map(({ node }) => node);
   const localCommitNodes = item.localCommits.edges.map(({ node }) => node);
+  const handleClickPath = () => onClickPath({ ...props });
   const handleClone = () => onClone({ ...props });
   const handlePull = () => onPull({ ...props });
   const reference = remoteReferenceShort === localReferenceShort ?
@@ -176,6 +181,13 @@ export function ProjectCard(props: IProps) {
         <Card.Header>
           <RepositoryShortName repository={repository} />
         </Card.Header>
+        <Card.Meta
+          as="a"
+          href={`file://${path}`}
+          onClick={handleClickPath}
+        >
+          {shortPath}
+        </Card.Meta>
         <Label size="small">{reference}</Label>
         {labels}
         <Card.Description>
@@ -211,6 +223,8 @@ export default createFragmentContainer(ProjectCard, graphql`
     remoteReferenceShort
     localReferenceShort
     description
+    path
+    shortPath
     isCloning
     isCloned
     isPulling

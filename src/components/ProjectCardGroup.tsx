@@ -25,15 +25,17 @@ export interface IProps {
   items: ProjectCardGroup_items;
   itemsPerRow: SemanticWIDTHS;
   onClone: (values: IProjectCardProps) => any;
+  onClickPath: (values: IProjectCardProps) => any;
   onPull: (values: IProjectCardProps) => any;
 }
 
 export function ProjectCardGroup(props: IProps) {
-  const { items, itemsPerRow, onClone, onPull } = props;
+  const { items, itemsPerRow, onClone, onPull, onClickPath } = props;
   const cards = items.map((item) => (
     <ProjectCard
       key={item.id}
       item={item}
+      onClickPath={onClickPath}
       onClone={onClone}
       onPull={onPull}
     />

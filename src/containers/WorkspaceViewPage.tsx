@@ -34,6 +34,7 @@ import { IProps as IWorkspaceTaskDropdownProps } from "../components/WorkspaceTa
 import { commit as cloneProject } from "../mutations/cloneProject";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
 import { commit as loadWorkspaceCommits } from "../mutations/loadWorkspaceCommits";
+import { commit as openEditor } from "../mutations/openEditor";
 import { commit as pullProject } from "../mutations/pullProject";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
 import { commit as run } from "../mutations/run";
@@ -106,6 +107,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
         <ProjectCardGroup
           items={items}
           itemsPerRow={itemsPerRow}
+          onClickPath={this.handleClickPath}
           onClone={this.handleCloneProject}
           onPull={this.handlePullProject}
         />
@@ -172,6 +174,10 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     let itemsPerRow = Math.floor(window.innerWidth / 384);
     itemsPerRow = Math.min(Math.max(itemsPerRow, 1), 16);
     this.setState({ itemsPerRow: itemsPerRow as SemanticWIDTHS });
+  }
+
+  private handleClickPath = ({ item: { path } }: IProjectCardProps) => {
+    openEditor(this.props.relay.environment, path);
   }
 
   private handleCloneWorkspace = () => {

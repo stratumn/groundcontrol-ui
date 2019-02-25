@@ -2,6 +2,13 @@
   margin: .6em .8em 0 0;
 }
 
+.ProjectCard.ui.card > .content > .meta {
+  font-size: .9em;
+  word-break: break-all;
+  display: block;
+  margin-bottom: .2em;
+}
+
 .ProjectCard.ui.card > .content > .description {
   margin: 1em 0;
 }

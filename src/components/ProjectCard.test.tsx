@@ -46,6 +46,7 @@ const item: ProjectCard_item = {
     }],
   },
   localReferenceShort: "localReferenceShort",
+  path: "/long/path",
   remoteCommits: {
     edges: [{
       node: {
@@ -59,15 +60,18 @@ const item: ProjectCard_item = {
   },
   remoteReferenceShort: "remoteReferenceShort",
   repository: "repository",
+  shortPath: "short/path",
 };
 
 const props = {
   item,
+  onClickPath: jest.fn(),
   onClone: jest.fn(),
   onPull: jest.fn(),
 };
 
 beforeEach(() => {
+  mocked(props.onClickPath).mockClear();
   mocked(props.onClone).mockClear();
   mocked(props.onPull).mockClear();
 });
@@ -176,6 +180,12 @@ describe("<ProjectCard />", () => {
       />,
     );
     expect(wrapper.find("Label[content='dirty']")).toHaveLength(1);
+  });
+
+  it("triggers onClickPath when the path is clicked", () => {
+    const wrapper = shallow(<ProjectCard {...props} />);
+    wrapper.find("[href='file:///long/path']").simulate("click");
+    expect(props.onClickPath).toBeCalledWith(props);
   });
 
   it("triggers onClone when the clone button is clicked", () => {
