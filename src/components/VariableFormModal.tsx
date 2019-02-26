@@ -35,7 +35,7 @@ export default function(props: IProps) {
       open={true}
       onClose={handleClose}
     >
-      <Modal.Header>Task Variables</Modal.Header>
+      <Modal.Header>Variables</Modal.Header>
       <Modal.Content scrolling={true}>
         <VariableForm {...props} />
       </Modal.Content>

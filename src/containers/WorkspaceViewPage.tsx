@@ -30,9 +30,11 @@ import { IProps as IVariableFormFieldProps} from "../components/VariableFormFiel
 import VariableFormModal from "../components/VariableFormModal";
 import WorkspaceMenu from "../components/WorkspaceMenu";
 import WorkspaceNotes from "../components/WorkspaceNotes";
+import { IProps as IWorkspaceServiceDropdownProps } from "../components/WorkspaceServiceDropdown";
 import { IProps as IWorkspaceTaskDropdownProps } from "../components/WorkspaceTaskDropdown";
 import { commit as cloneProject } from "../mutations/cloneProject";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
+import { commit as launch } from "../mutations/launch";
 import { commit as loadWorkspaceCommits } from "../mutations/loadWorkspaceCommits";
 import { commit as openEditor } from "../mutations/openEditor";
 import { commit as pullProject } from "../mutations/pullProject";
@@ -61,6 +63,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   };
 
   private disposables: Disposable[] = [];
+  private serviceID?: string;
   private taskID?: string;
 
   public render() {
@@ -101,6 +104,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
           item={workspace}
           onClone={this.handleCloneWorkspace}
           onPull={this.handlePullWorkspace}
+          onLaunch={this.handleLaunch}
           onRun={this.handleRun}
         />
         <WorkspaceNotes item={workspace} />
@@ -150,6 +154,16 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     this.disposables = [];
   }
 
+  private findService(id: string) {
+    const edge = this.props.viewer.workspace!.services.edges.find((value) => {
+      return value.node.id === id;
+    });
+
+    if (edge) {
+      return edge.node;
+    }
+  }
+
   private findTask(id: string) {
     const edge = this.props.viewer.workspace!.tasks.edges.find((value) => {
       return value.node.id === id;
@@ -160,6 +174,17 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     }
   }
 
+  private doesServiceHaveVariables(id: string) {
+    // TODO: needs, before, and after variables.
+    const service = this.findService(id);
+
+    if (service) {
+      return service.variables.edges.length > 0;
+    }
+
+    return false;
+  }
+
   private doesTaskHaveVariables(id: string) {
     const task = this.findTask(id);
 
@@ -168,6 +193,23 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     }
 
     return false;
+  }
+
+  private setVariables(vars: Array<{name: string, default: string | null}>) {
+    const keys = this.props.viewer.keys.edges.map(({ node }) => node);
+    const keyMap: { [name: string]: string } = {};
+
+    for (const key of keys) {
+      keyMap[key.name] = key.value;
+    }
+
+    const variables: IVariable[] = vars.map((item) => ({
+      name: item.name,
+      save: true,
+      value: keyMap[item.name] || item.default || "",
+    }));
+
+    this.setState({ variables });
   }
 
   private setItemsPerRow = () => {
@@ -196,6 +238,23 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     pullProject(this.props.relay.environment, id);
   }
 
+  private handleLaunch = (_: IWorkspaceServiceDropdownProps, id: string) => {
+    if (!this.doesServiceHaveVariables(id)) {
+      launch(this.props.relay.environment, id);
+    }
+
+    const service = this.findService(id);
+    if (!service) {
+      return;
+    }
+
+    // TODO: needs, before, and after variables.
+    const vars = service.variables.edges.map(({ node }) => node);
+
+    this.serviceID = id;
+    this.setVariables(vars);
+  }
+
   private handleRun = (_: IWorkspaceTaskDropdownProps, id: string) => {
     if (!this.doesTaskHaveVariables(id)) {
       run(this.props.relay.environment, id);
@@ -208,24 +267,13 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     }
 
     const vars = task.variables.edges.map(({ node }) => node);
-    const keys = this.props.viewer.keys.edges.map(({ node }) => node);
-    const keyMap: { [name: string]: string } = {};
-
-    for (const key of keys) {
-      keyMap[key.name] = key.value;
-    }
-
-    const variables: IVariable[] = vars.map((item) => ({
-      name: item.name,
-      save: true,
-      value: keyMap[item.name] || item.default || "",
-    }));
 
     this.taskID = id;
-    this.setState({ variables });
+    this.setVariables(vars);
   }
 
   private handleCloseModal = () => {
+    this.serviceID = undefined;
     this.taskID = undefined;
     this.setState({ variables: undefined });
   }
@@ -245,7 +293,11 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   }
 
   private handleSubmitVariables = ({ variables }: IVariableFormProps ) => {
-    run(this.props.relay.environment, this.taskID!, variables);
+    if (this.serviceID) {
+      launch(this.props.relay.environment, this.serviceID, variables);
+    } else if (this.taskID) {
+      run(this.props.relay.environment, this.taskID, variables);
+    }
     this.handleCloseModal();
   }
 
@@ -264,6 +316,21 @@ export default createFragmentContainer(WorkspaceViewPage, graphql`
       id
       name
       description
+      services {
+        edges {
+          node {
+            id
+            variables {
+              edges {
+                node {
+                  name
+                  default
+                }
+              }
+            }
+          }
+        }
+      }
       tasks {
         edges {
           node {

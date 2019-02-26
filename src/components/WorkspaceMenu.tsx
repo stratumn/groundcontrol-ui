@@ -22,20 +22,21 @@ import {
 
 import { WorkspaceMenu_item } from "./__generated__/WorkspaceMenu_item.graphql";
 
-import WorkspaceTaskDropdown, {
-  IProps as IWorkspaceTaskDropdownProps,
-} from "./WorkspaceTaskDropdown";
+import WorkspaceServiceDropdown, { IProps as IWorkspaceServiceDropdownProps } from "./WorkspaceServiceDropdown";
+import WorkspaceTaskDropdown, { IProps as IWorkspaceTaskDropdownProps } from "./WorkspaceTaskDropdown";
 
 export interface IProps {
   item: WorkspaceMenu_item;
   onClone: (values: IProps) => any;
   onPull: (values: IProps) => any;
+  onLaunch: (values: IWorkspaceServiceDropdownProps, id: string) => any;
   onRun: (values: IWorkspaceTaskDropdownProps, id: string) => any;
 }
 
 export function WorkspaceMenu(props: IProps) {
   const {
     item: {
+      services,
       tasks,
       isCloning,
       isCloned,
@@ -44,8 +45,10 @@ export function WorkspaceMenu(props: IProps) {
     },
     onClone,
     onPull,
+    onLaunch,
     onRun,
   } = props;
+  const serviceNodes = services.edges.map(({ node }) => node);
   const taskNodes = tasks.edges.map(({ node }) => node);
   const handleClone = () => onClone({ ...props });
   const handlePull = () => onPull({ ...props });
@@ -66,6 +69,11 @@ export function WorkspaceMenu(props: IProps) {
         <Icon name="download" />
         Pull All
       </Menu.Item>
+      <WorkspaceServiceDropdown
+        items={serviceNodes}
+        enabled={isCloned}
+        onLaunch={onLaunch}
+      />
       <WorkspaceTaskDropdown
         items={taskNodes}
         enabled={isCloned}
@@ -77,6 +85,13 @@ export function WorkspaceMenu(props: IProps) {
 
 export default createFragmentContainer(WorkspaceMenu, graphql`
   fragment WorkspaceMenu_item on Workspace {
+    services {
+      edges {
+        node {
+          ...WorkspaceServiceDropdown_items
+        }
+      }
+    }
     tasks {
       edges {
         node {
