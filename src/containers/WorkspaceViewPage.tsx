@@ -175,11 +175,10 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   }
 
   private doesServiceHaveVariables(id: string) {
-    // TODO: needs, before, and after variables.
     const service = this.findService(id);
 
     if (service) {
-      return service.variables.edges.length > 0;
+      return service.allVariables.edges.length > 0;
     }
 
     return false;
@@ -248,8 +247,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
       return;
     }
 
-    // TODO: needs, before, and after variables.
-    const vars = service.variables.edges.map(({ node }) => node);
+    const vars = service.allVariables.edges.map(({ node }) => node);
 
     this.serviceID = id;
     this.setVariables(vars);
@@ -320,7 +318,7 @@ export default createFragmentContainer(WorkspaceViewPage, graphql`
         edges {
           node {
             id
-            variables {
+            allVariables {
               edges {
                 node {
                   name
