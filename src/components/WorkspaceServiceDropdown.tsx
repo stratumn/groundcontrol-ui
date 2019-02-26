@@ -26,18 +26,18 @@ import { WorkspaceServiceDropdown_items } from "./__generated__/WorkspaceService
 export interface IProps {
   items: WorkspaceServiceDropdown_items;
   enabled: boolean;
-  onLaunch: (values: IProps, id: string) => any;
+  onStart: (values: IProps, id: string) => any;
 }
 
 export function WorkspaceServiceDropdown(props: IProps) {
-  const { enabled, items, onLaunch } = props;
-  const handleLaunch = (id: string) => onLaunch({ ...props }, id);
+  const { enabled, items, onStart } = props;
+  const handleStart = (id: string) => onStart({ ...props }, id);
 
   const dropdownItems = items.map(({ id, name, status }) => (
     <Dropdown.Item
       key={id}
       disabled={status !== "STOPPED" && status !== "FAILED"}
-      onClick={handleLaunch.bind(null, id)}
+      onClick={handleStart.bind(null, id)}
     >
       <Dimmer
         active={status === "STARTING"}

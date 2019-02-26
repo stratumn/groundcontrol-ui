@@ -15,10 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Icon,
-  Menu,
-} from "semantic-ui-react";
+import { Icon, Menu } from "semantic-ui-react";
 
 import { WorkspaceMenu_item } from "./__generated__/WorkspaceMenu_item.graphql";
 
@@ -29,7 +26,7 @@ export interface IProps {
   item: WorkspaceMenu_item;
   onClone: (values: IProps) => any;
   onPull: (values: IProps) => any;
-  onLaunch: (values: IWorkspaceServiceDropdownProps, id: string) => any;
+  onStart: (values: IWorkspaceServiceDropdownProps, id: string) => any;
   onRun: (values: IWorkspaceTaskDropdownProps, id: string) => any;
 }
 
@@ -45,7 +42,7 @@ export function WorkspaceMenu(props: IProps) {
     },
     onClone,
     onPull,
-    onLaunch,
+    onStart,
     onRun,
   } = props;
   const serviceNodes = services.edges.map(({ node }) => node);
@@ -72,7 +69,7 @@ export function WorkspaceMenu(props: IProps) {
       <WorkspaceServiceDropdown
         items={serviceNodes}
         enabled={isCloned}
-        onLaunch={onLaunch}
+        onStart={onStart}
       />
       <WorkspaceTaskDropdown
         items={taskNodes}
