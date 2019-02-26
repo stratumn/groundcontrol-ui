@@ -16,11 +16,11 @@ import graphql from "babel-plugin-relay/macro";
 import { commitMutation } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { VariableInput } from "./__generated__/launchMutation.graphql";
+import { VariableInput } from "./__generated__/runTaskMutation.graphql";
 
 const mutation = graphql`
-  mutation launchMutation($id: String!, $variables: [VariableInput!]) {
-    launch(id: $id, variables: $variables) {
+  mutation runTaskMutation($id: String!, $variables: [VariableInput!]) {
+    runTask(id: $id, variables: $variables) {
       id
     }
   }
