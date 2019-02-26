@@ -34,6 +34,9 @@ const props = {
     processMetrics: {
       ...mockQueryPropAttrs(),
     },
+    serviceMetrics: {
+      ...mockQueryPropAttrs(),
+    },
   },
 };
 

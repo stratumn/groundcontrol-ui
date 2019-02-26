@@ -33,6 +33,10 @@ const props = {
     ...mockQueryPropAttrs(),
     running: 4,
   },
+  serviceMetrics: {
+    ...mockQueryPropAttrs(),
+    running: 5,
+  },
 };
 
 describe("<MenuSecondaryItems />", () => {

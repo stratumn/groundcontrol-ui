@@ -48,6 +48,12 @@ exports[`<Menu /> renders correctly 1`] = `
               " $refType": null,
             }
           }
+          serviceMetrics={
+            Object {
+              " $fragmentRefs": null,
+              " $refType": null,
+            }
+          }
         />
       </Responsive>
     </Container>
@@ -82,6 +88,12 @@ exports[`<Menu /> renders correctly 1`] = `
           }
         }
         processMetrics={
+          Object {
+            " $fragmentRefs": null,
+            " $refType": null,
+          }
+        }
+        serviceMetrics={
           Object {
             " $fragmentRefs": null,
             " $refType": null,

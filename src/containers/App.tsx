@@ -22,9 +22,10 @@ import { Disposable } from "relay-runtime";
 import { App_system } from "./__generated__/App_system.graphql";
 
 import Menu from "../components/Menu";
-import { subscribe as subscribeJobMetrics } from "../subscriptions/jobMetricsStored";
-import { subscribe as subscribeLogMetrics } from "../subscriptions/logMetricsStored";
-import { subscribe as subscribeProcessMetrics } from "../subscriptions/processMetricsStored";
+import { subscribe as subscribeJobMetricsStored } from "../subscriptions/jobMetricsStored";
+import { subscribe as subscribeLogMetricsStored } from "../subscriptions/logMetricsStored";
+import { subscribe as subscribeProcessMetricsStored } from "../subscriptions/processMetricsStored";
+import { subscribe as subscribeServiceMetricsStored } from "../subscriptions/serviceMetricsStored";
 
 import "./App.css";
 
@@ -74,9 +75,10 @@ export class App extends Component<IProps, IState> {
           return true;
         }),
       },
-      subscribeJobMetrics(environment, lastMessageId),
-      subscribeProcessMetrics(environment, lastMessageId),
-      subscribeLogMetrics(environment, lastMessageId),
+      subscribeServiceMetricsStored(environment, lastMessageId),
+      subscribeJobMetricsStored(environment, lastMessageId),
+      subscribeProcessMetricsStored(environment, lastMessageId),
+      subscribeLogMetricsStored(environment, lastMessageId),
     );
   }
 
