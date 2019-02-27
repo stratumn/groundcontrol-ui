@@ -75,7 +75,7 @@ export function subscribe(
           "JobsConnection",
         );
         ConnectionHandler.insertEdgeBefore(connection, edge);
-    },
+      },
       variables: {
         lastMessageId,
       },

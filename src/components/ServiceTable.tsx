@@ -20,25 +20,27 @@ import {
   Table,
  } from "semantic-ui-react";
 
-import { JobTable_items } from "./__generated__/JobTable_items.graphql";
+import { ServiceTable_items } from "./__generated__/ServiceTable_items.graphql";
 
-import JobTableRow, { IProps as IJobTableRowProps } from "./JobTableRow";
+import ServiceTableRow, { IProps as IServiceTableRowProps } from "./ServiceTableRow";
 
 export interface IProps {
-  items: JobTable_items;
-  onStop: (values: IJobTableRowProps) => any;
+  items: ServiceTable_items;
+  onStart: (values: IServiceTableRowProps) => any;
+  onStop: (values: IServiceTableRowProps) => any;
 }
 
-export function JobTable({ items, onStop }: IProps) {
+export function ServiceTable({ items, onStart, onStop }: IProps) {
   if (items.length < 1) {
-    return <Segment>There are no jobs at this time.</Segment>;
+    return <Segment>There are no services at this time.</Segment>;
   }
 
   const rows = items.map((item) => (
-    <JobTableRow
+    <ServiceTableRow
       key={item.id}
       item={item}
       onStop={onStop}
+      onStart={onStart}
     />
   ));
 
@@ -46,12 +48,8 @@ export function JobTable({ items, onStop }: IProps) {
     <Table inverted={true}>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Name</Table.HeaderCell>
           <Table.HeaderCell>Workspace</Table.HeaderCell>
-          <Table.HeaderCell>Repository</Table.HeaderCell>
-          <Table.HeaderCell>Created At</Table.HeaderCell>
-          <Table.HeaderCell>Updated At</Table.HeaderCell>
-          <Table.HeaderCell>Priority</Table.HeaderCell>
+          <Table.HeaderCell>Name</Table.HeaderCell>
           <Table.HeaderCell>Status</Table.HeaderCell>
           <Table.HeaderCell width="2" />
         </Table.Row>
@@ -61,10 +59,10 @@ export function JobTable({ items, onStop }: IProps) {
   );
 }
 
-export default createFragmentContainer(JobTable, graphql`
-  fragment JobTable_items on Job
+export default createFragmentContainer(ServiceTable, graphql`
+  fragment ServiceTable_items on Service
     @relay(plural: true) {
     id
-    ...JobTableRow_item
+    ...ServiceTableRow_item
   }`,
 );

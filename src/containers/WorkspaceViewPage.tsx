@@ -160,7 +160,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
         },
       },
       subscribeWorkspaceStored(environment, lastMessageId, id),
-      subscribeServiceStored(environment, lastMessageId),
+      subscribeServiceStored(environment, undefined, lastMessageId),
       subscribeTaskStored(environment, lastMessageId),
       subscribeProjectStored(environment, lastMessageId),
     );

@@ -32,6 +32,7 @@ import JobListPage from "./containers/JobListPage";
 import KeyListPage from "./containers/KeyListPage";
 import LogEntryListPage from "./containers/LogEntryListPage";
 import ProcessGroupListPage from "./containers/ProcessGroupListPage";
+import ServiceListPage from "./containers/ServiceListPage";
 import SourceListPage from "./containers/SourceListPage";
 import WorkspaceListPage from "./containers/WorkspaceListPage";
 import WorkspaceViewPage from "./containers/WorkspaceViewPage";
@@ -88,6 +89,17 @@ const workspaceViewQuery = graphql`
   }
 `;
 
+const serviceListQuery = graphql`
+  query RouterServiceListQuery($status: [ServiceStatus!]) {
+    system {
+      ...ServiceListPage_system
+    }
+    viewer {
+      ...ServiceListPage_viewer @arguments(status: $status)
+    }
+  }
+`;
+
 const jobListQuery = graphql`
   query RouterJobListQuery($status: [JobStatus!]) {
     system {
@@ -114,6 +126,10 @@ const logEntryListQuery = graphql`
     }
   }
 `;
+
+function prepareServiceListVariables({ status }: { status: string }) {
+  return { status: status ? status.split(",") : null };
+}
 
 function prepareJobListVariables({ status }: { status: string }) {
   return { status: status ? status.split(",") : null };
@@ -185,6 +201,20 @@ export default createFarceRouter({
           Component={ProcessGroupListPage}
           query={processGroupListQuery}
           prepareVariables={prepareProcessGroupListVariables}
+          render={render}
+        />
+      </Route>
+      <Route path="services">
+        <Route
+          Component={ServiceListPage}
+          query={serviceListQuery}
+          render={render}
+        />
+        <Route
+          path=":status"
+          Component={ServiceListPage}
+          query={serviceListQuery}
+          prepareVariables={prepareServiceListVariables}
           render={render}
         />
       </Route>

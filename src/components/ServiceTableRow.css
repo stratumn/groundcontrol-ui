@@ -1,0 +1,13 @@
+.ServiceTableRow td {
+  font: var(--mono-font);
+}
+
+.ServiceTableRowCommand {
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.ui.table td.ServiceTableRowActions {
+  padding-top: 0;
+  padding-bottom: 0;
+}
