@@ -68,12 +68,12 @@ export function WorkspaceMenu(props: IProps) {
       </Menu.Item>
       <WorkspaceServiceDropdown
         items={serviceNodes}
-        enabled={isCloned}
+        enabled={isCloned && serviceNodes.length > 0}
         onStart={onStart}
       />
       <WorkspaceTaskDropdown
         items={taskNodes}
-        enabled={isCloned}
+        enabled={isCloned && taskNodes.length > 0}
         onRun={onRun}
       />
     </Menu>
