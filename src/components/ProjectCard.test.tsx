@@ -183,9 +183,10 @@ describe("<ProjectCard />", () => {
   });
 
   it("triggers onClickPath when the path is clicked", () => {
-    const wrapper = shallow(<ProjectCard {...props} />);
+    const pathProps: IProps = {...props, item: { ...item, isCloned: true } };
+    const wrapper = shallow(<ProjectCard {...pathProps} />);
     wrapper.find("[href='file:///long/path']").simulate("click");
-    expect(props.onClickPath).toBeCalledWith(props);
+    expect(pathProps.onClickPath).toBeCalledWith(pathProps);
   });
 
   it("triggers onClone when the clone button is clicked", () => {

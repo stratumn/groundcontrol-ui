@@ -106,13 +106,6 @@ exports[`<ProjectCard /> renders correctly when not cloned 1`] = `
         repository="repository"
       />
     </CardHeader>
-    <CardMeta
-      as="a"
-      href="file:///long/path"
-      onClick={[Function]}
-    >
-      short/path
-    </CardMeta>
     <Label
       size="small"
     >

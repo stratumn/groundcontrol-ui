@@ -172,6 +172,20 @@ export function ProjectCard(props: IProps) {
     ));
   }
 
+  let meta: JSX.Element | null = null;
+
+  if (isCloned) {
+    meta = (
+      <Card.Meta
+        as="a"
+        href={`file://${path}`}
+        onClick={handleClickPath}
+      >
+        {shortPath}
+      </Card.Meta>
+    );
+  }
+
   return (
     <Card
       className="ProjectCard"
@@ -181,13 +195,7 @@ export function ProjectCard(props: IProps) {
         <Card.Header>
           <RepositoryShortName repository={repository} />
         </Card.Header>
-        <Card.Meta
-          as="a"
-          href={`file://${path}`}
-          onClick={handleClickPath}
-        >
-          {shortPath}
-        </Card.Meta>
+        {meta}
         <Label size="small">{reference}</Label>
         {labels}
         <Card.Description>
