@@ -189,6 +189,7 @@ export class ServiceListPage extends Component<IProps, IState> {
     if (!this.doesServiceHaveVariables(serviceID)) {
       this.setState({ serviceID, showServiceProgressModal: true });
       startService(this.props.relay.environment, serviceID);
+      return;
     }
 
     const service = this.findService(serviceID);

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
+import React from "react";
 
 import Page from "../components/Page";
 
@@ -20,20 +20,14 @@ export interface IProps {
   error: Error;
 }
 
-export default class ErrorPage extends Component<IProps> {
+const ErrorPage = ({ error }: IProps) => (
+  <Page
+    header="Oops"
+    subheader="Looks like something's wrong."
+    icon="warning"
+  >
+    <pre>{error.stack}</pre>
+  </Page>
+);
 
-  public render() {
-    const { error } = this.props;
-
-    return (
-      <Page
-        header="Oops"
-        subheader="Looks like something's wrong."
-        icon="warning"
-      >
-        <pre>{error.stack}</pre>
-      </Page>
-    );
-  }
-
-}
+export default ErrorPage;
