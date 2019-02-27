@@ -31,19 +31,6 @@ exports[`<MenuSecondaryItems /> renders correctly 1`] = `
   <Link
     Component={[Function]}
     activePropName="active"
-    to="/processes"
-  >
-    Processes
-    <Label
-      color="blue"
-      size="tiny"
-    >
-      4
-    </Label>
-  </Link>
-  <Link
-    Component={[Function]}
-    activePropName="active"
     to="/logs"
   >
     Logs

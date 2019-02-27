@@ -24,7 +24,6 @@ import { App_system } from "./__generated__/App_system.graphql";
 import Menu from "../components/Menu";
 import { subscribe as subscribeJobMetricsStored } from "../subscriptions/jobMetricsStored";
 import { subscribe as subscribeLogMetricsStored } from "../subscriptions/logMetricsStored";
-import { subscribe as subscribeProcessMetricsStored } from "../subscriptions/processMetricsStored";
 import { subscribe as subscribeServiceMetricsStored } from "../subscriptions/serviceMetricsStored";
 
 import "./App.css";
@@ -77,7 +76,6 @@ export class App extends Component<IProps, IState> {
       },
       subscribeServiceMetricsStored(environment, lastMessageId),
       subscribeJobMetricsStored(environment, lastMessageId),
-      subscribeProcessMetricsStored(environment, lastMessageId),
       subscribeLogMetricsStored(environment, lastMessageId),
     );
   }

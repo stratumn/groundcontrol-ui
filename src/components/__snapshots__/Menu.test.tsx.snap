@@ -42,12 +42,6 @@ exports[`<Menu /> renders correctly 1`] = `
               " $refType": null,
             }
           }
-          processMetrics={
-            Object {
-              " $fragmentRefs": null,
-              " $refType": null,
-            }
-          }
           serviceMetrics={
             Object {
               " $fragmentRefs": null,
@@ -82,12 +76,6 @@ exports[`<Menu /> renders correctly 1`] = `
           }
         }
         logMetrics={
-          Object {
-            " $fragmentRefs": null,
-            " $refType": null,
-          }
-        }
-        processMetrics={
           Object {
             " $fragmentRefs": null,
             " $refType": null,

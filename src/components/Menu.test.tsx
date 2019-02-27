@@ -31,9 +31,6 @@ const props = {
     logMetrics: {
       ...mockQueryPropAttrs(),
     },
-    processMetrics: {
-      ...mockQueryPropAttrs(),
-    },
     serviceMetrics: {
       ...mockQueryPropAttrs(),
     },

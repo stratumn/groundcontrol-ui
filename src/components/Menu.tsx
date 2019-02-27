@@ -39,7 +39,6 @@ export function Menu(props: IProps) {
     system: {
       serviceMetrics,
       jobMetrics,
-      processMetrics,
       logMetrics,
     },
     showSidebar,
@@ -77,7 +76,6 @@ export function Menu(props: IProps) {
             <MenuSecondaryItems
               serviceMetrics={serviceMetrics}
               jobMetrics={jobMetrics}
-              processMetrics={processMetrics}
               logMetrics={logMetrics}
             />
           </Responsive>
@@ -99,7 +97,6 @@ export function Menu(props: IProps) {
           <MenuSecondaryItems
             serviceMetrics={serviceMetrics}
             jobMetrics={jobMetrics}
-            processMetrics={processMetrics}
             logMetrics={logMetrics}
           />
         </Sidebar>
@@ -110,14 +107,11 @@ export function Menu(props: IProps) {
 
 export default createFragmentContainer(Menu, graphql`
   fragment Menu_system on System {
-    jobMetrics {
-      ...MenuSecondaryItems_jobMetrics
-    }
     serviceMetrics {
       ...MenuSecondaryItems_serviceMetrics
     }
-    processMetrics {
-      ...MenuSecondaryItems_processMetrics
+    jobMetrics {
+      ...MenuSecondaryItems_jobMetrics
     }
     logMetrics {
       ...MenuSecondaryItems_logMetrics
