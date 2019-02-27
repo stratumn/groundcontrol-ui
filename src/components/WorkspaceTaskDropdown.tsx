@@ -33,14 +33,14 @@ export function WorkspaceTaskDropdown(props: IProps) {
   const { enabled, items, onRun } = props;
   const handleRun = (id: string) => onRun({ ...props }, id);
 
-  const dropdownItems = items.map(({ id, name, isRunning }) => (
+  const dropdownItems = items.map(({ id, name, status }) => (
     <Dropdown.Item
       key={id}
-      disabled={isRunning}
+      disabled={status !== "STOPPED" && status !== "FAILED"}
       onClick={handleRun.bind(null, id)}
     >
       <Dimmer
-        active={isRunning}
+        active={status !== "STOPPED" && status !== "FAILED"}
         inverted={true}
       >
         <Loader size="tiny" />
@@ -67,6 +67,6 @@ export default createFragmentContainer(WorkspaceTaskDropdown, graphql`
   fragment WorkspaceTaskDropdown_items on Task @relay(plural: true) {
     id
     name
-    isRunning
+    status
   }`,
 );

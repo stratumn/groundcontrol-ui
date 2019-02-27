@@ -25,6 +25,7 @@ import Page from "../components/Page";
 import { IProps as IProjectCardProps } from "../components/ProjectCard";
 import ProjectCardGroup from "../components/ProjectCardGroup";
 import ServiceProgressModal from "../components/ServiceProgressModal";
+import TaskProgressModal from "../components/TaskProgressModal";
 import { IVariable } from "../components/VariableForm";
 import { IProps as IVariableFormProps} from "../components/VariableForm";
 import { IProps as IVariableFormFieldProps} from "../components/VariableFormField";
@@ -57,6 +58,7 @@ interface IState {
   itemsPerRow: SemanticWIDTHS;
   showVariableModal: boolean;
   showServiceProgressModal: boolean;
+  showTaskProgressModal: boolean;
   isService: boolean;
   serviceID?: string;
   taskID?: string;
@@ -69,6 +71,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     isService: false,
     itemsPerRow: 3,
     showServiceProgressModal: false,
+    showTaskProgressModal: false,
     showVariableModal: false,
   };
 
@@ -89,8 +92,10 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     const {
       itemsPerRow,
       serviceID,
+      taskID,
       showVariableModal,
       showServiceProgressModal,
+      showTaskProgressModal,
       variables,
     } = this.state;
 
@@ -103,6 +108,13 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
           onClose={this.handleCloseVariableModal}
           onChangeVariable={this.handleChangeVariable}
           onSubmit={this.handleSubmitVariables}
+        />
+      );
+    } else if (showTaskProgressModal && taskID) {
+      modal = (
+        <TaskProgressModal
+          item={this.findTask(taskID)!}
+          onClose={this.handleCloseTaskProgressModal}
         />
       );
     } else if (showServiceProgressModal && serviceID) {
@@ -279,6 +291,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
 
   private handleRunTask = (_: IWorkspaceTaskDropdownProps, taskID: string) => {
     if (!this.doesTaskHaveVariables(taskID)) {
+      this.setState({ taskID, showTaskProgressModal: true });
       runTask(this.props.relay.environment, taskID);
       return;
     }
@@ -302,6 +315,10 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     this.setState({ showServiceProgressModal: false });
   }
 
+  private handleCloseTaskProgressModal = () => {
+    this.setState({ showTaskProgressModal: false });
+  }
+
   private handleChangeVariable = ({ name, value, save }: IVariableFormFieldProps) => {
     const variables = this.state.variables!.map((v) => ({...v}));
 
@@ -323,6 +340,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
       this.setState({ showServiceProgressModal: true });
       startService(this.props.relay.environment, serviceID, variables);
     } else if (!isService && taskID) {
+      this.setState({ showTaskProgressModal: true });
       runTask(this.props.relay.environment, taskID, variables);
     }
 
@@ -372,6 +390,7 @@ export default createFragmentContainer(WorkspaceViewPage, graphql`
                 }
               }
             }
+            ...TaskProgressModal_item
           }
         }
       }

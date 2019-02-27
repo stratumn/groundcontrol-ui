@@ -19,6 +19,7 @@ import { Environment } from "relay-runtime";
 const subscription = graphql`
   subscription taskStoredSubscription($lastMessageId: ID) {
     taskStored(lastMessageId: $lastMessageId) {
+      ...TaskProgress_item
       workspace {
         ...WorkspaceMenu_item
       }
