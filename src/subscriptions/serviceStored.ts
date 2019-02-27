@@ -17,16 +17,19 @@ import { requestSubscription } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
 const subscription = graphql`
-  subscription processGroupStoredSubscription($lastMessageId: ID) {
-    processGroupStored(lastMessageId: $lastMessageId) {
-      ...ProcessGroupCardGroup_items
+  subscription serviceStoredSubscription($lastMessageId: ID) {
+    serviceStored(lastMessageId: $lastMessageId) {
+      ...ServiceProgress_item
+      workspace {
+        ...WorkspaceMenu_item
+      }
     }
   }
 `;
 
 export function subscribe(
   environment: Environment,
-  getStatus: () => string[] | undefined,
+  getStatus?: () => string[] | undefined,
   lastMessageId?: string,
 ) {
   return requestSubscription(
@@ -35,15 +38,19 @@ export function subscribe(
       onError: (error) => console.error(error),
       subscription,
       updater: (store) => {
-        const record = store.getRootField("processGroupStored")!;
+        if (!getStatus) {
+          return;
+        }
+
+        const record = store.getRootField("serviceStored")!;
         const recordId = record.getValue("id");
         const system = store.getRoot().getLinkedRecord("system");
-        const newStatus = record!.getValue("status");
+        const newStatus = record!.getValue("status") as string;
         const status = getStatus();
 
         const connection = ConnectionHandler.getConnection(
           system,
-          "ProcessGroupListPage_processGroups",
+          "ServiceListPage_services",
           { status },
         );
 
@@ -55,6 +62,7 @@ export function subscribe(
 
         if (!contains) {
           ConnectionHandler.deleteNode(connection, recordId);
+          return;
         }
 
         const edges = connection.getLinkedRecords("edges");
@@ -71,10 +79,10 @@ export function subscribe(
           store,
           connection,
           record,
-          "ProcessGroupsConnection",
+          "ServicesConnection",
         );
         ConnectionHandler.insertEdgeBefore(connection, edge);
-    },
+      },
       variables: {
         lastMessageId,
       },

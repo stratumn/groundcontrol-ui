@@ -42,7 +42,7 @@ exports[`<Menu /> renders correctly 1`] = `
               " $refType": null,
             }
           }
-          processMetrics={
+          serviceMetrics={
             Object {
               " $fragmentRefs": null,
               " $refType": null,
@@ -81,7 +81,7 @@ exports[`<Menu /> renders correctly 1`] = `
             " $refType": null,
           }
         }
-        processMetrics={
+        serviceMetrics={
           Object {
             " $fragmentRefs": null,
             " $refType": null,

@@ -13,20 +13,26 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import { commitMutation } from "react-relay";
+import { requestSubscription } from "react-relay";
 import { Environment } from "relay-runtime";
 
-const mutation = graphql`
-  mutation stopProcessGroupMutation($id: String!) {
-    stopProcessGroup(id: $id) {
-      id
+const subscription = graphql`
+  subscription serviceMetricsStoredSubscription($lastMessageId: ID) {
+    serviceMetricsStored(lastMessageId: $lastMessageId) {
+      ...MenuSecondaryItems_serviceMetrics
     }
   }
 `;
 
-export function commit(environment: Environment, id: string) {
-  commitMutation(environment, {
-    mutation,
-    variables: { id },
-  });
+export function subscribe(environment: Environment, lastMessageId?: string) {
+  return requestSubscription(
+    environment,
+    {
+      onError: (error) => console.error(error),
+      subscription,
+      variables: {
+        lastMessageId,
+      },
+    },
+  );
 }

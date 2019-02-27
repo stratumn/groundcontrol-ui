@@ -64,7 +64,7 @@ export function JobTable({ items, onStop }: IProps) {
 export default createFragmentContainer(JobTable, graphql`
   fragment JobTable_items on Job
     @relay(plural: true) {
-    ...JobTableRow_item
     id
+    ...JobTableRow_item
   }`,
 );

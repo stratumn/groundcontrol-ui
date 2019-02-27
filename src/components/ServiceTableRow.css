@@ -1,13 +1,13 @@
-.ProcessTableRow td {
+.ServiceTableRow td {
   font: var(--mono-font);
 }
 
-.ProcessTableRowCommand {
+.ServiceTableRowCommand {
   word-break: break-all;
   white-space: pre-wrap;
 }
 
-.ui.table td.ProcessTableRowActions {
+.ui.table td.ServiceTableRowActions {
   padding-top: 0;
   padding-bottom: 0;
 }

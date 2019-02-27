@@ -31,7 +31,7 @@ import HttpErrorPage from "./containers/HttpErrorPage";
 import JobListPage from "./containers/JobListPage";
 import KeyListPage from "./containers/KeyListPage";
 import LogEntryListPage from "./containers/LogEntryListPage";
-import ProcessGroupListPage from "./containers/ProcessGroupListPage";
+import ServiceListPage from "./containers/ServiceListPage";
 import SourceListPage from "./containers/SourceListPage";
 import WorkspaceListPage from "./containers/WorkspaceListPage";
 import WorkspaceViewPage from "./containers/WorkspaceViewPage";
@@ -88,18 +88,21 @@ const workspaceViewQuery = graphql`
   }
 `;
 
-const jobListQuery = graphql`
-  query RouterJobListQuery($status: [JobStatus!]) {
+const serviceListQuery = graphql`
+  query RouterServiceListQuery($status: [ServiceStatus!]) {
     system {
-      ...JobListPage_system @arguments(status: $status)
+      ...ServiceListPage_system
+    }
+    viewer {
+      ...ServiceListPage_viewer @arguments(status: $status)
     }
   }
 `;
 
-const processGroupListQuery = graphql`
-  query RouterProcessGroupListQuery($status: [ProcessStatus!]) {
+const jobListQuery = graphql`
+  query RouterJobListQuery($status: [JobStatus!]) {
     system {
-      ...ProcessGroupListPage_system @arguments(status: $status)
+      ...JobListPage_system @arguments(status: $status)
     }
   }
 `;
@@ -115,11 +118,11 @@ const logEntryListQuery = graphql`
   }
 `;
 
-function prepareJobListVariables({ status }: { status: string }) {
+function prepareServiceListVariables({ status }: { status: string }) {
   return { status: status ? status.split(",") : null };
 }
 
-function prepareProcessGroupListVariables({ status }: { status: string }) {
+function prepareJobListVariables({ status }: { status: string }) {
   return { status: status ? status.split(",") : null };
 }
 
@@ -174,17 +177,17 @@ export default createFarceRouter({
         query={keyListQuery}
         render={render}
       />
-      <Route path="processes">
+      <Route path="services">
         <Route
-          Component={ProcessGroupListPage}
-          query={processGroupListQuery}
+          Component={ServiceListPage}
+          query={serviceListQuery}
           render={render}
         />
         <Route
           path=":status"
-          Component={ProcessGroupListPage}
-          query={processGroupListQuery}
-          prepareVariables={prepareProcessGroupListVariables}
+          Component={ServiceListPage}
+          query={serviceListQuery}
+          prepareVariables={prepareServiceListVariables}
           render={render}
         />
       </Route>

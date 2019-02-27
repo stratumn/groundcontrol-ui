@@ -29,9 +29,9 @@ const props = {
     ...mockQueryPropAttrs(),
     error: 3,
   },
-  processMetrics: {
+  serviceMetrics: {
     ...mockQueryPropAttrs(),
-    running: 4,
+    running: 5,
   },
 };
 

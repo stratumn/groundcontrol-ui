@@ -13,43 +13,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import graphql from "babel-plugin-relay/macro";
 import React from "react";
+import { createFragmentContainer } from "react-relay";
 import {
   Button,
   Modal,
 } from "semantic-ui-react";
 
-import VariableForm, { IProps as IVariableFormProps } from "./VariableForm";
+import { ServiceProgressModal_item } from "./__generated__/ServiceProgressModal_item.graphql";
 
-export interface IProps extends IVariableFormProps {
+import ServiceProgress from "./ServiceProgress";
+
+export interface IProps {
+  item: ServiceProgressModal_item;
   onClose: (values: IProps) => any;
 }
 
-export default function(props: IProps) {
-  const { onClose, onSubmit } = props;
+export function ServiceProgressModal(props: IProps) {
+  const { item, item: { name }, onClose } = props;
   const handleClose = () => onClose({ ...props });
-  const handleSubmit = () => onSubmit({ ...props });
 
   return (
     <Modal
       open={true}
       onClose={handleClose}
     >
-      <Modal.Header>Variables</Modal.Header>
+      <Modal.Header>Starting {name}</Modal.Header>
       <Modal.Content scrolling={true}>
-        <VariableForm {...props} />
+        <ServiceProgress item={item} />
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={handleClose}>
-          Cancel
+          Close
         </Button>
-        <Button
-          icon="rocket"
-          content="Proceed"
-          color="teal"
-          onClick={handleSubmit}
-        />
       </Modal.Actions>
     </Modal>
   );
 }
+
+export default createFragmentContainer(ServiceProgressModal, graphql`
+  fragment ServiceProgressModal_item on Service {
+    name
+    ...ServiceProgress_item
+  }`,
+);

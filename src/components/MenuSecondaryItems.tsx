@@ -23,18 +23,35 @@ import {
 
 import { MenuSecondaryItems_jobMetrics } from "./__generated__/MenuSecondaryItems_jobMetrics.graphql";
 import { MenuSecondaryItems_logMetrics } from "./__generated__/MenuSecondaryItems_logMetrics.graphql";
-import { MenuSecondaryItems_processMetrics } from "./__generated__/MenuSecondaryItems_processMetrics.graphql";
+import { MenuSecondaryItems_serviceMetrics } from "./__generated__/MenuSecondaryItems_serviceMetrics.graphql";
 
 import { GroundControlPort } from "../constants";
 
 export interface IProps {
+  serviceMetrics: MenuSecondaryItems_serviceMetrics;
   jobMetrics: MenuSecondaryItems_jobMetrics;
-  processMetrics: MenuSecondaryItems_processMetrics;
   logMetrics: MenuSecondaryItems_logMetrics;
 }
 
-export const MenuSecondaryItems = ({ jobMetrics, processMetrics, logMetrics }: IProps) => (
+export const MenuSecondaryItems = ({
+  serviceMetrics,
+  jobMetrics,
+  logMetrics,
+}: IProps) => (
   <Fragment>
+    <Link
+      to="/services"
+      Component={Menu.Item}
+      activePropName="active"
+    >
+      Services
+      <Label
+        color="blue"
+        size="tiny"
+      >
+        {serviceMetrics.running}
+      </Label>
+    </Link>
     <Link
       to="/jobs"
       Component={Menu.Item}
@@ -46,19 +63,6 @@ export const MenuSecondaryItems = ({ jobMetrics, processMetrics, logMetrics }: I
         size="tiny"
       >
         {jobMetrics.queued + jobMetrics.running}
-      </Label>
-    </Link>
-    <Link
-      to="/processes"
-      Component={Menu.Item}
-      activePropName="active"
-    >
-      Processes
-      <Label
-        color="blue"
-        size="tiny"
-      >
-        {processMetrics.running}
       </Label>
     </Link>
     <Link
@@ -81,11 +85,11 @@ export const MenuSecondaryItems = ({ jobMetrics, processMetrics, logMetrics }: I
 );
 
 export default createFragmentContainer(MenuSecondaryItems, graphql`
-  fragment MenuSecondaryItems_jobMetrics on JobMetrics {
-    queued
+  fragment MenuSecondaryItems_serviceMetrics on ServiceMetrics {
     running
   }
-  fragment MenuSecondaryItems_processMetrics on ProcessMetrics {
+  fragment MenuSecondaryItems_jobMetrics on JobMetrics {
+    queued
     running
   }
   fragment MenuSecondaryItems_logMetrics on LogMetrics {

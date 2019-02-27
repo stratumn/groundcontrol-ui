@@ -21,15 +21,15 @@ import { mockQueryPropAttrs, mockRelayProp } from "../testing/relay";
 
 import { subscribe as subscribeJobMetrics } from "../subscriptions/jobMetricsStored";
 import { subscribe as subscribeLogMetrics } from "../subscriptions/logMetricsStored";
-import { subscribe as subscribeProcessMetrics } from "../subscriptions/processMetricsStored";
+import { subscribe as subscribeServiceMetrics } from "../subscriptions/serviceMetricsStored";
 
 import Menu from "../components/Menu";
 
 import { App } from "./App";
 
+jest.mock("../subscriptions/serviceMetricsStored");
 jest.mock("../subscriptions/jobMetricsStored");
 jest.mock("../subscriptions/logMetricsStored");
-jest.mock("../subscriptions/processMetricsStored");
 
 const props = {
   relay: mockRelayProp(),
@@ -42,9 +42,9 @@ const props = {
 
 beforeEach(() => {
   mocked(props.router.addTransitionHook).mockClear();
+  mocked(subscribeServiceMetrics).mockClear();
   mocked(subscribeJobMetrics).mockClear();
   mocked(subscribeLogMetrics).mockClear();
-  mocked(subscribeProcessMetrics).mockClear();
 });
 
 describe("<App />", () => {
@@ -92,6 +92,15 @@ describe("<App />", () => {
     expect(wrapper.find(Menu).props().showSidebar).toBe(false);
   });
 
+  it("subscribes to serviceMetricsStored", () => {
+    shallow(<App {...props} />);
+    expect(subscribeServiceMetrics).toBeCalledTimes(1);
+    expect(subscribeServiceMetrics).toBeCalledWith(
+      props.relay.environment,
+      props.system.lastMessageId,
+    );
+  });
+
   it("subscribes to jobMetricsStored", () => {
     shallow(<App {...props} />);
     expect(subscribeJobMetrics).toBeCalledTimes(1);
@@ -110,23 +119,14 @@ describe("<App />", () => {
     );
   });
 
-  it("subscribes to processMetricsStored", () => {
-    shallow(<App {...props} />);
-    expect(subscribeProcessMetrics).toBeCalledTimes(1);
-    expect(subscribeProcessMetrics).toBeCalledWith(
-      props.relay.environment,
-      props.system.lastMessageId,
-    );
-  });
-
   it("unsubscribes after unmouting", () => {
     const dispose = jest.fn();
     const disposable = { dispose };
     const subscribe = () => disposable;
 
+    mocked(subscribeServiceMetrics).mockImplementationOnce(subscribe);
     mocked(subscribeJobMetrics).mockImplementationOnce(subscribe);
     mocked(subscribeLogMetrics).mockImplementationOnce(subscribe);
-    mocked(subscribeProcessMetrics).mockImplementationOnce(subscribe);
 
     const wrapper = shallow(<App {...props} />);
     expect(dispose).toBeCalledTimes(0);

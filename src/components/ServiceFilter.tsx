@@ -15,17 +15,17 @@
 import React, { Component } from "react";
 import { Radio } from "semantic-ui-react";
 
-import "./ProcessGroupFilter.css";
+import "./ServiceFilter.css";
 
 export interface IProps {
-  status: string[] | undefined;
+  status?: string[];
   onChange: (values: IProps) => any;
 }
 
-export const allStatus = ["RUNNING", "DONE", "FAILED"];
+export const allStatus = ["STOPPED", "STARTING", "RUNNING", "STOPPING", "FAILED"];
 
-// Note: we consider undefined status to be the same as all status.
-export default class ProcessGroupFilter extends Component<IProps> {
+// Note: we consider undefined filter to be the same as all status.
+export default class ServiceFilter extends Component<IProps> {
 
   public render() {
     const { status } = this.props;
@@ -34,14 +34,14 @@ export default class ProcessGroupFilter extends Component<IProps> {
         key={i}
         label={value}
         checked={!status || status.indexOf(value) >= 0}
-        onClick={this.handleToggleStatus.bind(this, value)}
+        onClick={this.handleToggle.bind(this, value)}
       />
     ));
 
-    return <div className="ProcessGroupFilter">{radios}</div>;
+    return <div className="ServiceFilter">{radios}</div>;
   }
 
-  private handleToggleStatus(value: string) {
+  private handleToggle(value: string) {
     const status = this.props.status ?
       this.props.status.slice() : allStatus.slice();
     const index = status.indexOf(value);

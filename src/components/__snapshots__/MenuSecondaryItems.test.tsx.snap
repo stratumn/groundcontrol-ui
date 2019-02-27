@@ -5,6 +5,19 @@ exports[`<MenuSecondaryItems /> renders correctly 1`] = `
   <Link
     Component={[Function]}
     activePropName="active"
+    to="/services"
+  >
+    Services
+    <Label
+      color="blue"
+      size="tiny"
+    >
+      5
+    </Label>
+  </Link>
+  <Link
+    Component={[Function]}
+    activePropName="active"
     to="/jobs"
   >
     Jobs
@@ -13,19 +26,6 @@ exports[`<MenuSecondaryItems /> renders correctly 1`] = `
       size="tiny"
     >
       3
-    </Label>
-  </Link>
-  <Link
-    Component={[Function]}
-    activePropName="active"
-    to="/processes"
-  >
-    Processes
-    <Label
-      color="blue"
-      size="tiny"
-    >
-      4
     </Label>
   </Link>
   <Link

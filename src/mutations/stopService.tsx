@@ -17,8 +17,8 @@ import { commitMutation } from "react-relay";
 import { Environment } from "relay-runtime";
 
 const mutation = graphql`
-  mutation startProcessMutation($id: String!) {
-    startProcess(id: $id) {
+  mutation stopServiceMutation($id: String!) {
+    stopService(id: $id) {
       id
     }
   }

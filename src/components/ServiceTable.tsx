@@ -15,42 +15,43 @@
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import { Table } from "semantic-ui-react";
+import {
+  Segment,
+  Table,
+ } from "semantic-ui-react";
 
-import { ProcessTable_items } from "./__generated__/ProcessTable_items.graphql";
+import { ServiceTable_items } from "./__generated__/ServiceTable_items.graphql";
 
-import ProcessTableRow, { IProps as IProcessTableRowProps } from "./ProcessTableRow";
-
-import "./ProcessTable.css";
+import ServiceTableRow, { IProps as IServiceTableRowProps } from "./ServiceTableRow";
 
 export interface IProps {
-  items: ProcessTable_items;
-  onStartProcess: (values: IProcessTableRowProps) => any;
-  onStopProcess: (values: IProcessTableRowProps) => any;
+  items: ServiceTable_items;
+  onStart: (values: IServiceTableRowProps) => any;
+  onStop: (values: IServiceTableRowProps) => any;
 }
 
-export function ProcessTable(props: IProps) {
-  const { items, onStartProcess, onStopProcess } = props;
+export function ServiceTable({ items, onStart, onStop }: IProps) {
+  if (items.length < 1) {
+    return <Segment>There are no services at this time.</Segment>;
+  }
+
   const rows = items.map((item) => (
-    <ProcessTableRow
+    <ServiceTableRow
       key={item.id}
       item={item}
-      onStartProcess={onStartProcess}
-      onStopProcess={onStopProcess}
+      onStop={onStop}
+      onStart={onStart}
     />
   ));
 
   return (
-    <Table
-      className="ProcessTable"
-      inverted={true}
-    >
+    <Table inverted={true}>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Project</Table.HeaderCell>
-          <Table.HeaderCell>Command</Table.HeaderCell>
+          <Table.HeaderCell>Workspace</Table.HeaderCell>
+          <Table.HeaderCell>Name</Table.HeaderCell>
           <Table.HeaderCell>Status</Table.HeaderCell>
-          <Table.HeaderCell />
+          <Table.HeaderCell width="2" />
         </Table.Row>
       </Table.Header>
       <Table.Body>{rows}</Table.Body>
@@ -58,10 +59,10 @@ export function ProcessTable(props: IProps) {
   );
 }
 
-export default createFragmentContainer(ProcessTable, graphql`
-  fragment ProcessTable_items on Process
+export default createFragmentContainer(ServiceTable, graphql`
+  fragment ServiceTable_items on Service
     @relay(plural: true) {
-    ...ProcessTableRow_item
     id
+    ...ServiceTableRow_item
   }`,
 );
