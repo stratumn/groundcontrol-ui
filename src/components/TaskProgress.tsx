@@ -43,11 +43,11 @@ export function TaskProgress({
   let label = "";
 
   if (currentProject) {
-    label += currentProject.slug;
+    label += currentProject.slug + " > ";
   }
 
   if (currentCommand) {
-    label += " > " + currentCommand.command;
+    label += currentCommand.command;
   }
 
   return (
