@@ -45,7 +45,7 @@ export function ServiceTable({ items, onStart, onStop }: IProps) {
   ));
 
   return (
-    <Table inverted={true}>
+    <Table>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Workspace</Table.HeaderCell>

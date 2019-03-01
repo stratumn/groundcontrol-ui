@@ -76,13 +76,14 @@ export default class SetKeyForm extends Component<IProps> {
         <Button
           type="submit"
           color="teal"
-          icon="edit"
+          icon="check"
           content="Set"
           disabled={disabled}
         />
         <Button
           type="reset"
           content="Clear"
+          basic={true}
           onClick={this.handleReset}
         />
       </Form>

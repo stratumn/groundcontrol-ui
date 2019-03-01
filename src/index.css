@@ -13,12 +13,12 @@
   --brown: #a5673f;
   --grey: #767676;
   --charcoal: #222;
-  --black: #1b1c1d;
+  --black: #1a1a1a;
 
   --background-color: #f5f5f5;
   --primary-color: var(--teal);
   --link-color: var(--teal);
-  --success-color: var(--olive);
+  --success-color: var(--green);
   --warning-color: var(--orange);
   --error-color: var(--red);
 
@@ -35,17 +35,21 @@ body.inverted {
   background-color: var(--charcoal);
 }
 
-a {
-  color: var(--teal);
+body.inverted .ui.radio.checkbox label {
+  color: var(--white);
+}
+
+a, .markdown-body a {
+  color: var(--link-color);
 }
 
 a:hover {
-  color: var(--teal);
+  color: var(--link-color);
   text-decoration: underline;
 }
 
 a.header:hover {
-  color: var(--teal) !important;
+  color: var(--link-color) !important;
   text-decoration: none;
 }
 
@@ -61,17 +65,17 @@ code {
   background-color: var(--charcoal);
 }
 
-.ui.inverted.table td.positive {
+.ui.table td.positive {
   background: inherit !important;
   color: var(--success-color) !important;
 }
 
-.ui.inverted.table td.warning {
+.ui.table td.warning {
   background: inherit !important;
   color: var(--warning-color) !important;
 }
 
-.ui.inverted.table td.error {
+.ui.table td.error {
   background: inherit !important;
   color: var(--error-color) !important;
 }

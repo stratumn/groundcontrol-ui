@@ -104,22 +104,22 @@ describe("<JobTableRow />", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("sets the positive attribute of the status cell to true when the job is done", () => {
+  it("sets the warning attribute of the status cell to true when the job is queued", () => {
     const wrapper = shallow(
       <JobTableRow
-        {...{...otherProps, item: { ...other, status: "DONE" } }}
+        {...{...otherProps, item: { ...other, status: "QUEUED" } }}
       />,
     );
-    expect(wrapper.find("[positive=true]")).toHaveLength(1);
+    expect(wrapper.find("[warning=true]")).toHaveLength(1);
   });
 
-  it("sets the warning attribute of the status cell to true when the job is running", () => {
+  it("sets the positive attribute of the status cell to true when the job is running", () => {
     const wrapper = shallow(
       <JobTableRow
         {...{...otherProps, item: { ...other, status: "RUNNING" } }}
       />,
     );
-    expect(wrapper.find("[warning=true]")).toHaveLength(1);
+    expect(wrapper.find("[positive=true]")).toHaveLength(1);
   });
 
   it("sets the error attribute of the status cell to true when the job failed", () => {
@@ -140,6 +140,15 @@ describe("<JobTableRow />", () => {
     expect(wrapper.find("Button[icon='stop']")).toHaveLength(1);
   });
 
+  it("shows a disabled stop button when the job is stopping", () => {
+    const wrapper = shallow(
+      <JobTableRow
+        {...{...otherProps, item: { ...other, status: "STOPPING" } }}
+      />,
+    );
+    expect(wrapper.find("Button[icon='stop'][loading=true]")).toHaveLength(1);
+  });
+
   it("doesn't show a stop button when the job isn't running", () => {
     const wrapper = shallow(
       <JobTableRow
@@ -155,6 +164,13 @@ describe("<JobTableRow />", () => {
     wrapper.find("Button[icon='stop']").simulate("click");
     expect(otherProps.onStop).toBeCalledTimes(1);
     expect(otherProps.onStop).toBeCalledWith(props);
+  });
+
+  it("doesn't triggers onStop when the stop button is clicked and the status is stopping", () => {
+    const props: IProps = { ...otherProps, item: { ...other, status: "STOPPING" } };
+    const wrapper = shallow(<JobTableRow {...props} />);
+    wrapper.find("Button[icon='stop']").simulate("click");
+    expect(otherProps.onStop).not.toBeCalled();
   });
 
 });

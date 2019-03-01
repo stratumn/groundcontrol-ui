@@ -10,6 +10,11 @@
   margin: 0 1em;
 }
 
+.PageFullWidth .ui.table {
+  border-left: none;
+  border-right: none;
+}
+
 @media only screen and (max-width: 767px) {
   .Page {
     margin-left: 0;

@@ -44,15 +44,15 @@ exports[`<JobTableRow /> renders correctly 1`] = `
   <TableCell
     as="td"
   >
-    NORMAL
+    normal
   </TableCell>
   <TableCell
     as="td"
     error={false}
     positive={false}
-    warning={false}
+    warning={true}
   >
-    QUEUED
+    queued
   </TableCell>
   <TableCell
     as="td"
@@ -109,15 +109,15 @@ exports[`<JobTableRow /> renders correctly when the owner is a project 1`] = `
   <TableCell
     as="td"
   >
-    NORMAL
+    normal
   </TableCell>
   <TableCell
     as="td"
     error={false}
     positive={false}
-    warning={false}
+    warning={true}
   >
-    QUEUED
+    queued
   </TableCell>
   <TableCell
     as="td"
@@ -174,15 +174,15 @@ exports[`<JobTableRow /> renders correctly when the owner is a workspace 1`] = `
   <TableCell
     as="td"
   >
-    NORMAL
+    normal
   </TableCell>
   <TableCell
     as="td"
     error={false}
     positive={false}
-    warning={false}
+    warning={true}
   >
-    QUEUED
+    queued
   </TableCell>
   <TableCell
     as="td"

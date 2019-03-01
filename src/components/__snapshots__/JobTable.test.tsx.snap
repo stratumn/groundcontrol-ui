@@ -9,7 +9,6 @@ exports[`<JobTable /> renders correctly without items 1`] = `
 exports[`<JobTable /> renders items correctly 1`] = `
 <Table
   as="table"
-  inverted={true}
 >
   <TableHeader
     as="thead"

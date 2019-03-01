@@ -78,15 +78,16 @@ export function JobTableRow(props: IProps) {
     );
   }
 
-  if (status === "RUNNING") {
-    const handleStop = () => onStop({ ...props });
+  if (status === "RUNNING" || status === "STOPPING") {
+    const handleStop = () => status !== "STOPPING" && onStop({ ...props });
     buttons.push((
       <Button
         key="stop"
         size="mini"
-        compact={true}
+        basic={true}
         icon="stop"
-        content="Stop"
+        floated="right"
+        loading={status === "STOPPING"}
         onClick={handleStop}
       />
     ));
@@ -107,13 +108,13 @@ export function JobTableRow(props: IProps) {
       <Table.Cell>
         <Moment format={dateFormat}>{updatedAt}</Moment>
       </Table.Cell>
-      <Table.Cell>{priority}</Table.Cell>
+      <Table.Cell>{priority.toLocaleLowerCase()}</Table.Cell>
       <Table.Cell
-        positive={status === "DONE"}
-        warning={status === "RUNNING"}
+        positive={status === "RUNNING"}
+        warning={status === "QUEUED"}
         error={status === "FAILED"}
       >
-        {status}
+        {status.toLocaleLowerCase()}
       </Table.Cell>
       <Table.Cell className="JobTableRowActions">
         {buttons}

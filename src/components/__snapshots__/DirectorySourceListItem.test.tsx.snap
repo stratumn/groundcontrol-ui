@@ -5,11 +5,11 @@ exports[`<DirectorySourceListItem /> renders correctly 1`] = `
   <ListContent>
     <Button
       as="button"
-      color="pink"
+      basic={true}
       floated="right"
       icon="delete"
       onClick={[Function]}
-      size="small"
+      size="mini"
     />
     <ListHeader>
       directory

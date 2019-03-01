@@ -31,11 +31,13 @@ export interface IProps {
   subheader: string;
   children: React.ReactNode;
   fullWidth?: boolean;
+  inverted?: boolean;
 }
 
 const Page = ({
   className,
   icon,
+  inverted,
   header,
   subheader,
   children,
@@ -44,8 +46,12 @@ const Page = ({
   <div className={`Page ${fullWidth ? "PageFullWidth" : ""} ${className || ""}`}>
     <Helmet>
       <title>{header}</title>
+      <body className={inverted ? "inverted" : ""} />
     </Helmet>
-    <Header as="h1">
+    <Header
+      as="h1"
+      inverted={inverted}
+    >
       <Icon name={icon} />
       <Header.Content>
         {header}

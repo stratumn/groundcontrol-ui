@@ -1,7 +1,3 @@
-.JobTableRow td {
-  font: var(--mono-font);
-}
-
 .JobTableRowCommand {
   word-break: break-all;
   white-space: pre-wrap;

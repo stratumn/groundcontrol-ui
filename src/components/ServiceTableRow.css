@@ -1,7 +1,3 @@
-.ServiceTableRow td {
-  font: var(--mono-font);
-}
-
 .ServiceTableRowCommand {
   word-break: break-all;
   white-space: pre-wrap;

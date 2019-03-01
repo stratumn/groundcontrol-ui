@@ -47,15 +47,14 @@ export function KeyListItem(props: IProps) {
         </List.Description>
         <Button
           icon="edit"
-          content="Edit"
           color="teal"
-          size="small"
+          size="mini"
           onClick={handleEdit}
         />
         <Button
           icon="delete"
-          color="pink"
-          size="small"
+          size="mini"
+          basic={true}
           onClick={handleDelete}
         />
       </List.Content>

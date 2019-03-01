@@ -41,29 +41,31 @@ export function ServiceTableRow(props: IProps) {
   } = props;
   const buttons: JSX.Element[] = [];
 
-  if (status === "STOPPED" || status === "FAILED") {
-    const handleStart = () => onStart({ ...props });
+  if (status === "STOPPED" || status === "FAILED" || status === "STARTING") {
+    const handleStart = () => status !== "STARTING" && onStart({ ...props });
     buttons.push((
       <Button
         key="start"
         size="mini"
-        compact={true}
+        basic={true}
         icon="play"
-        content="Start"
+        floated="right"
+        loading={status === "STARTING"}
         onClick={handleStart}
       />
     ));
   }
 
-  if (status === "RUNNING") {
-    const handleStop = () => onStop({ ...props });
+  if (status === "RUNNING" || status === "STOPPING") {
+    const handleStop = () => status !== "STOPPING" && onStop({ ...props });
     buttons.push((
       <Button
         key="stop"
         size="mini"
-        compact={true}
+        basic={true}
         icon="stop"
-        content="Stop"
+        floated="right"
+        loading={status === "STOPPING"}
         onClick={handleStop}
       />
     ));
@@ -71,7 +73,7 @@ export function ServiceTableRow(props: IProps) {
 
   return (
     <Table.Row className="ServiceTableRow">
-      <Table.Cell>
+      <Table.Cell collapsing={true}>
         <Link to={`/workspaces/${workspace.slug}`}>
           {workspace.name}
         </Link>
@@ -82,7 +84,7 @@ export function ServiceTableRow(props: IProps) {
         warning={status === "STARTING" || status === "STOPPING"}
         error={status === "FAILED"}
       >
-        {status}
+        {status.toLocaleLowerCase()}
       </Table.Cell>
       <Table.Cell className="ServiceTableRowActions">
         {buttons}

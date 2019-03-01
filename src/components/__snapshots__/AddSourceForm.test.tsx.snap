@@ -57,7 +57,7 @@ exports[`<AddSourceForm /> renders correctly when a Git source type is selected 
     color="teal"
     content="Add"
     disabled={false}
-    icon="add"
+    icon="check"
     type="submit"
   />
 </Form>
@@ -107,7 +107,7 @@ exports[`<AddSourceForm /> renders correctly when a directory source type is sel
     color="teal"
     content="Add"
     disabled={false}
-    icon="add"
+    icon="check"
     type="submit"
   />
 </Form>

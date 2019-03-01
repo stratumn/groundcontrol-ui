@@ -93,7 +93,7 @@ export default class AddSourceForm extends Component<IProps> {
         <Button
           type="submit"
           color="teal"
-          icon="add"
+          icon="check"
           content="Add"
           disabled={disabled}
         />

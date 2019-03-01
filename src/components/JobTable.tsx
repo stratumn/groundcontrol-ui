@@ -43,7 +43,7 @@ export function JobTable({ items, onStop }: IProps) {
   ));
 
   return (
-    <Table inverted={true}>
+    <Table>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Name</Table.HeaderCell>
