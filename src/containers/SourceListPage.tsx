@@ -32,6 +32,7 @@ import { commit as addGitSource } from "../mutations/addGitSource";
 import { commit as deleteSource } from "../mutations/deleteSource";
 import { subscribe as subscribeSourceDeleted } from "../subscriptions/sourceDeleted";
 import { subscribe as subscribeSourceStored } from "../subscriptions/sourceStored";
+import { subscribeSources as subscribeUserStored } from "../subscriptions/userStored";
 
 export interface IProps {
   relay: RelayProp;
@@ -103,8 +104,12 @@ export class SourceListPage extends Component<IProps, IState> {
   public componentDidMount() {
     const { relay: { environment }, system: { lastMessageId } } = this.props;
 
-    this.disposables.push(subscribeSourceStored(environment, lastMessageId));
-    this.disposables.push(subscribeSourceDeleted(environment, lastMessageId));
+    this.disposables.push(
+      subscribeUserStored(environment, lastMessageId),
+      subscribeSourceStored(environment, lastMessageId),
+      // Note: currently sources are not deleted server side.
+      subscribeSourceDeleted(environment, lastMessageId),
+    );
   }
 
   public componentWillUnmount() {

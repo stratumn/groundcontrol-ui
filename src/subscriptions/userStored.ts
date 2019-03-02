@@ -16,20 +16,42 @@ import graphql from "babel-plugin-relay/macro";
 import { requestSubscription } from "react-relay";
 import { Environment } from "relay-runtime";
 
-const subscription = graphql`
-  subscription userStoredSubscription($lastMessageId: ID) {
+const workspacesSubscription = graphql`
+  subscription userStoredWorkspacesSubscription($lastMessageId: ID) {
     userStored(lastMessageId: $lastMessageId) {
       ...WorkspaceListPage_viewer
     }
   }
 `;
 
-export function subscribe(environment: Environment, lastMessageId?: string, id?: string) {
+const sourcesSubscription = graphql`
+  subscription userStoredSourcesSubscription($lastMessageId: ID) {
+    userStored(lastMessageId: $lastMessageId) {
+      ...SourceListPage_viewer
+    }
+  }
+`;
+
+export function subscribeWorkspaces(environment: Environment, lastMessageId?: string, id?: string) {
   return requestSubscription(
     environment,
     {
       onError: (error) => console.error(error),
-      subscription,
+      subscription: workspacesSubscription,
+      variables: {
+        id,
+        lastMessageId,
+      },
+    },
+  );
+}
+
+export function subscribeSources(environment: Environment, lastMessageId?: string, id?: string) {
+  return requestSubscription(
+    environment,
+    {
+      onError: (error) => console.error(error),
+      subscription: sourcesSubscription,
       variables: {
         id,
         lastMessageId,
