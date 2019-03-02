@@ -57,7 +57,18 @@ exports[`<JobTableRow /> renders correctly 1`] = `
   <TableCell
     as="td"
     className="JobTableRowActions"
-  />
+  >
+    <Button
+      as="button"
+      basic={true}
+      floated="right"
+      icon="stop"
+      key="stop"
+      loading={false}
+      onClick={[Function]}
+      size="mini"
+    />
+  </TableCell>
 </TableRow>
 `;
 
@@ -122,7 +133,18 @@ exports[`<JobTableRow /> renders correctly when the owner is a project 1`] = `
   <TableCell
     as="td"
     className="JobTableRowActions"
-  />
+  >
+    <Button
+      as="button"
+      basic={true}
+      floated="right"
+      icon="stop"
+      key="stop"
+      loading={false}
+      onClick={[Function]}
+      size="mini"
+    />
+  </TableCell>
 </TableRow>
 `;
 
@@ -187,6 +209,17 @@ exports[`<JobTableRow /> renders correctly when the owner is a workspace 1`] = `
   <TableCell
     as="td"
     className="JobTableRowActions"
-  />
+  >
+    <Button
+      as="button"
+      basic={true}
+      floated="right"
+      icon="stop"
+      key="stop"
+      loading={false}
+      onClick={[Function]}
+      size="mini"
+    />
+  </TableCell>
 </TableRow>
 `;

@@ -78,7 +78,7 @@ export function JobTableRow(props: IProps) {
     );
   }
 
-  if (status === "RUNNING" || status === "STOPPING") {
+  if (status === "QUEUED" || status === "RUNNING" || status === "STOPPING") {
     const handleStop = () => status !== "STOPPING" && onStop({ ...props });
     buttons.push((
       <Button

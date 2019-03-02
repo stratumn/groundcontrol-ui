@@ -131,6 +131,15 @@ describe("<JobTableRow />", () => {
     expect(wrapper.find("[error=true]")).toHaveLength(1);
   });
 
+  it("shows a stop button when the job is queued", () => {
+    const wrapper = shallow(
+      <JobTableRow
+        {...{...otherProps, item: { ...other, status: "QUEUED" } }}
+      />,
+    );
+    expect(wrapper.find("Button[icon='stop']")).toHaveLength(1);
+  });
+
   it("shows a stop button when the job is running", () => {
     const wrapper = shallow(
       <JobTableRow
@@ -149,10 +158,19 @@ describe("<JobTableRow />", () => {
     expect(wrapper.find("Button[icon='stop'][loading=true]")).toHaveLength(1);
   });
 
-  it("doesn't show a stop button when the job isn't running", () => {
+  it("doesn't show a stop button when the job is done", () => {
     const wrapper = shallow(
       <JobTableRow
         {...{...otherProps, item: { ...other, status: "DONE" } }}
+      />,
+    );
+    expect(wrapper.find("Button[icon='stop']")).toHaveLength(0);
+  });
+
+  it("doesn't show a stop button when the job failed", () => {
+    const wrapper = shallow(
+      <JobTableRow
+        {...{...otherProps, item: { ...other, status: "FAILED" } }}
       />,
     );
     expect(wrapper.find("Button[icon='stop']")).toHaveLength(0);
