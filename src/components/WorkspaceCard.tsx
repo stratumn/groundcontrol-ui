@@ -43,27 +43,20 @@ export function WorkspaceCard(props: IProps) {
       name,
       description,
       projects,
-      isCloned,
-      isCloning,
-      isPulling,
-      isBehind,
-      isAhead,
-      isClean,
     },
-    onClone,
-    onPull,
   } = props;
   const labels: JSX.Element[] = [];
-  const buttons: JSX.Element[] = [];
   const projectNodes = projects.edges.map(({ node }) => node);
-  const handleClone = () => onClone({ ...props });
-  const handlePull = () => onPull({ ...props });
+  const projectCount = projectNodes.length;
+  const clonedCount = projectNodes.filter((node) => node.isCloned).length;
+  const behindCount = projectNodes.filter((node) => node.isBehind).length;
+  const aheadCount = projectNodes.filter((node) => node.isAhead).length;
+  const cleanCount = projectNodes.filter((node) => node.isClean).length;
 
   let color: "grey" | "teal" | "violet" | "purple" | "pink" = "grey";
 
-  if (isCloned) {
+  if (clonedCount === projectCount) {
     color = "teal";
-
     labels.push((
       <Label
         key="cloned"
@@ -72,22 +65,20 @@ export function WorkspaceCard(props: IProps) {
         size="small"
       />
     ));
-
-    buttons.push((
-      <Button
-        key="pull"
-        content="Pull"
-        color="teal"
-        icon="download"
-        disabled={isPulling || !isBehind}
-        loading={isPulling}
-        onClick={handlePull}
+  } else if (clonedCount > 0) {
+    color = "teal";
+    labels.push((
+      <Label
+        key="cloned"
+        content="partially cloned"
+        color="blue"
+        size="small"
       />
     ));
-
-    if (!isBehind && !isAhead) {
+  }
+  if (clonedCount > 0) {
+    if (behindCount < 1 && aheadCount < 1) {
       color = "teal";
-
       labels.push((
         <Label
           key="uptodate"
@@ -97,23 +88,9 @@ export function WorkspaceCard(props: IProps) {
         />
       ));
     }
-  } else {
-    buttons.push((
-      <Button
-        key="clone"
-        content="Clone"
-        color="teal"
-        icon="clone"
-        disabled={isCloning}
-        loading={isCloning}
-        onClick={handleClone}
-      />
-    ));
   }
-
-  if (isAhead) {
+  if (aheadCount > 0) {
     color = "violet";
-
     labels.push((
       <Label
         key="ahead"
@@ -123,10 +100,8 @@ export function WorkspaceCard(props: IProps) {
       />
     ));
   }
-
-  if (isBehind) {
+  if (behindCount > 0) {
     color = "purple";
-
     labels.push((
       <Label
         key="behind"
@@ -136,10 +111,8 @@ export function WorkspaceCard(props: IProps) {
       />
     ));
   }
-
-  if (!isClean) {
+  if (cleanCount < projectCount) {
     color = "pink";
-
     labels.push((
       <Label
         key="dirty"
@@ -175,11 +148,10 @@ export function WorkspaceCard(props: IProps) {
         <div className="ui three buttons">
           <Link
             to={`/workspaces/${slug}`}
-            className="ui grey button"
+            className="ui teal button"
           >
             Details
           </Link>
-          {buttons}
         </div>
       </Card.Content>
     </Card>
@@ -192,15 +164,15 @@ export default createFragmentContainer(WorkspaceCard, graphql`
     slug
     name
     description
-    isCloned
-    isCloning
-    isPulling
-    isBehind
-    isAhead
-    isClean
     projects {
       edges {
         node {
+          isCloned,
+          isCloning,
+          isPulling,
+          isBehind,
+          isAhead,
+          isClean,
           ...ProjectList_items
         }
       }

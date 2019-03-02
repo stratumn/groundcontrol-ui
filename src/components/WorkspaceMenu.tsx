@@ -33,12 +33,9 @@ export interface IProps {
 export function WorkspaceMenu(props: IProps) {
   const {
     item: {
+      projects,
       services,
       tasks,
-      isCloning,
-      isCloned,
-      isPulling,
-      isBehind,
     },
     onClone,
     onPull,
@@ -47,24 +44,30 @@ export function WorkspaceMenu(props: IProps) {
   } = props;
   const serviceNodes = services.edges.map(({ node }) => node);
   const taskNodes = tasks.edges.map(({ node }) => node);
+  const projectNodes = projects.edges.map(({ node }) => node);
+  const projectCount = projectNodes.length;
+  const clonedCount = projectNodes.filter((node) => node.isCloned).length;
+  const cloningCount = projectNodes.filter((node) => node.isCloning).length;
+  const pullingCount = projectNodes.filter((node) => node.isPulling).length;
+  const behindCount = projectNodes.filter((node) => node.isBehind).length;
   const handleClone = () => onClone({ ...props });
   const handlePull = () => onPull({ ...props });
 
   return (
     <Menu size="large">
       <Menu.Item
-        disabled={isCloning || isCloned}
+        disabled={cloningCount > 0 || clonedCount >= projectCount}
         onClick={handleClone}
       >
         <Icon name="clone" />
-        Clone All
+        Clone
       </Menu.Item>
       <Menu.Item
-        disabled={isPulling || !isCloned || !isBehind}
+        disabled={pullingCount > 0 || clonedCount < 1 || behindCount < 1}
         onClick={handlePull}
       >
         <Icon name="download" />
-        Pull All
+        Pull
       </Menu.Item>
       <WorkspaceServiceDropdown
         items={serviceNodes}
@@ -82,6 +85,16 @@ export function WorkspaceMenu(props: IProps) {
 
 export default createFragmentContainer(WorkspaceMenu, graphql`
   fragment WorkspaceMenu_item on Workspace {
+    projects {
+      edges {
+        node {
+          isCloning
+          isCloned
+          isPulling
+          isBehind
+        }
+      }
+    }
     services {
       edges {
         node {
@@ -96,9 +109,5 @@ export default createFragmentContainer(WorkspaceMenu, graphql`
         }
       }
     }
-    isCloning
-    isCloned
-    isPulling
-    isBehind
   }`,
 );
