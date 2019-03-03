@@ -64,7 +64,10 @@ export function SourceList({
   });
 
   return (
-    <List divided={true}>
+    <List
+      size="large"
+      divided={true}
+    >
       {listItems}
     </List>
   );

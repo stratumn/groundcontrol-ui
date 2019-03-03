@@ -35,7 +35,7 @@ export function GitSourceListItem(props: IProps) {
         <Button
           floated="right"
           icon="delete"
-          size="mini"
+          size="small"
           basic={true}
           onClick={handleDelete}
         />

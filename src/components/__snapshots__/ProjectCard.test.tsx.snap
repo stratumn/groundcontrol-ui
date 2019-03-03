@@ -3,7 +3,6 @@
 exports[`<ProjectCard /> renders correctly when cloned 1`] = `
 <Card
   className="ProjectCard"
-  color="teal"
 >
   <CardContent>
     <CardHeader>
@@ -19,6 +18,7 @@ exports[`<ProjectCard /> renders correctly when cloned 1`] = `
       short/path
     </CardMeta>
     <Label
+      color="grey"
       size="small"
     >
       localReferenceShort » remoteReferenceShort
@@ -98,7 +98,6 @@ exports[`<ProjectCard /> renders correctly when cloned 1`] = `
 exports[`<ProjectCard /> renders correctly when not cloned 1`] = `
 <Card
   className="ProjectCard"
-  color="grey"
 >
   <CardContent>
     <CardHeader>
@@ -107,6 +106,7 @@ exports[`<ProjectCard /> renders correctly when not cloned 1`] = `
       />
     </CardHeader>
     <Label
+      color="grey"
       size="small"
     >
       localReferenceShort » remoteReferenceShort

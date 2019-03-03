@@ -9,7 +9,7 @@ exports[`<DirectorySourceListItem /> renders correctly 1`] = `
       floated="right"
       icon="delete"
       onClick={[Function]}
-      size="mini"
+      size="small"
     />
     <ListHeader>
       directory

@@ -17,9 +17,7 @@ import { Link } from "found";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
 import {
-  Button,
   Card,
-  Divider,
   Header,
   Label,
  } from "semantic-ui-react";
@@ -53,10 +51,7 @@ export function WorkspaceCard(props: IProps) {
   const aheadCount = projectNodes.filter((node) => node.isAhead).length;
   const cleanCount = projectNodes.filter((node) => node.isClean).length;
 
-  let color: "grey" | "teal" | "violet" | "purple" | "pink" = "grey";
-
   if (clonedCount === projectCount) {
-    color = "teal";
     labels.push((
       <Label
         key="cloned"
@@ -66,7 +61,6 @@ export function WorkspaceCard(props: IProps) {
       />
     ));
   } else if (clonedCount > 0) {
-    color = "teal";
     labels.push((
       <Label
         key="cloned"
@@ -78,7 +72,6 @@ export function WorkspaceCard(props: IProps) {
   }
   if (clonedCount > 0) {
     if (behindCount < 1 && aheadCount < 1) {
-      color = "teal";
       labels.push((
         <Label
           key="uptodate"
@@ -90,7 +83,6 @@ export function WorkspaceCard(props: IProps) {
     }
   }
   if (aheadCount > 0) {
-    color = "violet";
     labels.push((
       <Label
         key="ahead"
@@ -101,7 +93,6 @@ export function WorkspaceCard(props: IProps) {
     ));
   }
   if (behindCount > 0) {
-    color = "purple";
     labels.push((
       <Label
         key="behind"
@@ -112,7 +103,6 @@ export function WorkspaceCard(props: IProps) {
     ));
   }
   if (cleanCount < projectCount) {
-    color = "pink";
     labels.push((
       <Label
         key="dirty"
@@ -124,10 +114,7 @@ export function WorkspaceCard(props: IProps) {
   }
 
   return (
-    <Card
-      className="WorkspaceCard"
-      color={color}
-    >
+    <Card className="WorkspaceCard">
       <Card.Content>
         <Link
           to={`/workspaces/${slug}`}
@@ -137,9 +124,7 @@ export function WorkspaceCard(props: IProps) {
         </Link>
         {labels}
         <Card.Description>{description}</Card.Description>
-        <Divider horizontal={true}>
-          <Header as="h6">Repositories</Header>
-        </Divider>
+        <Header as="h5">Repositories</Header>
         <Card.Description>
           <ProjectList items={projectNodes} />
         </Card.Description>
@@ -150,7 +135,7 @@ export function WorkspaceCard(props: IProps) {
             to={`/workspaces/${slug}`}
             className="ui teal button"
           >
-            Details
+            View
           </Link>
         </div>
       </Card.Content>

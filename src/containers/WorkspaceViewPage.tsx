@@ -16,7 +16,7 @@ import graphql from "babel-plugin-relay/macro";
 import React, { Component } from "react";
 import { createFragmentContainer, RelayProp } from "react-relay";
 import { Disposable } from "relay-runtime";
-import { SemanticWIDTHS } from "semantic-ui-react";
+import { Divider, SemanticWIDTHS } from "semantic-ui-react";
 
 import { WorkspaceViewPage_system } from "./__generated__/WorkspaceViewPage_system.graphql";
 import { WorkspaceViewPage_viewer } from "./__generated__/WorkspaceViewPage_viewer.graphql";
@@ -131,7 +131,6 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
         className="WorkspaceViewPage"
         header={workspace.name}
         subheader={description}
-        icon="cube"
       >
         <WorkspaceMenu
           item={workspace}
@@ -141,6 +140,8 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
           onRun={this.handleRunTask}
         />
         <WorkspaceNotes item={workspace} />
+        <Divider hidden={true} />
+        <h2>Projects</h2>
         <ProjectCardGroup
           items={items}
           itemsPerRow={itemsPerRow}

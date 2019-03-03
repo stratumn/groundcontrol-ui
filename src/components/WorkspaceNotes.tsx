@@ -17,7 +17,6 @@ import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { createFragmentContainer } from "react-relay";
-import { Segment } from "semantic-ui-react";
 
 import { WorkspaceNotes_item } from "./__generated__/WorkspaceNotes_item.graphql";
 
@@ -28,12 +27,10 @@ export interface IProps {
 }
 
 const WorkspaceNotes = ({ item: { notes } }: IProps) => (
-  <Segment className="WorkspaceNotes">
-    <ReactMarkdown
-      source={notes || "This workspace doesn't have notes."}
-      className="markdown-body"
-    />
-  </Segment>
+  <ReactMarkdown
+    source={notes || "This workspace doesn't have notes."}
+    className="markdown-body"
+  />
 );
 
 export default createFragmentContainer(WorkspaceNotes, graphql`

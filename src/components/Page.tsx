@@ -15,50 +15,45 @@
 
 import React from "react";
 import Helmet from "react-helmet";
-import {
-  Container,
-  Header,
-  Icon,
-  SemanticICONS,
-} from "semantic-ui-react";
+import { Container, Header } from "semantic-ui-react";
 
 import "./Page.css";
 
 export interface IProps {
   className?: string;
-  icon: SemanticICONS;
   header: string;
   subheader: string;
   children: React.ReactNode;
-  fullWidth?: boolean;
   inverted?: boolean;
+  text?: boolean;
 }
 
 const Page = ({
   className,
-  icon,
   inverted,
   header,
   subheader,
+  text,
   children,
-  fullWidth,
 }: IProps) => (
-  <div className={`Page ${fullWidth ? "PageFullWidth" : ""} ${className || ""}`}>
+  <div className={`Page ${className || ""}`}>
     <Helmet>
       <title>{header}</title>
       <body className={inverted ? "inverted" : ""} />
     </Helmet>
-    <Header
-      as="h1"
-      inverted={inverted}
+    <Container
+      fluid={true}
+      text={text}
     >
-      <Icon name={icon} />
-      <Header.Content>
-        {header}
-        <Header.Subheader>{subheader}</Header.Subheader>
-      </Header.Content>
-    </Header>
-    <Container fluid={true}>
+      <Header
+        as="h1"
+        inverted={inverted}
+      >
+        <Header.Content>
+          {header}
+          <Header.Subheader>{subheader}</Header.Subheader>
+        </Header.Content>
+      </Header>
       {children}
     </Container>
   </div>

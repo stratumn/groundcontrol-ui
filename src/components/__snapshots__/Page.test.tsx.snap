@@ -2,7 +2,7 @@
 
 exports[`<Page /> renders correctly 1`] = `
 <div
-  className="Page  "
+  className="Page "
 >
   <Helmet>
     <title>
@@ -12,59 +12,19 @@ exports[`<Page /> renders correctly 1`] = `
       className=""
     />
   </Helmet>
-  <Header
-    as="h1"
-  >
-    <Icon
-      as="i"
-      name="rocket"
-    />
-    <HeaderContent>
-      header
-      <HeaderSubheader>
-        subheader
-      </HeaderSubheader>
-    </HeaderContent>
-  </Header>
   <Container
     fluid={true}
   >
-    <p>
-      Hello, World!
-    </p>
-  </Container>
-</div>
-`;
-
-exports[`<Page /> renders correctly when fullWidth is set to true 1`] = `
-<div
-  className="Page PageFullWidth "
->
-  <Helmet>
-    <title>
-      header
-    </title>
-    <body
-      className=""
-    />
-  </Helmet>
-  <Header
-    as="h1"
-  >
-    <Icon
-      as="i"
-      name="rocket"
-    />
-    <HeaderContent>
-      header
-      <HeaderSubheader>
-        subheader
-      </HeaderSubheader>
-    </HeaderContent>
-  </Header>
-  <Container
-    fluid={true}
-  >
+    <Header
+      as="h1"
+    >
+      <HeaderContent>
+        header
+        <HeaderSubheader>
+          subheader
+        </HeaderSubheader>
+      </HeaderContent>
+    </Header>
     <p>
       Hello, World!
     </p>
@@ -74,7 +34,7 @@ exports[`<Page /> renders correctly when fullWidth is set to true 1`] = `
 
 exports[`<Page /> renders correctly with a CSS class 1`] = `
 <div
-  className="Page  className"
+  className="Page className"
 >
   <Helmet>
     <title>
@@ -84,23 +44,19 @@ exports[`<Page /> renders correctly with a CSS class 1`] = `
       className=""
     />
   </Helmet>
-  <Header
-    as="h1"
-  >
-    <Icon
-      as="i"
-      name="rocket"
-    />
-    <HeaderContent>
-      header
-      <HeaderSubheader>
-        subheader
-      </HeaderSubheader>
-    </HeaderContent>
-  </Header>
   <Container
     fluid={true}
   >
+    <Header
+      as="h1"
+    >
+      <HeaderContent>
+        header
+        <HeaderSubheader>
+          subheader
+        </HeaderSubheader>
+      </HeaderContent>
+    </Header>
     <p>
       Hello, World!
     </p>

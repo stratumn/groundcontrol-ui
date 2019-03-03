@@ -24,7 +24,6 @@ const ErrorPage = ({ error }: IProps) => (
   <Page
     header="Oops"
     subheader="Looks like something's wrong."
-    icon="warning"
   >
     <pre>{error.stack}</pre>
   </Page>

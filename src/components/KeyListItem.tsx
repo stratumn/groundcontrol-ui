@@ -48,12 +48,12 @@ export function KeyListItem(props: IProps) {
         <Button
           icon="edit"
           color="teal"
-          size="mini"
+          size="small"
           onClick={handleEdit}
         />
         <Button
           icon="delete"
-          size="mini"
+          size="small"
           basic={true}
           onClick={handleDelete}
         />

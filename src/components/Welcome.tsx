@@ -14,7 +14,7 @@
 
 import { Link } from "found";
 import React from "react";
-import { Button, Message, Segment } from "semantic-ui-react";
+import { Button, Message } from "semantic-ui-react";
 
 import Page from "../components/Page";
 
@@ -22,47 +22,48 @@ export default () => (
   <Page
     header="Welcome to Ground Control!"
     subheader="Hassle-free multi repository management."
-    icon="rocket"
+    text={true}
   >
-    <Segment>
-      <Message color="teal">
-        <p>
-          Before you can start working on cool apps, you need to add some sources.
-          Sources contains workspaces which let you work on projects.
-        </p>
-        <p>
-          <Link
-            to="/sources"
-            Component={Button}
-            color="teal"
-          >
-            Let's add a source to get started!
-          </Link>
-        </p>
-      </Message>
+    <Message color="teal">
       <p>
-        Ground Control is an application to help deal with multi-repository development
-        using a user friendly web interface.
+        Before you can start working on cool apps, you need to add some sources.
+        Sources contain workspaces which let you work on projects.
       </p>
       <p>
-        Workspaces are defined using YAML files which can easily be shared.
-        A workspace contains multiple projects.
-        A project corresponds to a reference (such as a branch or tag) of a repository.
+        <Link
+          to="/sources"
+          Component={Button}
+          color="teal"
+        >
+          Let's add a source to get started!
+        </Link>
       </p>
-      <p>
-        The Ground Control user interface allows you to perform operations across the projects of a workspace,
-        including:
-      </p>
-      <ul>
-        <li>Clone all repositories (defaults to $HOME/groundcontrol/workspaces/WORKSPACE/PROJECT)</li>
-        <li>Check the status of repositories against their origins</li>
-        <li>Pull all outdated repositories</li>
-        <li>Define workspace wide tasks</li>
-        <li>Create scripts to launch multi-repository applications</li>
-      </ul>
-      <p>
-        Good luck and happy coding!
-      </p>
-    </Segment>
+    </Message>
+    <p>
+      <em>Ground Control</em> is an application to help deal with multi-repository development
+      using a user friendly web interface.
+    </p>
+    <p>
+      Workspaces are defined using YAML files which can easily be shared.
+      Each workspace contains multiple projects.
+      A project corresponds to a Git reference of a repository (such as a branch or tag).
+    </p>
+    <p>
+      The user interface allows you to perform operations on multiple projects at once,
+      including:
+    </p>
+    <ul>
+      <li>Automatically sync and share workspaces using <Link to="/sources">sources</Link></li>
+      <li>
+         Clone all the repositories in a workspace
+         (defaults to <code>$HOME/groundcontrol/workspaces/$WORKSPACE/$PROJECT</code>)
+      </li>
+      <li>See if you are up-to-date or ahead of the remote repositories</li>
+      <li>Run tasks on multiple repositories</li>
+      <li>Launch services and their dependencies with ease</li>
+    </ul>
+    <p>
+      Good luck and happy coding!
+    </p>
   </Page>
 );

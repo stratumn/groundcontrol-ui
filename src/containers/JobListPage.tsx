@@ -51,9 +51,7 @@ export class JobListPage extends Component<IProps> {
       <Page
         header="Jobs"
         subheader="Jobs are short lived tasks such as cloning a repository."
-        icon="tasks"
         className="JobListPage"
-        fullWidth={true}
       >
         <JobFilter
           status={this.getStatus()}

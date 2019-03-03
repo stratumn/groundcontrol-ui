@@ -34,7 +34,7 @@ export default class WorkspaceSearch extends Component<IProps> {
     return (
       <Input
         className="WorkspaceSearch"
-        size="big"
+        size="large"
         icon="search"
         placeholder="Search..."
         value={query}

@@ -33,56 +33,64 @@ export interface IProps {
   logMetrics: MenuSecondaryItems_logMetrics;
 }
 
-export const MenuSecondaryItems = ({
+export function MenuSecondaryItems({
   serviceMetrics,
   jobMetrics,
   logMetrics,
-}: IProps) => (
-  <Fragment>
-    <Link
-      to="/services"
-      Component={Menu.Item}
-      activePropName="active"
+}: IProps) {
+  const servicesLabel = !!serviceMetrics.running && (
+    <Label
+      color="blue"
+      size="tiny"
     >
-      Services
-      <Label
-        color="blue"
-        size="tiny"
-      >
-        {serviceMetrics.running}
-      </Label>
-    </Link>
-    <Link
-      to="/jobs"
-      Component={Menu.Item}
-      activePropName="active"
+      {serviceMetrics.running}
+    </Label>
+  );
+  const jobsLabel = !!(jobMetrics.queued || jobMetrics.running) && (
+    <Label
+      color="blue"
+      size="tiny"
     >
-      Jobs
-      <Label
-        color="blue"
-        size="tiny"
-      >
-        {jobMetrics.queued + jobMetrics.running}
-      </Label>
-    </Link>
-    <Link
-      to="/logs"
-      Component={Menu.Item}
-      activePropName="active"
+      {jobMetrics.queued + jobMetrics.running}
+    </Label>
+  );
+  const logsLabel = !!logMetrics.error && (
+    <Label
+      color="pink"
+      size="tiny"
     >
-      Logs
-      <Label
-        color="pink"
-        size="tiny"
+      {logMetrics.error}
+    </Label>
+  );
+  return (
+    <Fragment>
+      <Link
+        to="/services"
+        Component={Menu.Item}
+        activePropName="active"
       >
-        {logMetrics.error}
-      </Label>
-    </Link>
-    <Menu.Item href={`http://localhost:${GroundControlPort}/graphql`}>
-      GraphQL
-    </Menu.Item>
-  </Fragment>
-);
+        Services {servicesLabel}
+      </Link>
+      <Link
+        to="/jobs"
+        Component={Menu.Item}
+        activePropName="active"
+      >
+        Jobs {jobsLabel}
+      </Link>
+      <Link
+        to="/logs"
+        Component={Menu.Item}
+        activePropName="active"
+      >
+        Logs {logsLabel}
+      </Link>
+      <Menu.Item href={`http://localhost:${GroundControlPort}/graphql`}>
+        GraphQL
+      </Menu.Item>
+    </Fragment>
+  );
+}
 
 export default createFragmentContainer(MenuSecondaryItems, graphql`
   fragment MenuSecondaryItems_serviceMetrics on ServiceMetrics {

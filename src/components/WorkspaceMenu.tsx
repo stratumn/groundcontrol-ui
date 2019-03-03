@@ -54,7 +54,10 @@ export function WorkspaceMenu(props: IProps) {
   const handlePull = () => onPull({ ...props });
 
   return (
-    <Menu size="large">
+    <Menu
+      size="huge"
+      secondary={true}
+    >
       <Menu.Item
         disabled={cloningCount > 0 || clonedCount >= projectCount}
         onClick={handleClone}

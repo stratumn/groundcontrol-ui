@@ -15,10 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Segment,
-  Table,
- } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 
 import { ServiceTable_items } from "./__generated__/ServiceTable_items.graphql";
 
@@ -32,7 +29,7 @@ export interface IProps {
 
 export function ServiceTable({ items, onStart, onStop }: IProps) {
   if (items.length < 1) {
-    return <Segment>There are no services at this time.</Segment>;
+    return <p>There are no services at this time.</p>;
   }
 
   const rows = items.map((item) => (
@@ -45,7 +42,7 @@ export function ServiceTable({ items, onStart, onStop }: IProps) {
   ));
 
   return (
-    <Table>
+    <Table basic="very">
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Workspace</Table.HeaderCell>

@@ -18,14 +18,14 @@ exports[`<KeyListItem /> renders correctly 1`] = `
       color="teal"
       icon="edit"
       onClick={[Function]}
-      size="mini"
+      size="small"
     />
     <Button
       as="button"
       basic={true}
       icon="delete"
       onClick={[Function]}
-      size="mini"
+      size="small"
     />
   </ListContent>
 </ListItem>

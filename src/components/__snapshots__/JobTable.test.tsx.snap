@@ -1,14 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<JobTable /> renders correctly without items 1`] = `
-<Segment>
+<p>
   There are no jobs at this time.
-</Segment>
+</p>
 `;
 
 exports[`<JobTable /> renders items correctly 1`] = `
 <Table
   as="table"
+  basic="very"
 >
   <TableHeader
     as="thead"

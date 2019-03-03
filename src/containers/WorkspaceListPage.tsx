@@ -86,7 +86,6 @@ export class WorkspaceListPage extends Component<IProps, IState> {
       <Page
         header="Workspaces"
         subheader="A workspace is a collection of related Git repositories."
-        icon="cubes"
       >
         <WorkspaceSearch
           query={query}

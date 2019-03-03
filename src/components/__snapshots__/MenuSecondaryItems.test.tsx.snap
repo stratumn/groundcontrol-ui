@@ -7,7 +7,7 @@ exports[`<MenuSecondaryItems /> renders correctly 1`] = `
     activePropName="active"
     to="/services"
   >
-    Services
+    Services 
     <Label
       color="blue"
       size="tiny"
@@ -20,7 +20,7 @@ exports[`<MenuSecondaryItems /> renders correctly 1`] = `
     activePropName="active"
     to="/jobs"
   >
-    Jobs
+    Jobs 
     <Label
       color="blue"
       size="tiny"
@@ -33,7 +33,7 @@ exports[`<MenuSecondaryItems /> renders correctly 1`] = `
     activePropName="active"
     to="/logs"
   >
-    Logs
+    Logs 
     <Label
       color="pink"
       size="tiny"

@@ -29,7 +29,12 @@ export function ProjectListItem({
   return (
     <List.Item className="ProjectListItem">
       <List.Content floated="right">
-        <Label size="small">{reference}</Label>
+        <Label
+          size="small"
+          color="grey"
+        >
+          {reference}
+        </Label>
       </List.Content>
       <List.Content>
         <RepositoryShortName repository={repository} />

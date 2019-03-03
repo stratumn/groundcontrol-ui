@@ -1,11 +1,3 @@
-.ServiceListPage .ui.table {
-  border-radius: 0;
-}
-
 .ServiceListPage .ServiceFilter {
-  margin: 1.2em 1em .8em;
-}
-
-.ServiceListPage .ui.container > button {
-  margin: 0 1em;
+  margin-bottom: 2em;
 }

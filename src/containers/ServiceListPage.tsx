@@ -97,9 +97,7 @@ export class ServiceListPage extends Component<IProps, IState> {
       <Page
         header="Services"
         subheader="Services are processes that run in the background indefinitely."
-        icon="list"
         className="ServiceListPage"
-        fullWidth={true}
       >
         <ServiceFilter
           status={this.getStatus()}

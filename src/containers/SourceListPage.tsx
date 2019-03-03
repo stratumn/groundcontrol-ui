@@ -16,7 +16,7 @@ import graphql from "babel-plugin-relay/macro";
 import React, { Component } from "react";
 import { createFragmentContainer, RelayProp } from "react-relay";
 import { Disposable } from "relay-runtime";
-import { Confirm, Segment } from "semantic-ui-react";
+import { Confirm, Divider } from "semantic-ui-react";
 
 import { SourceListPage_system } from "./__generated__/SourceListPage_system.graphql";
 import { SourceListPage_viewer } from "./__generated__/SourceListPage_viewer.graphql";
@@ -71,25 +71,21 @@ export class SourceListPage extends Component<IProps, IState> {
     return (
       <Page
         header="Sources"
-        subheader="A source is a collection of workspaces. It can either be a directory or a Git repository"
-        icon="folder open"
+        subheader="A source is a collection of workspaces. It can be a directory or a Git repository."
       >
-        <Segment>
-          <h3>Add a New Source</h3>
-          <AddSourceForm
-            {...this.state}
-            onSubmit={this.handleSubmit}
-            onChange={this.handleChange}
-          />
-        </Segment>
-        <Segment>
-          <h3>Current Sources</h3>
-          <SourceList
-            items={items}
-            onDeleteDirectorySource={this.handleDelete}
-            onDeleteGitSource={this.handleDelete}
-          />
-        </Segment>
+        <h2>Add a New Source</h2>
+        <AddSourceForm
+          {...this.state}
+          onSubmit={this.handleSubmit}
+          onChange={this.handleChange}
+        />
+        <Divider hidden={true} />
+        <h2>Current Sources</h2>
+        <SourceList
+          items={items}
+          onDeleteDirectorySource={this.handleDelete}
+          onDeleteGitSource={this.handleDelete}
+        />
         <Confirm
           content="Are you sure your want to delete this source?"
           confirmButton="Delete"

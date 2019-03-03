@@ -24,7 +24,6 @@ describe("<Page />", () => {
       <Page
         header="header"
         subheader="subheader"
-        icon="rocket"
       >
         <p>Hello, World!</p>
       </Page>,
@@ -37,22 +36,7 @@ describe("<Page />", () => {
       <Page
         header="header"
         subheader="subheader"
-        icon="rocket"
         className="className"
-      >
-        <p>Hello, World!</p>
-      </Page>,
-    );
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("renders correctly when fullWidth is set to true", () => {
-    const wrapper = shallow(
-      <Page
-        header="header"
-        subheader="subheader"
-        icon="rocket"
-        fullWidth={true}
       >
         <p>Hello, World!</p>
       </Page>,
@@ -65,7 +49,6 @@ describe("<Page />", () => {
       <Page
         header="header"
         subheader="subheader"
-        icon="rocket"
       >
         <div className="unique" />
       </Page>,

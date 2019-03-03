@@ -78,8 +78,6 @@ export function ProjectCard(props: IProps) {
     render: () => <CommitFeed items={remoteCommitNodes} />,
   }];
 
-  let color: "grey" | "teal" | "violet" | "purple" | "pink" = "grey";
-
   if (isCloned) {
     labels.push((
       <Label
@@ -103,8 +101,6 @@ export function ProjectCard(props: IProps) {
     ));
 
     if (!isBehind && !isAhead) {
-      color = "teal";
-
       labels.push((
         <Label
           key="uptodate"
@@ -134,8 +130,6 @@ export function ProjectCard(props: IProps) {
   }
 
   if (isAhead) {
-    color = "violet";
-
     labels.push((
       <Label
         key="ahead"
@@ -147,8 +141,6 @@ export function ProjectCard(props: IProps) {
   }
 
   if (isBehind) {
-    color = "purple";
-
     labels.push((
       <Label
         key="behind"
@@ -160,8 +152,6 @@ export function ProjectCard(props: IProps) {
   }
 
   if (!isClean) {
-    color = "pink";
-
     labels.push((
       <Label
         key="dirty"
@@ -187,16 +177,18 @@ export function ProjectCard(props: IProps) {
   }
 
   return (
-    <Card
-      className="ProjectCard"
-      color={color}
-    >
+    <Card className="ProjectCard">
       <Card.Content>
         <Card.Header>
           <RepositoryShortName repository={repository} />
         </Card.Header>
         {meta}
-        <Label size="small">{reference}</Label>
+        <Label
+          size="small"
+          color="grey"
+        >
+          {reference}
+        </Label>
         {labels}
         <Card.Description>
           {description || "No description."}

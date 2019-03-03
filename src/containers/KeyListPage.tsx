@@ -16,7 +16,7 @@ import graphql from "babel-plugin-relay/macro";
 import React, { Component } from "react";
 import { createFragmentContainer, RelayProp } from "react-relay";
 import { Disposable } from "relay-runtime";
-import { Confirm, Segment } from "semantic-ui-react";
+import { Confirm, Divider } from "semantic-ui-react";
 
 import { KeyListPage_system } from "./__generated__/KeyListPage_system.graphql";
 import { KeyListPage_viewer } from "./__generated__/KeyListPage_viewer.graphql";
@@ -70,26 +70,22 @@ export class KeyListPage extends Component<IProps, IState> {
       <Page
         header="Keys"
         subheader="A key holds a value that can be used by tasks."
-        icon="key"
       >
-        <Segment>
-          <h3>Add or Replace a Key</h3>
-          <SetKeyForm
-            {...this.state}
-            ref={this.formRef}
-            onChange={this.handleChange}
-            onSubmit={this.handleSubmit}
-            onReset={this.handleReset}
-          />
-        </Segment>
-        <Segment>
-          <h3>Current Keys</h3>
-          <KeyList
-            items={items}
-            onEdit={this.handleEdit}
-            onDelete={this.handleDelete}
-          />
-        </Segment>
+        <h2>Add or Replace a Key</h2>
+        <SetKeyForm
+          {...this.state}
+          ref={this.formRef}
+          onChange={this.handleChange}
+          onSubmit={this.handleSubmit}
+          onReset={this.handleReset}
+        />
+        <Divider hidden={true} />
+        <h2>Current Keys</h2>
+        <KeyList
+          items={items}
+          onEdit={this.handleEdit}
+          onDelete={this.handleDelete}
+        />
         <Confirm
           content="Are you sure your want to delete this key?"
           confirmButton="Delete"
