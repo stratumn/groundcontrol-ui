@@ -42,7 +42,7 @@ exports[`<MenuSecondaryItems /> renders correctly 1`] = `
     </Label>
   </Link>
   <MenuItem
-    href="http://localhost:3333/graphql"
+    href="http://localhost:4444/graphql"
   >
     GraphQL
   </MenuItem>

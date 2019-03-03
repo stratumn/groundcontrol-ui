@@ -1,1 +1,1 @@
-export const GroundControlPort = process.env.REACT_APP_GROUNDCONTROL_PORT || 3333;
+export const GroundControlPort = process.env.REACT_APP_GROUNDCONTROL_PORT || 4444;
