@@ -21,23 +21,59 @@ import { mockQueryPropAttrs } from "../testing/relay";
 import { LogEntryOwnerFilter } from "./LogEntryOwnerFilter";
 
 const props = {
-  items: [{
-    ...mockQueryPropAttrs(),
-    id: "id1",
-    slug: "projectSlug1",
-    workspace: {
-      slug: "workspaceSlug1",
+  items: [
+    {
+      ...mockQueryPropAttrs(),
+      name: "workspaceName1",
+      services: {
+        edges: [
+          {
+            node: {
+              id: "serviceId1",
+              name: "serviceName1",
+            },
+          },
+        ],
+      },
+      tasks: {
+        edges: [
+          {
+            node: {
+              id: "workspaceId1",
+              name: "workspaceName1",
+            },
+          },
+        ],
+      },
     },
-  }, {
-    ...mockQueryPropAttrs(),
-    id: "id2",
-    slug: "projectSlug2",
-    workspace: {
-      slug: "workspaceSlug2",
+    {
+      ...mockQueryPropAttrs(),
+      name: "workspaceName2",
+      services: {
+        edges: [
+          {
+            node: {
+              id: "serviceId3",
+              name: "serviceName3",
+            },
+          },
+        ],
+      },
+      tasks: {
+        edges: [
+          {
+            node: {
+              id: "workspaceId3",
+              name: "workspaceName3",
+            },
+          },
+        ],
+      },
     },
-  }],
+  ],
   onChange: jest.fn(),
   ownerId: "id2",
+  systemId: "systemID",
 };
 
 beforeEach(() => {
@@ -45,7 +81,6 @@ beforeEach(() => {
 });
 
 describe("<LogEntryOwnerFilter />", () => {
-
   it("renders items correctly", () => {
     const wrapper = shallow(<LogEntryOwnerFilter {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -55,7 +90,6 @@ describe("<LogEntryOwnerFilter />", () => {
     const wrapper = shallow(<LogEntryOwnerFilter {...props} />);
     wrapper.find("Dropdown").simulate("change", null, { value: "id1" });
     expect(props.onChange).toBeCalledTimes(1);
-    expect(props.onChange).toBeCalledWith({...props, ownerId: "id1"});
+    expect(props.onChange).toBeCalledWith({ ...props, ownerId: "id1" });
   });
-
 });

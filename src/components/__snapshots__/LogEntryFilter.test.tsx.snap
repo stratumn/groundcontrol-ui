@@ -3,6 +3,7 @@
 exports[`<LogEntryFilter /> renders correctly 1`] = `
 <ContainerConstructor
   componentRef={null}
+  items={Array []}
   level={
     Array [
       "WARNING",
@@ -11,6 +12,6 @@ exports[`<LogEntryFilter /> renders correctly 1`] = `
   }
   onChange={[MockFunction]}
   ownerId="ownerId"
-  projects={Array []}
+  systemId="systemId"
 />
 `;

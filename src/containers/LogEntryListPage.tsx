@@ -23,7 +23,9 @@ import { Container, Loader } from "semantic-ui-react";
 import { LogEntryListPage_system } from "./__generated__/LogEntryListPage_system.graphql";
 import { LogEntryListPage_viewer } from "./__generated__/LogEntryListPage_viewer.graphql";
 
-import LogEntryFilter, { IProps as ILogEntryFilterProps } from "../components/LogEntryFilter";
+import LogEntryFilter, {
+  IProps as ILogEntryFilterProps,
+} from "../components/LogEntryFilter";
 import { IProps as ILogEntryMessageProps } from "../components/LogEntryMessage";
 import LogEntryTable from "../components/LogEntryTable";
 
@@ -44,7 +46,6 @@ export interface IProps {
 }
 
 export class LogEntryListPage extends Component<IProps> {
-
   private disposables: Disposable[] = [];
 
   private shouldScrollToBottom = false;
@@ -55,24 +56,20 @@ export class LogEntryListPage extends Component<IProps> {
   public render() {
     const items = this.props.system.logEntries.edges.map(({ node }) => node);
     const { ownerId } = this.props.params;
-    const projects = this.props.viewer.projects.edges.map(({ node }) => node);
+    const systemId = this.props.system.id;
+    const projects = this.props.viewer.workspaces.edges.map(({ node }) => node);
     const isLoading = this.props.relay.isLoading();
 
     return (
-      <Container
-        className="LogEntryListPage"
-        fluid={true}
-      >
+      <Container className="LogEntryListPage" fluid={true}>
         <Helmet>
           <body className="inverted" />
         </Helmet>
-        <Loader
-          inverted={true}
-          active={isLoading}
-        />
+        <Loader inverted={true} active={isLoading} />
         <LogEntryFilter
           level={this.getLevel()}
-          projects={projects}
+          systemId={systemId}
+          items={projects}
           ownerId={ownerId}
           onChange={this.handleFiltersChange}
         />
@@ -85,7 +82,10 @@ export class LogEntryListPage extends Component<IProps> {
   }
 
   public componentDidMount() {
-    const { relay: { environment }, system: { lastMessageId } } = this.props;
+    const {
+      relay: { environment },
+      system: { lastMessageId },
+    } = this.props;
 
     this.prevScrollHeight = document.body.scrollHeight;
     document.addEventListener("scroll", this.handleScroll);
@@ -128,25 +128,24 @@ export class LogEntryListPage extends Component<IProps> {
     this.disposables = [];
   }
 
-  private getLevel = () => this.props.params.level === undefined ?
-    undefined : this.props.params.level.split(",")
+  private getLevel = () =>
+    this.props.params.level === undefined
+      ? undefined
+      : this.props.params.level.split(",")
 
   private isChrome = () => "chrome" in window;
 
   private loadMore() {
-    const disposable = this.props.relay.loadMore(
-      100,
-      (err) => {
-        if (err) {
-          console.log(err);
-        }
+    const disposable = this.props.relay.loadMore(100, (err) => {
+      if (err) {
+        console.log(err);
+      }
 
-        this.scrollDownAfterNewPage();
+      this.scrollDownAfterNewPage();
 
-        // To hide loader.
-        this.forceUpdate();
-      },
-    );
+      // To hide loader.
+      this.forceUpdate();
+    });
 
     if (disposable) {
       this.disposables.push(disposable);
@@ -172,8 +171,8 @@ export class LogEntryListPage extends Component<IProps> {
     const { scrollHeight } = document.body;
 
     // Check if the user is at the bottom of the window.
-    this.shouldScrollToBottom = scrollY + innerHeight >= scrollHeight - 1 ||
-      scrollHeight < innerHeight;
+    this.shouldScrollToBottom =
+      scrollY + innerHeight >= scrollHeight - 1 || scrollHeight < innerHeight;
 
     const prevScrollY = this.prevScrollY;
     this.prevScrollY = scrollY;
@@ -212,10 +211,11 @@ export class LogEntryListPage extends Component<IProps> {
     this.props.router.replace(`/logs/${level.join(",")};${ownerId || ""}`);
   }
 
-  private handleClickSourceFile = ({ item: { sourceFile } }: ILogEntryMessageProps) => {
+  private handleClickSourceFile = ({
+    item: { sourceFile },
+  }: ILogEntryMessageProps) => {
     openEditor(this.props.relay.environment, sourceFile!);
   }
-
 }
 
 export default createPaginationContainer(
@@ -223,21 +223,22 @@ export default createPaginationContainer(
   graphql`
     fragment LogEntryListPage_system on System
       @argumentDefinitions(
-        count: {type: "Int", defaultValue: 100},
-        cursor: {type: "String"},
-        level: { type: "[LogLevel!]", defaultValue: null },
+        count: { type: "Int", defaultValue: 100 }
+        cursor: { type: "String" }
+        level: { type: "[LogLevel!]", defaultValue: null }
         ownerId: { type: "ID", defaultValue: null }
       ) {
+      id
       lastMessageId
       logEntries(
-       last: $count,
-       before: $cursor,
-       level: $level,
-       ownerId: $ownerId,
+        last: $count
+        before: $cursor
+        level: $level
+        ownerId: $ownerId
       )
         @connection(
-          key: "LogEntryListPage_logEntries",
-          filters: ["level", "ownerId"],
+          key: "LogEntryListPage_logEntries"
+          filters: ["level", "ownerId"]
         ) {
         edges {
           node {
@@ -248,18 +249,19 @@ export default createPaginationContainer(
       }
     }
     fragment LogEntryListPage_viewer on User {
-      projects {
+      workspaces {
         edges {
           node {
-            ...LogEntryFilter_projects
+            ...LogEntryFilter_items
           }
         }
       }
-    }`,
+    }
+  `,
   {
     direction: "backward",
     getConnectionFromProps: (props) => props.system && props.system.logEntries,
-    getVariables: (_, {count, cursor}, fragmentVariables) => ({
+    getVariables: (_, { count, cursor }, fragmentVariables) => ({
       count,
       cursor,
       level: fragmentVariables.level,
@@ -267,18 +269,19 @@ export default createPaginationContainer(
     }),
     query: graphql`
       query LogEntryListPagePaginationQuery(
-        $count: Int!,
-        $cursor: String,
-        $level: [LogLevel!],
-        $ownerId: ID,
+        $count: Int!
+        $cursor: String
+        $level: [LogLevel!]
+        $ownerId: ID
       ) {
         system {
-          ...LogEntryListPage_system @arguments(
-            count: $count,
-            cursor: $cursor,
-            level: $level,
-            ownerId: $ownerId,
-          )
+          ...LogEntryListPage_system
+            @arguments(
+              count: $count
+              cursor: $cursor
+              level: $level
+              ownerId: $ownerId
+            )
         }
       }
     `,

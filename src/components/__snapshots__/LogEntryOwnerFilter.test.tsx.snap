@@ -8,6 +8,7 @@ exports[`<LogEntryOwnerFilter /> renders items correctly 1`] = `
   clearable={true}
   closeOnBlur={true}
   deburr={false}
+  fluid={true}
   icon="dropdown"
   minCharacters={1}
   noResultsMessage="No results found."
@@ -16,18 +17,33 @@ exports[`<LogEntryOwnerFilter /> renders items correctly 1`] = `
   options={
     Array [
       Object {
-        "key": "id1",
-        "text": "workspaceSlug1/projectSlug1",
-        "value": "id1",
+        "key": "systemID",
+        "text": "System",
+        "value": "systemID",
       },
       Object {
-        "key": "id2",
-        "text": "workspaceSlug2/projectSlug2",
-        "value": "id2",
+        "key": "serviceId1",
+        "text": "workspaceName1 » serviceName1",
+        "value": "serviceId1",
+      },
+      Object {
+        "key": "workspaceId1",
+        "text": "workspaceName1 » workspaceName1",
+        "value": "workspaceId1",
+      },
+      Object {
+        "key": "serviceId3",
+        "text": "workspaceName2 » serviceName3",
+        "value": "serviceId3",
+      },
+      Object {
+        "key": "workspaceId3",
+        "text": "workspaceName2 » workspaceName3",
+        "value": "workspaceId3",
       },
     ]
   }
-  placeholder="Choose Project..."
+  placeholder="Choose Namespace..."
   renderLabel={[Function]}
   search={true}
   searchInput="text"

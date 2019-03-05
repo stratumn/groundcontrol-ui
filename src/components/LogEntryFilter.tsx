@@ -16,20 +16,25 @@ import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
 
-import { LogEntryFilter_projects } from "./__generated__/LogEntryFilter_projects.graphql";
+import { LogEntryFilter_items } from "./__generated__/LogEntryFilter_items.graphql";
 
-import LogEntryLevelFilter, { IProps as LogEntryLevelFilterProps } from "./LogEntryLevelFilter";
-import LogEntryOwnerFilter, { IProps as LogEntryOwnerFilterProps } from "./LogEntryOwnerFilter";
+import LogEntryLevelFilter, {
+  IProps as LogEntryLevelFilterProps,
+} from "./LogEntryLevelFilter";
+import LogEntryOwnerFilter, {
+  IProps as LogEntryOwnerFilterProps,
+} from "./LogEntryOwnerFilter";
 
 export interface IProps {
   level?: string[];
-  projects: LogEntryFilter_projects;
+  systemId: string;
+  items: LogEntryFilter_items;
   ownerId?: string;
   onChange: (value: IProps) => any;
 }
 
 export function LogEntryFilter(props: IProps) {
-  const { level, projects, ownerId, onChange } = props;
+  const { level, systemId, items, ownerId, onChange } = props;
   const handleOwnerChange = (values: LogEntryOwnerFilterProps) => {
     onChange({ ...props, ownerId: values.ownerId });
   };
@@ -40,20 +45,21 @@ export function LogEntryFilter(props: IProps) {
   return (
     <div className="LogEntryFilter">
       <LogEntryOwnerFilter
-        items={projects}
+        systemId={systemId}
+        items={items}
         ownerId={ownerId}
         onChange={handleOwnerChange}
       />
-      <LogEntryLevelFilter
-        level={level}
-        onChange={handleLevelChange}
-      />
+      <LogEntryLevelFilter level={level} onChange={handleLevelChange} />
     </div>
   );
 }
 
-export default createFragmentContainer(LogEntryFilter, graphql`
-  fragment LogEntryFilter_projects on Project @relay(plural: true) {
-    ...LogEntryOwnerFilter_items
-  }`,
+export default createFragmentContainer(
+  LogEntryFilter,
+  graphql`
+    fragment LogEntryFilter_items on Workspace @relay(plural: true) {
+      ...LogEntryOwnerFilter_items
+    }
+  `,
 );

@@ -33,66 +33,47 @@ beforeEach(() => {
 });
 
 describe("<AddSourceForm />", () => {
-
   it("renders correctly when a directory source type is selected", () => {
     const wrapper = shallow(
-      <AddSourceForm
-        {...props}
-        type={SourceType.Directory}
-      />,
+      <AddSourceForm {...props} type={SourceType.Directory} />,
     );
     expect(wrapper).toMatchSnapshot();
   });
 
   it("renders correctly when a Git source type is selected", () => {
-    const wrapper = shallow(
-      <AddSourceForm
-        {...props}
-        type={SourceType.Git}
-      />,
-    );
+    const wrapper = shallow(<AddSourceForm {...props} type={SourceType.Git} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it("triggers onChange when a source type is selected", () => {
     const wrapper = shallow(
-      <AddSourceForm
-        {...props}
-        type={SourceType.Directory}
-      />,
+      <AddSourceForm {...props} type={SourceType.Directory} />,
     );
     wrapper.find("[label='Type']").simulate("change", null, {
       value: "git",
     });
     expect(props.onChange).toBeCalledTimes(1);
-    expect(props.onChange).toBeCalledWith({...props, type: "git"});
+    expect(props.onChange).toBeCalledWith({ ...props, type: "git" });
   });
 
   it("triggers onChange when a value is changed", () => {
     const wrapper = shallow(
-      <AddSourceForm
-        {...props}
-        type={SourceType.Directory}
-      />,
+      <AddSourceForm {...props} type={SourceType.Directory} />,
     );
     wrapper.find("[name='directory']").simulate("change", null, {
       name: "directory",
       value: "new",
     });
     expect(props.onChange).toBeCalledTimes(1);
-    expect(props.onChange).toBeCalledWith({...props, directory: "new"});
+    expect(props.onChange).toBeCalledWith({ ...props, directory: "new" });
   });
 
   it("triggers onSubmit when the form is submitted", () => {
     const wrapper = shallow(
-      <AddSourceForm
-        {...props}
-        type={SourceType.Directory}
-      />,
+      <AddSourceForm {...props} type={SourceType.Directory} />,
     );
     wrapper.find("Form").simulate("submit");
     expect(props.onSubmit).toBeCalledTimes(1);
     expect(props.onSubmit).toBeCalledWith(props);
   });
-
 });

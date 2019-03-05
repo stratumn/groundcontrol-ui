@@ -22,30 +22,56 @@ import { LogEntryOwnerFilter_items } from "./__generated__/LogEntryOwnerFilter_i
 import "./LogEntryOwnerFilter.css";
 
 export interface IProps {
+  systemId: string;
   items: LogEntryOwnerFilter_items;
   ownerId?: string;
   onChange: (values: IProps) => any;
 }
 
-export function LogEntryOwnerFilter(props: IProps) {
-  const { items, ownerId, onChange } = props;
-  const options = items.map(({ id, slug, workspace }) => ({
-    key: id,
-    text: `${workspace.slug}/${slug}`,
-    value: id,
-  }));
+interface IOption {
+  key: string;
+  text: string;
+  value: string;
+}
 
-  const handleChange = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps) => {
+export function LogEntryOwnerFilter(props: IProps) {
+  const { systemId, items, ownerId, onChange } = props;
+  const options = [
+    {
+      key: systemId,
+      text: "System",
+      value: systemId,
+    },
+  ];
+
+  for (const workspace of items) {
+    const edges = workspace.services.edges.concat(workspace.tasks.edges);
+    for (const {
+      node: { id, name },
+    } of edges) {
+      options.push({
+        key: id,
+        text: `${workspace.name} » ${name}`,
+        value: id,
+      });
+    }
+  }
+
+  const handleChange = (
+    _: React.SyntheticEvent<HTMLElement>,
+    { value }: DropdownProps,
+  ) => {
     onChange({
       ...props,
-      ownerId: value ? value as string : undefined,
+      ownerId: value ? (value as string) : undefined,
     });
   };
 
   return (
     <Dropdown
       className="LogEntryOwnerFilter"
-      placeholder="Choose Project..."
+      placeholder="Choose Namespace..."
+      fluid={true}
       search={true}
       selection={true}
       clearable={true}
@@ -56,12 +82,27 @@ export function LogEntryOwnerFilter(props: IProps) {
   );
 }
 
-export default createFragmentContainer(LogEntryOwnerFilter, graphql`
-  fragment LogEntryOwnerFilter_items on Project @relay(plural: true) {
-    id
-    slug
-    workspace {
-      slug
+export default createFragmentContainer(
+  LogEntryOwnerFilter,
+  graphql`
+    fragment LogEntryOwnerFilter_items on Workspace @relay(plural: true) {
+      name
+      services {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+      tasks {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
     }
-  }`,
+  `,
 );

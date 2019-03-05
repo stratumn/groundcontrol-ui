@@ -18,17 +18,16 @@ import React from "react";
 import LogEntryFilter from "./LogEntryFilter";
 
 const props = {
+  items: [],
   level: ["WARNING", "ERROR"],
   onChange: jest.fn(),
   ownerId: "ownerId",
-  projects: [],
+  systemId: "systemId",
 };
 
 describe("<LogEntryFilter />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<LogEntryFilter {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

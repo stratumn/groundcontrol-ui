@@ -1,4 +1,5 @@
 .LogEntryOwnerFilter {
   float: right;
   margin-top: -1em;
+  max-width: 300px;
 }

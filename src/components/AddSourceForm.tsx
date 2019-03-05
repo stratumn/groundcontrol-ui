@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stratumn
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,14 +13,12 @@
 // limitations under the License.
 
 import React, { Component, Fragment } from "react";
-import {
-  Button,
-  DropdownProps,
-  Form,
-  InputProps,
-} from "semantic-ui-react";
+import { Button, DropdownProps, Form, InputProps } from "semantic-ui-react";
 
-export enum SourceType { Directory = "directory", Git = "git" }
+export enum SourceType {
+  Directory = "directory",
+  Git = "git",
+}
 
 export interface IProps {
   type: SourceType;
@@ -33,15 +30,19 @@ export interface IProps {
 }
 
 export default class AddSourceForm extends Component<IProps> {
-
   public render() {
     const { type, directory, repository, reference } = this.props;
     const options = [
-      { key: SourceType.Directory, text: "Directory", value: SourceType.Directory },
+      {
+        key: SourceType.Directory,
+        text: "Directory",
+        value: SourceType.Directory,
+      },
       { key: SourceType.Git, text: "Git", value: SourceType.Git },
     ];
-    const disabled = type === SourceType.Directory && !directory ||
-      type === SourceType.Git && !repository;
+    const disabled =
+      (type === SourceType.Directory && !directory) ||
+      (type === SourceType.Git && !repository);
 
     let typeFields: JSX.Element;
 
@@ -105,29 +106,34 @@ export default class AddSourceForm extends Component<IProps> {
     this.props.onSubmit({ ...this.props });
   }
 
-  private handleChangeType = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps) => {
+  private handleChangeType = (
+    _: React.SyntheticEvent<HTMLElement>,
+    { value }: DropdownProps,
+  ) => {
     switch (value) {
-    case "directory":
-    case "git":
-      this.props.onChange({ ...this.props, type: value as SourceType });
-      break;
+      case "directory":
+      case "git":
+        this.props.onChange({ ...this.props, type: value as SourceType });
+        break;
     }
   }
 
-  private handleChangeInput = (_: React.SyntheticEvent<HTMLElement>, { name, value }: InputProps) => {
+  private handleChangeInput = (
+    _: React.SyntheticEvent<HTMLElement>,
+    { name, value }: InputProps,
+  ) => {
     const { onChange } = this.props;
 
     switch (name) {
-    case "directory":
-      onChange({ ...this.props, directory: value });
-      break;
-    case "repository":
-      onChange({ ...this.props, repository: value });
-      break;
-    case "reference":
-      onChange({ ...this.props, reference: value });
-      break;
+      case "directory":
+        onChange({ ...this.props, directory: value });
+        break;
+      case "repository":
+        onChange({ ...this.props, repository: value });
+        break;
+      case "reference":
+        onChange({ ...this.props, reference: value });
+        break;
     }
   }
-
 }

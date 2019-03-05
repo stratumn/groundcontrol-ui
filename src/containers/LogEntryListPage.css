@@ -7,16 +7,17 @@
   right: 0;
   left: 0;
   top: 3.1em;
-  padding: 1.2em 1em .8em;
+  padding: 1.2em 1em 0.8em;
   background: var(--black);
 }
 
 .LogEntryListPage .LogEntryFilter .dropdown {
   position: relative;
-  top: .3em;
+  top: 0.3em;
 }
 
 .LogEntryListPage .ui.table {
+  padding-top: 1em;
   border-radius: 0;
 }
 
