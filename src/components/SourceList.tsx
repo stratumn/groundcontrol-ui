@@ -20,10 +20,10 @@ import { List } from "semantic-ui-react";
 import { SourceList_items } from "./__generated__/SourceList_items.graphql";
 
 import DirectorySourceListItem, {
-  IProps as IDirectorySourceListItemProps,
+  IProps as IDirectorySourceListItemProps
 } from "./DirectorySourceListItem";
 import GitSourceListItem, {
-  IProps as IGitSourceListItemProps,
+  IProps as IGitSourceListItemProps
 } from "./GitSourceListItem";
 
 export interface IProps {
@@ -35,54 +35,53 @@ export interface IProps {
 export function SourceList({
   items,
   onDeleteDirectorySource,
-  onDeleteGitSource,
+  onDeleteGitSource
 }: IProps) {
   if (items.length < 1) {
     return <p>There are no sources at this time.</p>;
   }
 
-  const listItems = items.map((item) => {
+  const listItems = items.map(item => {
     switch (item.__typename) {
-    case "DirectorySource":
-      return (
-        <DirectorySourceListItem
-          key={item.id}
-          item={item}
-          onDelete={onDeleteDirectorySource}
-        />
-      );
-    case "GitSource":
-      return (
-        <GitSourceListItem
-          key={item.id}
-          item={item}
-          onDelete={onDeleteGitSource}
-        />
-      );
+      case "DirectorySource":
+        return (
+          <DirectorySourceListItem
+            key={item.id}
+            item={item}
+            onDelete={onDeleteDirectorySource}
+          />
+        );
+      case "GitSource":
+        return (
+          <GitSourceListItem
+            key={item.id}
+            item={item}
+            onDelete={onDeleteGitSource}
+          />
+        );
     }
     return null;
   });
 
   return (
-    <List
-      size="large"
-      divided={true}
-    >
+    <List size="large" divided={true}>
       {listItems}
     </List>
   );
 }
 
-export default createFragmentContainer(SourceList, graphql`
-  fragment SourceList_items on Source
-    @relay(plural: true) {
-    __typename
-    id
-    ... on DirectorySource {
-      ...DirectorySourceListItem_item
+export default createFragmentContainer(
+  SourceList,
+  graphql`
+    fragment SourceList_items on Source @relay(plural: true) {
+      __typename
+      id
+      ... on DirectorySource {
+        ...DirectorySourceListItem_item
+      }
+      ... on GitSource {
+        ...GitSourceListItem_item
+      }
     }
-    ... on GitSource {
-      ...GitSourceListItem_item
-    }
-  }`,
+  `
 );

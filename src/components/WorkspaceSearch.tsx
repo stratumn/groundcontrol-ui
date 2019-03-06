@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stratumn
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,10 +13,7 @@
 // limitations under the License.
 
 import React, { Component } from "react";
-import {
-  Input,
-  InputOnChangeData,
-} from "semantic-ui-react";
+import { Input, InputOnChangeData } from "semantic-ui-react";
 
 import "./WorkspaceSearch.css";
 
@@ -27,7 +23,6 @@ export interface IProps {
 }
 
 export default class WorkspaceSearch extends Component<IProps> {
-
   public render() {
     const { query } = this.props;
 
@@ -43,8 +38,10 @@ export default class WorkspaceSearch extends Component<IProps> {
     );
   }
 
-  private handleChange = (_: React.ChangeEvent<HTMLInputElement>, { value }: InputOnChangeData) => {
+  private handleChange = (
+    _: React.ChangeEvent<HTMLInputElement>,
+    { value }: InputOnChangeData
+  ) => {
     this.props.onChange({ ...this.props, query: value });
-  }
-
+  };
 }

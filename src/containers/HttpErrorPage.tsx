@@ -23,17 +23,13 @@ export interface IProps {
 }
 
 export default class ErrorPage extends Component<IProps> {
-
   public render() {
     const { error } = this.props;
 
     return (
       <div className="App">
         <Container>
-          <Page
-            header="Oops"
-            subheader="Looks like something's wrong."
-          >
+          <Page header="Oops" subheader="Looks like something's wrong.">
             <h4>Error {error.status}</h4>
             <pre>{error.data}</pre>
             <Link to="/workspaces">Go back to a safe place.</Link>
@@ -42,5 +38,4 @@ export default class ErrorPage extends Component<IProps> {
       </div>
     );
   }
-
 }

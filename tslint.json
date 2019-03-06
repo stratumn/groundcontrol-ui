@@ -1,18 +1,12 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended",
-        "tslint-react"
-    ],
-    "jsRules": {},
-    "rules": {
-        "no-console": false
-    },
-    "rulesDirectory": [],
-    "linterOptions": {
-        "exclude": [
-            "./src/__generated__/*",
-            "./src/external.d.ts"
-        ]
-    }
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "no-console": false
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["./src/**/__generated__/*", "./src/external.d.ts"]
+  }
 }

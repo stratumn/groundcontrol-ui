@@ -26,7 +26,6 @@ export const allStatus = ["QUEUED", "RUNNING", "STOPPING", "DONE", "FAILED"];
 
 // Note: we consider undefined filter to be the same as all status.
 export default class JobFilter extends Component<IProps> {
-
   public render() {
     const { status } = this.props;
     const radios = allStatus.map((value, i) => (
@@ -42,8 +41,9 @@ export default class JobFilter extends Component<IProps> {
   }
 
   private handleToggle(value: string) {
-    const status = this.props.status ?
-      this.props.status.slice() : allStatus.slice();
+    const status = this.props.status
+      ? this.props.status.slice()
+      : allStatus.slice();
     const index = status.indexOf(value);
 
     if (index >= 0) {
@@ -54,5 +54,4 @@ export default class JobFilter extends Component<IProps> {
 
     this.props.onChange({ ...this.props, status });
   }
-
 }

@@ -34,16 +34,17 @@ const subscription = graphql`
   }
 `;
 
-export function subscribe(environment: Environment, lastMessageId?: string, id?: string) {
-  return requestSubscription(
-    environment,
-    {
-      onError: (error) => console.error(error),
-      subscription,
-      variables: {
-        id,
-        lastMessageId,
-      },
-    },
-  );
+export function subscribe(
+  environment: Environment,
+  lastMessageId?: string,
+  id?: string
+) {
+  return requestSubscription(environment, {
+    onError: error => console.error(error),
+    subscription,
+    variables: {
+      id,
+      lastMessageId
+    }
+  });
 }

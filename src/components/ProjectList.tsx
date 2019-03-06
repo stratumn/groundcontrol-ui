@@ -26,20 +26,17 @@ export interface IProps {
 }
 
 export function ProjectList({ items }: IProps) {
-  const rows = items.map((item) => (
-    <ProjectListItem
-      key={item.id}
-      item={item}
-    />
-   ));
+  const rows = items.map(item => <ProjectListItem key={item.id} item={item} />);
 
   return <List>{rows}</List>;
 }
 
-export default createFragmentContainer(ProjectList, graphql`
-  fragment ProjectList_items on Project
-    @relay(plural: true) {
-    ...ProjectListItem_item
-    id
-  }`,
+export default createFragmentContainer(
+  ProjectList,
+  graphql`
+    fragment ProjectList_items on Project @relay(plural: true) {
+      ...ProjectListItem_item
+      id
+    }
+  `
 );

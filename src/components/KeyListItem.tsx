@@ -14,10 +14,7 @@
 
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
-import {
-  Button,
-  List,
-} from "semantic-ui-react";
+import { Button, List } from "semantic-ui-react";
 
 import { createFragmentContainer } from "react-relay";
 
@@ -32,7 +29,11 @@ export interface IProps {
 }
 
 export function KeyListItem(props: IProps) {
-  const{ item: { name, value }, onEdit, onDelete } = props;
+  const {
+    item: { name, value },
+    onEdit,
+    onDelete
+  } = props;
   const handleEdit = () => onEdit({ ...props });
   const handleDelete = () => onDelete({ ...props });
 
@@ -41,16 +42,9 @@ export function KeyListItem(props: IProps) {
       <List.Content>
         <List.Header>{name}</List.Header>
         <List.Description>
-          <code>
-            {value}
-          </code>
+          <code>{value}</code>
         </List.Description>
-        <Button
-          icon="edit"
-          color="teal"
-          size="small"
-          onClick={handleEdit}
-        />
+        <Button icon="edit" color="teal" size="small" onClick={handleEdit} />
         <Button
           icon="delete"
           size="small"
@@ -62,10 +56,13 @@ export function KeyListItem(props: IProps) {
   );
 }
 
-export default createFragmentContainer(KeyListItem, graphql`
-  fragment KeyListItem_item on Key {
-    id
-    name
-    value
-  }`,
+export default createFragmentContainer(
+  KeyListItem,
+  graphql`
+    fragment KeyListItem_item on Key {
+      id
+      name
+      value
+    }
+  `
 );

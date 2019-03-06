@@ -24,9 +24,9 @@ const props = {
   item: {
     ...mockQueryPropAttrs(),
     directory: "directory",
-    id: "id",
+    id: "id"
   },
-  onDelete: jest.fn(),
+  onDelete: jest.fn()
 };
 
 beforeEach(() => {
@@ -34,7 +34,6 @@ beforeEach(() => {
 });
 
 describe("<DirectorySourceListItem />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<DirectorySourceListItem {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -46,5 +45,4 @@ describe("<DirectorySourceListItem />", () => {
     expect(props.onDelete).toBeCalledTimes(1);
     expect(props.onDelete).toBeCalledWith(props);
   });
-
 });

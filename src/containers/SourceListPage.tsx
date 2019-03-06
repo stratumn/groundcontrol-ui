@@ -23,7 +23,7 @@ import { SourceListPage_viewer } from "./__generated__/SourceListPage_viewer.gra
 
 import AddSourceForm, {
   IProps as IAddSourceFormProps,
-  SourceType,
+  SourceType
 } from "../components/AddSourceForm";
 import Page from "../components/Page";
 import SourceList from "../components/SourceList";
@@ -50,14 +50,13 @@ interface IState {
 }
 
 export class SourceListPage extends Component<IProps, IState> {
-
   public state = {
     deleteId: "",
     directory: "",
     reference: "",
     repository: "",
     showConfirmDelete: false,
-    type: SourceType.Directory,
+    type: SourceType.Directory
   };
 
   private disposables: Disposable[] = [];
@@ -98,13 +97,16 @@ export class SourceListPage extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const { relay: { environment }, system: { lastMessageId } } = this.props;
+    const {
+      relay: { environment },
+      system: { lastMessageId }
+    } = this.props;
 
     this.disposables.push(
       subscribeUserStored(environment, lastMessageId),
       subscribeSourceStored(environment, lastMessageId),
       // Note: currently sources are not deleted server side.
-      subscribeSourceDeleted(environment, lastMessageId),
+      subscribeSourceDeleted(environment, lastMessageId)
     );
   }
 
@@ -116,7 +118,7 @@ export class SourceListPage extends Component<IProps, IState> {
     this.disposables = [];
   }
 
-  private sortItems(items: Array<{ directory?: string, repository?: string }>) {
+  private sortItems(items: Array<{ directory?: string; repository?: string }>) {
     items.sort((a, b) => {
       const u = (a.directory || a.repository || "").toLowerCase();
       const v = (b.directory || b.repository || "").toLowerCase();
@@ -132,64 +134,66 @@ export class SourceListPage extends Component<IProps, IState> {
 
   private handleChange = (values: IAddSourceFormProps) => {
     this.setState({ ...this.state, ...values });
-  }
+  };
 
   private handleSubmit = (values: IAddSourceFormProps) => {
     const { type, directory, repository, reference } = values;
 
     switch (type) {
-    case "directory":
-      addDirectorySource(this.props.relay.environment, {
-        directory,
-      });
-      break;
-    case "git":
-      addGitSource(this.props.relay.environment, {
-        reference: reference || "refs/heads/master", // TODO: move default elsewhere
-        repository,
-      });
-      break;
+      case "directory":
+        addDirectorySource(this.props.relay.environment, {
+          directory
+        });
+        break;
+      case "git":
+        addGitSource(this.props.relay.environment, {
+          reference: reference || "refs/heads/master", // TODO: move default elsewhere
+          repository
+        });
+        break;
     }
 
     this.setState({
       directory: "",
       reference: "",
-      repository: "",
+      repository: ""
     });
-  }
+  };
 
   private handleDelete = ({ item: { id } }: { item: { id: string } }) => {
     this.setState({ showConfirmDelete: true, deleteId: id });
-  }
+  };
 
   private handleCancelDelete = () => {
     this.setState({ showConfirmDelete: false });
-  }
+  };
 
   private handleConfirmDelete = () => {
     deleteSource(this.props.relay.environment, this.state.deleteId);
     this.setState({ showConfirmDelete: false });
-  }
-
+  };
 }
 
-export default createFragmentContainer(SourceListPage, graphql`
-  fragment SourceListPage_system on System {
-    lastMessageId
-  }
-  fragment SourceListPage_viewer on User {
-    sources(first: 1000) @connection(key: "SourceListPage_sources") {
-      edges {
-        node {
-          ... on DirectorySource {
-            directory
+export default createFragmentContainer(
+  SourceListPage,
+  graphql`
+    fragment SourceListPage_system on System {
+      lastMessageId
+    }
+    fragment SourceListPage_viewer on User {
+      sources(first: 1000) @connection(key: "SourceListPage_sources") {
+        edges {
+          node {
+            ... on DirectorySource {
+              directory
+            }
+            ... on GitSource {
+              repository
+            }
+            ...SourceList_items
           }
-          ... on GitSource {
-            repository
-          }
-          ...SourceList_items
         }
       }
     }
-  }`,
+  `
 );

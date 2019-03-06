@@ -16,10 +16,7 @@ import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
 import React, { Fragment } from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Label,
-  Menu,
-} from "semantic-ui-react";
+import { Label, Menu } from "semantic-ui-react";
 
 import { MenuSecondaryItems_jobMetrics } from "./__generated__/MenuSecondaryItems_jobMetrics.graphql";
 import { MenuSecondaryItems_logMetrics } from "./__generated__/MenuSecondaryItems_logMetrics.graphql";
@@ -36,53 +33,32 @@ export interface IProps {
 export function MenuSecondaryItems({
   serviceMetrics,
   jobMetrics,
-  logMetrics,
+  logMetrics
 }: IProps) {
   const servicesLabel = !!serviceMetrics.running && (
-    <Label
-      color="blue"
-      size="tiny"
-    >
+    <Label color="blue" size="tiny">
       {serviceMetrics.running}
     </Label>
   );
   const jobsLabel = !!(jobMetrics.queued || jobMetrics.running) && (
-    <Label
-      color="blue"
-      size="tiny"
-    >
+    <Label color="blue" size="tiny">
       {jobMetrics.queued + jobMetrics.running}
     </Label>
   );
   const logsLabel = !!logMetrics.error && (
-    <Label
-      color="pink"
-      size="tiny"
-    >
+    <Label color="pink" size="tiny">
       {logMetrics.error}
     </Label>
   );
   return (
     <Fragment>
-      <Link
-        to="/services"
-        Component={Menu.Item}
-        activePropName="active"
-      >
+      <Link to="/services" Component={Menu.Item} activePropName="active">
         Services {servicesLabel}
       </Link>
-      <Link
-        to="/jobs"
-        Component={Menu.Item}
-        activePropName="active"
-      >
+      <Link to="/jobs" Component={Menu.Item} activePropName="active">
         Jobs {jobsLabel}
       </Link>
-      <Link
-        to="/logs"
-        Component={Menu.Item}
-        activePropName="active"
-      >
+      <Link to="/logs" Component={Menu.Item} activePropName="active">
         Logs {logsLabel}
       </Link>
       <Menu.Item href={`http://localhost:${GroundControlPort}/graphql`}>
@@ -92,15 +68,18 @@ export function MenuSecondaryItems({
   );
 }
 
-export default createFragmentContainer(MenuSecondaryItems, graphql`
-  fragment MenuSecondaryItems_serviceMetrics on ServiceMetrics {
-    running
-  }
-  fragment MenuSecondaryItems_jobMetrics on JobMetrics {
-    queued
-    running
-  }
-  fragment MenuSecondaryItems_logMetrics on LogMetrics {
-    error
-  }
-`);
+export default createFragmentContainer(
+  MenuSecondaryItems,
+  graphql`
+    fragment MenuSecondaryItems_serviceMetrics on ServiceMetrics {
+      running
+    }
+    fragment MenuSecondaryItems_jobMetrics on JobMetrics {
+      queued
+      running
+    }
+    fragment MenuSecondaryItems_logMetrics on LogMetrics {
+      error
+    }
+  `
+);

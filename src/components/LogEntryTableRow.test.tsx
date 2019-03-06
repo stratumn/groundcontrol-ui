@@ -28,8 +28,8 @@ const other: LogEntryTableRow_item = {
   level: "INFO",
   owner: {
     __typename: "%other",
-    id: "otherId",
-  },
+    id: "otherId"
+  }
 };
 
 const project: LogEntryTableRow_item = {
@@ -41,9 +41,9 @@ const project: LogEntryTableRow_item = {
     id: "projectId",
     slug: "projectSlug",
     workspace: {
-      slug: "workspaceSlug",
-    },
-  },
+      slug: "workspaceSlug"
+    }
+  }
 };
 
 const prevItem: LogEntryTableRow_prevItem = {
@@ -51,30 +51,29 @@ const prevItem: LogEntryTableRow_prevItem = {
   createdAt: "createdAt",
   level: "INFO",
   owner: {
-    id: "projectId",
-  },
+    id: "projectId"
+  }
 };
 
 const otherProps = {
   item: other,
   onClickSourceFile: jest.fn(),
-  prevItem: null,
+  prevItem: null
 };
 
 const projectProps = {
   item: project,
   onClickSourceFile: jest.fn(),
-  prevItem: null,
+  prevItem: null
 };
 
 const similarProps = {
   item: project,
   onClickSourceFile: jest.fn(),
-  prevItem,
+  prevItem
 };
 
 describe("<LogEntryTableRow />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<LogEntryTableRow {...otherProps} />);
     expect(wrapper).toMatchSnapshot();
@@ -88,8 +87,8 @@ describe("<LogEntryTableRow />", () => {
   it("sets the warning attribute of the level cell to true when the level is warning", () => {
     const wrapper = shallow(
       <LogEntryTableRow
-        {...{...otherProps, item: { ...other, level: "WARNING" } }}
-      />,
+        {...{ ...otherProps, item: { ...other, level: "WARNING" } }}
+      />
     );
     expect(wrapper.find("[warning=true]")).toHaveLength(1);
   });
@@ -97,8 +96,8 @@ describe("<LogEntryTableRow />", () => {
   it("sets the error attribute of the status cell to true when the level is error", () => {
     const wrapper = shallow(
       <LogEntryTableRow
-        {...{...otherProps, item: { ...other, level: "ERROR" } }}
-      />,
+        {...{ ...otherProps, item: { ...other, level: "ERROR" } }}
+      />
     );
     expect(wrapper.find("[error=true]")).toHaveLength(1);
   });
@@ -111,8 +110,8 @@ describe("<LogEntryTableRow />", () => {
   it("displays meta if the previous entry's createdAt is different", () => {
     const wrapper = shallow(
       <LogEntryTableRow
-        {...{...otherProps, prevItem: { ...prevItem, createdAt: "new" } }}
-      />,
+        {...{ ...otherProps, prevItem: { ...prevItem, createdAt: "new" } }}
+      />
     );
     expect(wrapper.find("Owner")).toHaveLength(1);
   });
@@ -120,8 +119,8 @@ describe("<LogEntryTableRow />", () => {
   it("displays meta if the previous entry's level is different", () => {
     const wrapper = shallow(
       <LogEntryTableRow
-        {...{...otherProps, prevItem: { ...prevItem, level: "DEBUG" } }}
-      />,
+        {...{ ...otherProps, prevItem: { ...prevItem, level: "DEBUG" } }}
+      />
     );
     expect(wrapper.find("Owner")).toHaveLength(1);
   });
@@ -129,18 +128,17 @@ describe("<LogEntryTableRow />", () => {
   it("displays meta if the previous entry's owner is different", () => {
     const wrapper = shallow(
       <LogEntryTableRow
-        {...{...otherProps, prevItem: { ...prevItem, owner: null } }}
-      />,
+        {...{ ...otherProps, prevItem: { ...prevItem, owner: null } }}
+      />
     );
     expect(wrapper.find("Owner")).toHaveLength(1);
   });
   it("displays meta if the previous entry's owner id is different", () => {
     const wrapper = shallow(
       <LogEntryTableRow
-        {...{...otherProps, prevItem: { ...prevItem, owner: { id: "new" } } }}
-      />,
+        {...{ ...otherProps, prevItem: { ...prevItem, owner: { id: "new" } } }}
+      />
     );
     expect(wrapper.find("Owner")).toHaveLength(1);
   });
-
 });

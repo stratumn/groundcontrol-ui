@@ -1,12 +1,12 @@
 language: node_js
 
 node_js:
-- node
+  - node
 
 cache: yarn
 
 script:
-- curl -O -s https://raw.githubusercontent.com/stratumn/groundcontrol/${TRAVIS_BRANCH}/schema.graphql || curl -O -s https://raw.githubusercontent.com/stratumn/groundcontrol/master/schema.graphql
-- yarn gen-ci
-- yarn test
-- yarn lint
+  - curl -O -s https://raw.githubusercontent.com/stratumn/groundcontrol/${TRAVIS_BRANCH}/schema.graphql || curl -O -s https://raw.githubusercontent.com/stratumn/groundcontrol/master/schema.graphql
+  - yarn gen-ci
+  - yarn test
+  - yarn lint

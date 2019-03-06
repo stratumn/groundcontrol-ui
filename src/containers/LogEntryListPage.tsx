@@ -24,7 +24,7 @@ import { LogEntryListPage_system } from "./__generated__/LogEntryListPage_system
 import { LogEntryListPage_viewer } from "./__generated__/LogEntryListPage_viewer.graphql";
 
 import LogEntryFilter, {
-  IProps as ILogEntryFilterProps,
+  IProps as ILogEntryFilterProps
 } from "../components/LogEntryFilter";
 import { IProps as ILogEntryMessageProps } from "../components/LogEntryMessage";
 import LogEntryTable from "../components/LogEntryTable";
@@ -84,7 +84,7 @@ export class LogEntryListPage extends Component<IProps> {
   public componentDidMount() {
     const {
       relay: { environment },
-      system: { lastMessageId },
+      system: { lastMessageId }
     } = this.props;
 
     this.prevScrollHeight = document.body.scrollHeight;
@@ -95,14 +95,14 @@ export class LogEntryListPage extends Component<IProps> {
       {
         dispose: () => {
           document.removeEventListener("scroll", this.handleScroll);
-        },
+        }
       },
       subscribe(
         environment,
         this.getLevel,
         () => this.props.params.ownerId,
-        lastMessageId,
-      ),
+        lastMessageId
+      )
     );
   }
 
@@ -131,12 +131,12 @@ export class LogEntryListPage extends Component<IProps> {
   private getLevel = () =>
     this.props.params.level === undefined
       ? undefined
-      : this.props.params.level.split(",")
+      : this.props.params.level.split(",");
 
   private isChrome = () => "chrome" in window;
 
   private loadMore() {
-    const disposable = this.props.relay.loadMore(100, (err) => {
+    const disposable = this.props.relay.loadMore(100, err => {
       if (err) {
         console.log(err);
       }
@@ -198,7 +198,7 @@ export class LogEntryListPage extends Component<IProps> {
     }
 
     this.loadMore();
-  }
+  };
 
   private handleFiltersChange = ({ level, ownerId }: ILogEntryFilterProps) => {
     if (!level || (level.length < 1 || level.length > 3)) {
@@ -209,13 +209,13 @@ export class LogEntryListPage extends Component<IProps> {
     }
 
     this.props.router.replace(`/logs/${level.join(",")};${ownerId || ""}`);
-  }
+  };
 
   private handleClickSourceFile = ({
-    item: { sourceFile },
+    item: { sourceFile }
   }: ILogEntryMessageProps) => {
     openEditor(this.props.relay.environment, sourceFile!);
-  }
+  };
 }
 
 export default createPaginationContainer(
@@ -260,12 +260,12 @@ export default createPaginationContainer(
   `,
   {
     direction: "backward",
-    getConnectionFromProps: (props) => props.system && props.system.logEntries,
+    getConnectionFromProps: props => props.system && props.system.logEntries,
     getVariables: (_, { count, cursor }, fragmentVariables) => ({
       count,
       cursor,
       level: fragmentVariables.level,
-      ownerId: fragmentVariables.ownerId,
+      ownerId: fragmentVariables.ownerId
     }),
     query: graphql`
       query LogEntryListPagePaginationQuery(
@@ -284,6 +284,6 @@ export default createPaginationContainer(
             )
         }
       }
-    `,
-  },
+    `
+  }
 );

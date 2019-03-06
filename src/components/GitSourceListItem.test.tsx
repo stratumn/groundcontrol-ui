@@ -25,9 +25,9 @@ const props = {
     ...mockQueryPropAttrs(),
     id: "id",
     referenceShort: "shortReference",
-    repository: "repository",
+    repository: "repository"
   },
-  onDelete: jest.fn(),
+  onDelete: jest.fn()
 };
 
 beforeEach(() => {
@@ -35,7 +35,6 @@ beforeEach(() => {
 });
 
 describe("<GitSourceListItem />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<GitSourceListItem {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -47,5 +46,4 @@ describe("<GitSourceListItem />", () => {
     expect(props.onDelete).toBeCalledTimes(1);
     expect(props.onDelete).toBeCalledWith(props);
   });
-
 });

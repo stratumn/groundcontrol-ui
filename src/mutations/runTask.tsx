@@ -29,10 +29,10 @@ const mutation = graphql`
 export function commit(
   environment: Environment,
   id: string,
-  variables?: VariableInput[],
+  variables?: VariableInput[]
 ) {
   commitMutation(environment, {
     mutation,
-    variables: { id, variables },
+    variables: { id, variables }
   });
 }

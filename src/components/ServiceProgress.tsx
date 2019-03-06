@@ -25,8 +25,8 @@ export interface IProps {
 
 export function ServiceProgress({ item: { dependencies } }: IProps) {
   const services = dependencies.edges.map(({ node }) => node);
-  const running = services.filter((node) => node.status === "RUNNING");
-  let current = services.find((service) => service.status !== "RUNNING");
+  const running = services.filter(node => node.status === "RUNNING");
+  let current = services.find(service => service.status !== "RUNNING");
 
   if (!current) {
     current = services[services.length - 1];
@@ -48,15 +48,18 @@ export function ServiceProgress({ item: { dependencies } }: IProps) {
   );
 }
 
-export default createFragmentContainer(ServiceProgress, graphql`
-  fragment ServiceProgress_item on Service {
-    dependencies {
-      edges {
-        node {
-          name
-          status
+export default createFragmentContainer(
+  ServiceProgress,
+  graphql`
+    fragment ServiceProgress_item on Service {
+      dependencies {
+        edges {
+          node {
+            name
+            status
+          }
         }
       }
     }
-  }`,
+  `
 );

@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stratumn
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,8 +32,11 @@ const WorkspaceNotes = ({ item: { notes } }: IProps) => (
   />
 );
 
-export default createFragmentContainer(WorkspaceNotes, graphql`
-  fragment WorkspaceNotes_item on Workspace {
-    notes
-  }`,
+export default createFragmentContainer(
+  WorkspaceNotes,
+  graphql`
+    fragment WorkspaceNotes_item on Workspace {
+      notes
+    }
+  `
 );

@@ -20,20 +20,21 @@ import { mockQueryPropAttrs } from "../testing/relay";
 import { CommitFeed } from "./CommitFeed";
 
 const props = {
-  items: [{
-    ...mockQueryPropAttrs(),
-    id: "id1",
-  }, {
-    ...mockQueryPropAttrs(),
-    id: "id2",
-  }],
+  items: [
+    {
+      ...mockQueryPropAttrs(),
+      id: "id1"
+    },
+    {
+      ...mockQueryPropAttrs(),
+      id: "id2"
+    }
+  ]
 };
 
 describe("<CommitFeed />", () => {
-
   it("renders items correctly", () => {
     const wrapper = shallow(<CommitFeed {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

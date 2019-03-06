@@ -30,21 +30,21 @@ const props = {
           {
             node: {
               id: "serviceId1",
-              name: "serviceName1",
-            },
-          },
-        ],
+              name: "serviceName1"
+            }
+          }
+        ]
       },
       tasks: {
         edges: [
           {
             node: {
               id: "workspaceId1",
-              name: "workspaceName1",
-            },
-          },
-        ],
-      },
+              name: "workspaceName1"
+            }
+          }
+        ]
+      }
     },
     {
       ...mockQueryPropAttrs(),
@@ -54,26 +54,26 @@ const props = {
           {
             node: {
               id: "serviceId3",
-              name: "serviceName3",
-            },
-          },
-        ],
+              name: "serviceName3"
+            }
+          }
+        ]
       },
       tasks: {
         edges: [
           {
             node: {
               id: "workspaceId3",
-              name: "workspaceName3",
-            },
-          },
-        ],
-      },
-    },
+              name: "workspaceName3"
+            }
+          }
+        ]
+      }
+    }
   ],
   onChange: jest.fn(),
   ownerId: "id2",
-  systemId: "systemID",
+  systemId: "systemID"
 };
 
 beforeEach(() => {

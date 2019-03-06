@@ -33,46 +33,43 @@ const subscription = graphql`
 `;
 
 export function subscribe(environment: Environment, lastMessageId?: string) {
-  return requestSubscription(
-    environment,
-    {
-      onError: (error) => console.error(error),
-      subscription,
-      updater: (store) => {
-        const record = store.getRootField("sourceStored")!;
-        const recordId = record.getValue("id");
-        const viewer = store.getRoot().getLinkedRecord("viewer");
+  return requestSubscription(environment, {
+    onError: error => console.error(error),
+    subscription,
+    updater: store => {
+      const record = store.getRootField("sourceStored")!;
+      const recordId = record.getValue("id");
+      const viewer = store.getRoot().getLinkedRecord("viewer");
 
-        const connection = ConnectionHandler.getConnection(
-          viewer,
-          "SourceListPage_sources",
-        );
+      const connection = ConnectionHandler.getConnection(
+        viewer,
+        "SourceListPage_sources"
+      );
 
-        if (!connection) {
+      if (!connection) {
+        return;
+      }
+
+      const edges = connection.getLinkedRecords("edges");
+
+      for (const e of edges) {
+        const id = e.getLinkedRecord("node")!.getValue("id");
+
+        if (recordId === id) {
           return;
         }
+      }
 
-        const edges = connection.getLinkedRecords("edges");
-
-        for (const e of edges) {
-          const id = e.getLinkedRecord("node")!.getValue("id");
-
-          if (recordId === id) {
-            return;
-          }
-        }
-
-        const edge = ConnectionHandler.createEdge(
-          store,
-          connection,
-          record,
-          "SourcesConnection",
-        );
-        ConnectionHandler.insertEdgeAfter(connection, edge);
+      const edge = ConnectionHandler.createEdge(
+        store,
+        connection,
+        record,
+        "SourcesConnection"
+      );
+      ConnectionHandler.insertEdgeAfter(connection, edge);
     },
-      variables: {
-        lastMessageId,
-      },
-    },
-  );
+    variables: {
+      lastMessageId
+    }
+  });
 }

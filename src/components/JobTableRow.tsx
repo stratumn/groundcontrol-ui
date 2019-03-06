@@ -15,10 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
 import React, { Fragment } from "react";
-import {
-  Button,
-  Table,
- } from "semantic-ui-react";
+import { Button, Table } from "semantic-ui-react";
 
 import { createFragmentContainer } from "react-relay";
 
@@ -38,15 +35,8 @@ export interface IProps {
 
 export function JobTableRow(props: IProps) {
   const {
-    item: {
-      name,
-      owner,
-      createdAt,
-      updatedAt,
-      priority,
-      status,
-    },
-    onStop,
+    item: { name, owner, createdAt, updatedAt, priority, status },
+    onStop
   } = props;
   const buttons: JSX.Element[] = [];
 
@@ -55,15 +45,15 @@ export function JobTableRow(props: IProps) {
   let projectRepository = "-";
 
   switch (owner.__typename) {
-  case "Workspace":
-    workspaceSlug = owner.slug;
-    workspaceName = owner.name;
-    break;
-  case "Project":
-    workspaceSlug = owner.workspace.slug;
-    workspaceName = owner.workspace.name;
-    projectRepository = owner.repository;
-    break;
+    case "Workspace":
+      workspaceSlug = owner.slug;
+      workspaceName = owner.name;
+      break;
+    case "Project":
+      workspaceSlug = owner.workspace.slug;
+      workspaceName = owner.workspace.name;
+      projectRepository = owner.repository;
+      break;
   }
 
   let workspaceEl: JSX.Element;
@@ -72,15 +62,13 @@ export function JobTableRow(props: IProps) {
     workspaceEl = <Fragment>{workspaceName}</Fragment>;
   } else {
     workspaceEl = (
-      <Link to={`/workspaces/${workspaceSlug}`}>
-        {workspaceName}
-      </Link>
+      <Link to={`/workspaces/${workspaceSlug}`}>{workspaceName}</Link>
     );
   }
 
   if (status === "QUEUED" || status === "RUNNING" || status === "STOPPING") {
     const handleStop = () => status !== "STOPPING" && onStop({ ...props });
-    buttons.push((
+    buttons.push(
       <Button
         key="stop"
         size="mini"
@@ -90,15 +78,13 @@ export function JobTableRow(props: IProps) {
         loading={status === "STOPPING"}
         onClick={handleStop}
       />
-    ));
+    );
   }
 
   return (
     <Table.Row className="JobTableRow">
       <Table.Cell>{name}</Table.Cell>
-      <Table.Cell>
-        {workspaceEl}
-      </Table.Cell>
+      <Table.Cell>{workspaceEl}</Table.Cell>
       <Table.Cell>
         <RepositoryShortName repository={projectRepository} />
       </Table.Cell>
@@ -116,34 +102,35 @@ export function JobTableRow(props: IProps) {
       >
         {status.toLocaleLowerCase()}
       </Table.Cell>
-      <Table.Cell className="JobTableRowActions">
-        {buttons}
-      </Table.Cell>
+      <Table.Cell className="JobTableRowActions">{buttons}</Table.Cell>
     </Table.Row>
   );
 }
 
-export default createFragmentContainer(JobTableRow, graphql`
-  fragment JobTableRow_item on Job {
-    id
-    name
-    createdAt
-    updatedAt
-    owner {
-      __typename
-      ... on Workspace {
-        slug
-        name
-      }
-      ... on Project {
-        repository
-        workspace {
+export default createFragmentContainer(
+  JobTableRow,
+  graphql`
+    fragment JobTableRow_item on Job {
+      id
+      name
+      createdAt
+      updatedAt
+      owner {
+        __typename
+        ... on Workspace {
           slug
           name
         }
+        ... on Project {
+          repository
+          workspace {
+            slug
+            name
+          }
+        }
       }
+      priority
+      status
     }
-    priority
-    status
-  }`,
+  `
 );

@@ -25,10 +25,10 @@ const props = {
     ...mockQueryPropAttrs(),
     id: "id",
     name: "name",
-    value: "value",
+    value: "value"
   },
   onDelete: jest.fn(),
-  onEdit: jest.fn(),
+  onEdit: jest.fn()
 };
 
 beforeEach(() => {
@@ -37,7 +37,6 @@ beforeEach(() => {
 });
 
 describe("<KeyListItem />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<KeyListItem {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -56,5 +55,4 @@ describe("<KeyListItem />", () => {
     expect(props.onEdit).toBeCalledTimes(1);
     expect(props.onEdit).toBeCalledWith(props);
   });
-
 });

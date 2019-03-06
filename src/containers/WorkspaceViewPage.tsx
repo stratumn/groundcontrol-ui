@@ -27,8 +27,8 @@ import ProjectCardGroup from "../components/ProjectCardGroup";
 import ServiceProgressModal from "../components/ServiceProgressModal";
 import TaskProgressModal from "../components/TaskProgressModal";
 import { IVariable } from "../components/VariableForm";
-import { IProps as IVariableFormProps} from "../components/VariableForm";
-import { IProps as IVariableFormFieldProps} from "../components/VariableFormField";
+import { IProps as IVariableFormProps } from "../components/VariableForm";
+import { IProps as IVariableFormFieldProps } from "../components/VariableFormField";
 import VariableFormModal from "../components/VariableFormModal";
 import WorkspaceMenu from "../components/WorkspaceMenu";
 import WorkspaceNotes from "../components/WorkspaceNotes";
@@ -66,13 +66,12 @@ interface IState {
 }
 
 export class WorkspaceViewPage extends Component<IProps, IState> {
-
   public state: IState = {
     isService: false,
     itemsPerRow: 3,
     showServiceProgressModal: false,
     showTaskProgressModal: false,
-    showVariableModal: false,
+    showVariableModal: false
   };
 
   private disposables: Disposable[] = [];
@@ -81,14 +80,11 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     const workspace = this.props.viewer.workspace;
 
     if (!workspace) {
-      return (
-        <ErrorPage
-          error={new Error("This workspace doesn't exist.")}
-        />
-      );
+      return <ErrorPage error={new Error("This workspace doesn't exist.")} />;
     }
     const items = workspace.projects.edges.map(({ node }) => node);
-    const description = workspace.description || "This workspace doesn't have a description.";
+    const description =
+      workspace.description || "This workspace doesn't have a description.";
     const {
       itemsPerRow,
       serviceID,
@@ -96,7 +92,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
       showVariableModal,
       showServiceProgressModal,
       showTaskProgressModal,
-      variables,
+      variables
     } = this.state;
 
     let modal: JSX.Element | null = null;
@@ -160,7 +156,10 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
       return;
     }
 
-    const { relay: { environment }, system: { lastMessageId } } = this.props;
+    const {
+      relay: { environment },
+      system: { lastMessageId }
+    } = this.props;
     const { id } = workspace;
 
     this.setItemsPerRow();
@@ -170,12 +169,12 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
       {
         dispose: () => {
           window.removeEventListener("resize", this.setItemsPerRow);
-        },
+        }
       },
       subscribeWorkspaceStored(environment, lastMessageId, id),
       subscribeServiceStored(environment, undefined, lastMessageId),
       subscribeTaskStored(environment, lastMessageId),
-      subscribeProjectStored(environment, lastMessageId),
+      subscribeProjectStored(environment, lastMessageId)
     );
 
     loadWorkspaceCommits(environment, id);
@@ -190,7 +189,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   }
 
   private findService(id: string) {
-    const edge = this.props.viewer.workspace!.services.edges.find((value) => {
+    const edge = this.props.viewer.workspace!.services.edges.find(value => {
       return value.node.id === id;
     });
 
@@ -200,7 +199,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
   }
 
   private findTask(id: string) {
-    const edge = this.props.viewer.workspace!.tasks.edges.find((value) => {
+    const edge = this.props.viewer.workspace!.tasks.edges.find(value => {
       return value.node.id === id;
     });
 
@@ -229,7 +228,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     return false;
   }
 
-  private setVariables(vars: Array<{name: string, default: string | null}>) {
+  private setVariables(vars: Array<{ name: string; default: string | null }>) {
     const keys = this.props.viewer.keys.edges.map(({ node }) => node);
     const keyMap: { [name: string]: string } = {};
 
@@ -237,10 +236,10 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
       keyMap[key.name] = key.value;
     }
 
-    const variables: IVariable[] = vars.map((item) => ({
+    const variables: IVariable[] = vars.map(item => ({
       name: item.name,
       save: true,
-      value: keyMap[item.name] || item.default || "",
+      value: keyMap[item.name] || item.default || ""
     }));
 
     this.setState({ variables });
@@ -250,29 +249,38 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     let itemsPerRow = Math.floor(window.innerWidth / 384);
     itemsPerRow = Math.min(Math.max(itemsPerRow, 1), 16);
     this.setState({ itemsPerRow: itemsPerRow as SemanticWIDTHS });
-  }
+  };
 
   private handleClickPath = ({ item: { path } }: IProjectCardProps) => {
     openEditor(this.props.relay.environment, path);
-  }
+  };
 
   private handleCloneWorkspace = () => {
-    cloneWorkspace(this.props.relay.environment, this.props.viewer.workspace!.id);
-  }
+    cloneWorkspace(
+      this.props.relay.environment,
+      this.props.viewer.workspace!.id
+    );
+  };
 
   private handleCloneProject = ({ item: { id } }: IProjectCardProps) => {
     cloneProject(this.props.relay.environment, id);
-  }
+  };
 
   private handlePullWorkspace = () => {
-    pullWorkspace(this.props.relay.environment, this.props.viewer.workspace!.id);
-  }
+    pullWorkspace(
+      this.props.relay.environment,
+      this.props.viewer.workspace!.id
+    );
+  };
 
   private handlePullProject = ({ item: { id } }: IProjectCardProps) => {
     pullProject(this.props.relay.environment, id);
-  }
+  };
 
-  private handleStartService = (_: IWorkspaceServiceDropdownProps, serviceID: string) => {
+  private handleStartService = (
+    _: IWorkspaceServiceDropdownProps,
+    serviceID: string
+  ) => {
     if (!this.doesServiceHaveVariables(serviceID)) {
       this.setState({ serviceID, showServiceProgressModal: true });
       startService(this.props.relay.environment, serviceID);
@@ -288,7 +296,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
 
     this.setState({ isService: true, serviceID, showVariableModal: true });
     this.setVariables(vars);
-  }
+  };
 
   private handleRunTask = (_: IWorkspaceTaskDropdownProps, taskID: string) => {
     if (!this.doesTaskHaveVariables(taskID)) {
@@ -306,22 +314,26 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
 
     this.setState({ isService: false, taskID, showVariableModal: true });
     this.setVariables(vars);
-  }
+  };
 
   private handleCloseVariableModal = () => {
     this.setState({ showVariableModal: false });
-  }
+  };
 
   private handleCloseServiceProgressModal = () => {
     this.setState({ showServiceProgressModal: false });
-  }
+  };
 
   private handleCloseTaskProgressModal = () => {
     this.setState({ showTaskProgressModal: false });
-  }
+  };
 
-  private handleChangeVariable = ({ name, value, save }: IVariableFormFieldProps) => {
-    const variables = this.state.variables!.map((v) => ({...v}));
+  private handleChangeVariable = ({
+    name,
+    value,
+    save
+  }: IVariableFormFieldProps) => {
+    const variables = this.state.variables!.map(v => ({ ...v }));
 
     for (const variable of variables) {
       if (variable.name === name) {
@@ -332,9 +344,9 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     }
 
     this.setState({ variables });
-  }
+  };
 
-  private handleSubmitVariables = ({ variables }: IVariableFormProps ) => {
+  private handleSubmitVariables = ({ variables }: IVariableFormProps) => {
     const { isService, serviceID, taskID } = this.state;
 
     if (isService && serviceID) {
@@ -346,72 +358,74 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
     }
 
     this.handleCloseVariableModal();
-  }
-
+  };
 }
 
-export default createFragmentContainer(WorkspaceViewPage, graphql`
-  fragment WorkspaceViewPage_system on System {
-    lastMessageId
-  }
-  fragment WorkspaceViewPage_viewer on User
-    @argumentDefinitions(
-      slug: { type: "String!" },
-      commitsLimit: { type: "Int", defaultValue: 3 },
-    ) {
-    workspace(slug: $slug) {
-      id
-      name
-      description
-      services {
-        edges {
-          node {
-            id
-            allVariables {
-              edges {
-                node {
-                  name
-                  default
+export default createFragmentContainer(
+  WorkspaceViewPage,
+  graphql`
+    fragment WorkspaceViewPage_system on System {
+      lastMessageId
+    }
+    fragment WorkspaceViewPage_viewer on User
+      @argumentDefinitions(
+        slug: { type: "String!" }
+        commitsLimit: { type: "Int", defaultValue: 3 }
+      ) {
+      workspace(slug: $slug) {
+        id
+        name
+        description
+        services {
+          edges {
+            node {
+              id
+              allVariables {
+                edges {
+                  node {
+                    name
+                    default
+                  }
                 }
               }
+              ...ServiceProgressModal_item
             }
-            ...ServiceProgressModal_item
           }
         }
-      }
-      tasks {
-        edges {
-          node {
-            id
-            variables {
-              edges {
-                node {
-                  name
-                  default
+        tasks {
+          edges {
+            node {
+              id
+              variables {
+                edges {
+                  node {
+                    name
+                    default
+                  }
                 }
               }
+              ...TaskProgressModal_item
             }
-            ...TaskProgressModal_item
           }
         }
+        projects {
+          edges {
+            node {
+              ...ProjectCardGroup_items @arguments(commitsLimit: $commitsLimit)
+            }
+          }
+        }
+        ...WorkspaceNotes_item
+        ...WorkspaceMenu_item
       }
-      projects {
+      keys {
         edges {
           node {
-            ...ProjectCardGroup_items @arguments(commitsLimit: $commitsLimit)
+            name
+            value
           }
         }
       }
-      ...WorkspaceNotes_item
-      ...WorkspaceMenu_item
     }
-    keys {
-      edges {
-        node {
-          name
-          value
-        }
-      }
-    }
-  }`,
+  `
 );

@@ -19,7 +19,9 @@ import { Table } from "semantic-ui-react";
 
 import { ServiceTable_items } from "./__generated__/ServiceTable_items.graphql";
 
-import ServiceTableRow, { IProps as IServiceTableRowProps } from "./ServiceTableRow";
+import ServiceTableRow, {
+  IProps as IServiceTableRowProps
+} from "./ServiceTableRow";
 
 export interface IProps {
   items: ServiceTable_items;
@@ -32,7 +34,7 @@ export function ServiceTable({ items, onStart, onStop }: IProps) {
     return <p>There are no services at this time.</p>;
   }
 
-  const rows = items.map((item) => (
+  const rows = items.map(item => (
     <ServiceTableRow
       key={item.id}
       item={item}
@@ -56,10 +58,12 @@ export function ServiceTable({ items, onStart, onStop }: IProps) {
   );
 }
 
-export default createFragmentContainer(ServiceTable, graphql`
-  fragment ServiceTable_items on Service
-    @relay(plural: true) {
-    id
-    ...ServiceTableRow_item
-  }`,
+export default createFragmentContainer(
+  ServiceTable,
+  graphql`
+    fragment ServiceTable_items on Service @relay(plural: true) {
+      id
+      ...ServiceTableRow_item
+    }
+  `
 );

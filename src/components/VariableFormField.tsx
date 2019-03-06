@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stratumn
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,11 +13,7 @@
 // limitations under the License.
 
 import React from "react";
-import {
-  CheckboxProps,
-  Form,
-  TextAreaProps,
-} from "semantic-ui-react";
+import { CheckboxProps, Form, TextAreaProps } from "semantic-ui-react";
 
 import "./VariableFormField.css";
 
@@ -31,29 +26,26 @@ export interface IProps {
 
 export default function VariableFormField(props: IProps) {
   const { name, value, save, onChange } = props;
-  const handleChangeValue = (_: React.SyntheticEvent<HTMLElement>, values: TextAreaProps) => {
+  const handleChangeValue = (
+    _: React.SyntheticEvent<HTMLElement>,
+    values: TextAreaProps
+  ) => {
     onChange({ ...props, value: values.value as string });
   };
-  const handleChangeSave = (_: React.SyntheticEvent<HTMLElement>, { checked }: CheckboxProps) => {
+  const handleChangeSave = (
+    _: React.SyntheticEvent<HTMLElement>,
+    { checked }: CheckboxProps
+  ) => {
     onChange({ ...props, save: checked! });
   };
 
   return (
     <div className="VariableFormField">
-      <Form.Field
-      >
+      <Form.Field>
         <label>{name}</label>
-        <Form.TextArea
-          value={value}
-          rows={8}
-          onChange={handleChangeValue}
-        />
+        <Form.TextArea value={value} rows={8} onChange={handleChangeValue} />
       </Form.Field>
-      <Form.Checkbox
-        label="Save"
-        checked={save}
-        onChange={handleChangeSave}
-      />
+      <Form.Checkbox label="Save" checked={save} onChange={handleChangeSave} />
     </div>
   );
 }

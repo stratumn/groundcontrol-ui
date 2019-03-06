@@ -26,24 +26,27 @@ export interface IProps {
   item: CommitFeedEvent_item;
 }
 
-export const CommitFeedEvent = ({ item: { headline, author, date } }: IProps) => (
+export const CommitFeedEvent = ({
+  item: { headline, author, date }
+}: IProps) => (
   <Feed.Event className="CommitFeedEvent">
     <Feed.Content>
       <Feed.Summary>{headline}</Feed.Summary>
       <Feed.Meta>
         Pushed by <strong>{author}</strong>
-        <Moment fromNow={true}>
-          {date}
-        </Moment>
+        <Moment fromNow={true}>{date}</Moment>
       </Feed.Meta>
     </Feed.Content>
   </Feed.Event>
 );
 
-export default createFragmentContainer(CommitFeedEvent, graphql`
-  fragment CommitFeedEvent_item on Commit {
-    headline
-    date
-    author
-  }`,
+export default createFragmentContainer(
+  CommitFeedEvent,
+  graphql`
+    fragment CommitFeedEvent_item on Commit {
+      headline
+      date
+      author
+    }
+  `
 );

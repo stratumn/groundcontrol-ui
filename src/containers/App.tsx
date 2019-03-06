@@ -39,9 +39,8 @@ interface IState {
 }
 
 export class App extends Component<IProps, IState> {
-
   public state = {
-    showSidebar: false,
+    showSidebar: false
   };
 
   private disposables: Disposable[] = [];
@@ -65,18 +64,21 @@ export class App extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const { relay: { environment }, system: { lastMessageId } } = this.props;
+    const {
+      relay: { environment },
+      system: { lastMessageId }
+    } = this.props;
 
     this.disposables.push(
       {
         dispose: this.props.router.addTransitionHook(() => {
           this.setState({ showSidebar: false });
           return true;
-        }),
+        })
       },
       subscribeServiceMetricsStored(environment, lastMessageId),
       subscribeJobMetricsStored(environment, lastMessageId),
-      subscribeLogMetricsStored(environment, lastMessageId),
+      subscribeLogMetricsStored(environment, lastMessageId)
     );
   }
 
@@ -91,12 +93,14 @@ export class App extends Component<IProps, IState> {
   private handleSidebar(show: boolean) {
     this.setState({ showSidebar: show });
   }
-
 }
 
-export default createFragmentContainer(App, graphql`
-  fragment App_system on System {
-    lastMessageId
-    ...Menu_system
-  }`,
+export default createFragmentContainer(
+  App,
+  graphql`
+    fragment App_system on System {
+      lastMessageId
+      ...Menu_system
+    }
+  `
 );

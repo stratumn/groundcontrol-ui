@@ -31,12 +31,8 @@ export function JobTable({ items, onStop }: IProps) {
     return <p>There are no jobs at this time.</p>;
   }
 
-  const rows = items.map((item) => (
-    <JobTableRow
-      key={item.id}
-      item={item}
-      onStop={onStop}
-    />
+  const rows = items.map(item => (
+    <JobTableRow key={item.id} item={item} onStop={onStop} />
   ));
 
   return (
@@ -58,10 +54,12 @@ export function JobTable({ items, onStop }: IProps) {
   );
 }
 
-export default createFragmentContainer(JobTable, graphql`
-  fragment JobTable_items on Job
-    @relay(plural: true) {
-    id
-    ...JobTableRow_item
-  }`,
+export default createFragmentContainer(
+  JobTable,
+  graphql`
+    fragment JobTable_items on Job @relay(plural: true) {
+      id
+      ...JobTableRow_item
+    }
+  `
 );

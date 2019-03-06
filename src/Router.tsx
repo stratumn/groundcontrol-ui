@@ -20,7 +20,7 @@ import {
   makeRouteConfig,
   Redirect,
   Route,
-  RouteRenderArgs,
+  RouteRenderArgs
 } from "found";
 import React from "react";
 
@@ -126,7 +126,13 @@ function prepareJobListVariables({ status }: { status: string }) {
   return { status: status ? status.split(",") : null };
 }
 
-function prepareLogEntryListVariables({ level, ownerId }: { level: string, ownerId?: string }) {
+function prepareLogEntryListVariables({
+  level,
+  ownerId
+}: {
+  level: string;
+  ownerId?: string;
+}) {
   return { level: level ? level.split(",") : null, ownerId };
 }
 
@@ -146,11 +152,7 @@ export default createFarceRouter({
   historyMiddlewares: [queryMiddleware],
   historyProtocol: new BrowserProtocol(),
   routeConfig: makeRouteConfig(
-    <Route
-      path="/"
-      Component={App}
-      query={appQuery}
-    >
+    <Route path="/" Component={App} query={appQuery}>
       <Redirect from="/" to="/workspaces" />
       <Route path="workspaces">
         <Route
@@ -192,11 +194,7 @@ export default createFarceRouter({
         />
       </Route>
       <Route path="jobs">
-        <Route
-          Component={JobListPage}
-          query={jobListQuery}
-          render={render}
-        />
+        <Route Component={JobListPage} query={jobListQuery} render={render} />
         <Route
           path=":status"
           Component={JobListPage}
@@ -219,11 +217,10 @@ export default createFarceRouter({
           render={render}
         />
       </Route>
-    </Route>,
+    </Route>
   ),
 
   render: createRender({
-    renderError: ({ error }) => <HttpErrorPage error={error} />,
-  }),
-
+    renderError: ({ error }) => <HttpErrorPage error={error} />
+  })
 });

@@ -16,11 +16,7 @@ import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Card,
-  Header,
-  Label,
- } from "semantic-ui-react";
+import { Card, Header, Label } from "semantic-ui-react";
 
 import { WorkspaceCard_item } from "./__generated__/WorkspaceCard_item.graphql";
 
@@ -36,90 +32,57 @@ export interface IProps {
 
 export function WorkspaceCard(props: IProps) {
   const {
-    item: {
-      slug,
-      name,
-      description,
-      projects,
-    },
+    item: { slug, name, description, projects }
   } = props;
   const labels: JSX.Element[] = [];
   const projectNodes = projects.edges.map(({ node }) => node);
   const projectCount = projectNodes.length;
-  const clonedCount = projectNodes.filter((node) => node.isCloned).length;
-  const behindCount = projectNodes.filter((node) => node.isBehind).length;
-  const aheadCount = projectNodes.filter((node) => node.isAhead).length;
-  const cleanCount = projectNodes.filter((node) => node.isClean).length;
+  const clonedCount = projectNodes.filter(node => node.isCloned).length;
+  const behindCount = projectNodes.filter(node => node.isBehind).length;
+  const aheadCount = projectNodes.filter(node => node.isAhead).length;
+  const cleanCount = projectNodes.filter(node => node.isClean).length;
 
   if (clonedCount === projectCount) {
-    labels.push((
-      <Label
-        key="cloned"
-        content="cloned"
-        color="blue"
-        size="small"
-      />
-    ));
+    labels.push(
+      <Label key="cloned" content="cloned" color="blue" size="small" />
+    );
   } else if (clonedCount > 0) {
-    labels.push((
+    labels.push(
       <Label
         key="cloned"
         content="partially cloned"
         color="blue"
         size="small"
       />
-    ));
+    );
   }
   if (clonedCount > 0) {
     if (behindCount < 1 && aheadCount < 1) {
-      labels.push((
-        <Label
-          key="uptodate"
-          content="up-to-date"
-          color="teal"
-          size="small"
-        />
-      ));
+      labels.push(
+        <Label key="uptodate" content="up-to-date" color="teal" size="small" />
+      );
     }
   }
   if (aheadCount > 0) {
-    labels.push((
-      <Label
-        key="ahead"
-        content="ahead"
-        color="violet"
-        size="small"
-      />
-    ));
+    labels.push(
+      <Label key="ahead" content="ahead" color="violet" size="small" />
+    );
   }
   if (behindCount > 0) {
-    labels.push((
-      <Label
-        key="behind"
-        content="behind"
-        color="purple"
-        size="small"
-      />
-    ));
+    labels.push(
+      <Label key="behind" content="behind" color="purple" size="small" />
+    );
   }
   if (cleanCount < projectCount) {
-    labels.push((
-      <Label
-        key="dirty"
-        content="dirty"
-        color="pink"
-        size="small"
-      />
-    ));
+    labels.push(
+      <Label key="dirty" content="dirty" color="pink" size="small" />
+    );
   }
 
   return (
     <Card className="WorkspaceCard">
       <Card.Content>
-        <Link
-          to={`/workspaces/${slug}`}
-          Component={Card.Header}
-        >
+        <Link to={`/workspaces/${slug}`} Component={Card.Header}>
           {name}
         </Link>
         {labels}
@@ -131,10 +94,7 @@ export function WorkspaceCard(props: IProps) {
       </Card.Content>
       <Card.Content extra={true}>
         <div className="ui three buttons">
-          <Link
-            to={`/workspaces/${slug}`}
-            className="ui teal button"
-          >
+          <Link to={`/workspaces/${slug}`} className="ui teal button">
             View
           </Link>
         </div>
@@ -143,24 +103,27 @@ export function WorkspaceCard(props: IProps) {
   );
 }
 
-export default createFragmentContainer(WorkspaceCard, graphql`
-  fragment WorkspaceCard_item on Workspace {
-    id
-    slug
-    name
-    description
-    projects {
-      edges {
-        node {
-          isCloned,
-          isCloning,
-          isPulling,
-          isBehind,
-          isAhead,
-          isClean,
-          ...ProjectList_items
+export default createFragmentContainer(
+  WorkspaceCard,
+  graphql`
+    fragment WorkspaceCard_item on Workspace {
+      id
+      slug
+      name
+      description
+      projects {
+        edges {
+          node {
+            isCloned
+            isCloning
+            isPulling
+            isBehind
+            isAhead
+            isClean
+            ...ProjectList_items
+          }
         }
       }
     }
-  }`,
+  `
 );

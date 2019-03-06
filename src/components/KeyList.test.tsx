@@ -20,23 +20,25 @@ import { mockQueryPropAttrs } from "../testing/relay";
 import { KeyList } from "./KeyList";
 
 const props = {
-  items: [{
-    ...mockQueryPropAttrs(),
-    id: "id1",
-    name: "name1",
-    value: "value1",
-  }, {
-    ...mockQueryPropAttrs(),
-    id: "id2",
-    name: "name2",
-    value: "value2",
-  }],
+  items: [
+    {
+      ...mockQueryPropAttrs(),
+      id: "id1",
+      name: "name1",
+      value: "value1"
+    },
+    {
+      ...mockQueryPropAttrs(),
+      id: "id2",
+      name: "name2",
+      value: "value2"
+    }
+  ],
   onDelete: jest.fn(),
-  onEdit: jest.fn(),
+  onEdit: jest.fn()
 };
 
 describe("<KeyList />", () => {
-
   it("renders items correctly", () => {
     const wrapper = shallow(<KeyList {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -46,5 +48,4 @@ describe("<KeyList />", () => {
     const wrapper = shallow(<KeyList {...props} items={[]} />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

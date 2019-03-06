@@ -32,30 +32,32 @@ const sourcesSubscription = graphql`
   }
 `;
 
-export function subscribeWorkspaces(environment: Environment, lastMessageId?: string, id?: string) {
-  return requestSubscription(
-    environment,
-    {
-      onError: (error) => console.error(error),
-      subscription: workspacesSubscription,
-      variables: {
-        id,
-        lastMessageId,
-      },
-    },
-  );
+export function subscribeWorkspaces(
+  environment: Environment,
+  lastMessageId?: string,
+  id?: string
+) {
+  return requestSubscription(environment, {
+    onError: error => console.error(error),
+    subscription: workspacesSubscription,
+    variables: {
+      id,
+      lastMessageId
+    }
+  });
 }
 
-export function subscribeSources(environment: Environment, lastMessageId?: string, id?: string) {
-  return requestSubscription(
-    environment,
-    {
-      onError: (error) => console.error(error),
-      subscription: sourcesSubscription,
-      variables: {
-        id,
-        lastMessageId,
-      },
-    },
-  );
+export function subscribeSources(
+  environment: Environment,
+  lastMessageId?: string,
+  id?: string
+) {
+  return requestSubscription(environment, {
+    onError: error => console.error(error),
+    subscription: sourcesSubscription,
+    variables: {
+      id,
+      lastMessageId
+    }
+  });
 }

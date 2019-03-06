@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stratumn
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,10 +13,7 @@
 // limitations under the License.
 
 import React from "react";
-import {
-  Button,
-  Modal,
-} from "semantic-ui-react";
+import { Button, Modal } from "semantic-ui-react";
 
 import VariableForm, { IProps as IVariableFormProps } from "./VariableForm";
 
@@ -31,18 +27,13 @@ export default function(props: IProps) {
   const handleSubmit = () => onSubmit({ ...props });
 
   return (
-    <Modal
-      open={true}
-      onClose={handleClose}
-    >
+    <Modal open={true} onClose={handleClose}>
       <Modal.Header>Variables</Modal.Header>
       <Modal.Content scrolling={true}>
         <VariableForm {...props} />
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={handleClose}>
-          Cancel
-        </Button>
+        <Button onClick={handleClose}>Cancel</Button>
         <Button
           icon="rocket"
           content="Proceed"

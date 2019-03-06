@@ -28,69 +28,66 @@ export function subscribe(
   environment: Environment,
   getLevel: () => string[] | undefined,
   getOwnerId: () => string | undefined,
-  lastMessageId?: string,
+  lastMessageId?: string
 ) {
-  return requestSubscription(
-    environment,
-    {
-      onError: (error) => console.error(error),
-      subscription,
-      updater: (store) => {
-        const record = store.getRootField("logEntryStored")!;
-        const recordId = record.getValue("id");
-        const system = store.getRoot().getLinkedRecord("system");
-        const newLevel = record!.getValue("level");
-        const owner = record.getLinkedRecord("owner");
-        const newOwnerId = owner ? owner.getValue("id") : undefined;
-        const level = getLevel();
-        const ownerId = getOwnerId();
+  return requestSubscription(environment, {
+    onError: error => console.error(error),
+    subscription,
+    updater: store => {
+      const record = store.getRootField("logEntryStored")!;
+      const recordId = record.getValue("id");
+      const system = store.getRoot().getLinkedRecord("system");
+      const newLevel = record!.getValue("level");
+      const owner = record.getLinkedRecord("owner");
+      const newOwnerId = owner ? owner.getValue("id") : undefined;
+      const level = getLevel();
+      const ownerId = getOwnerId();
 
-        const connection = ConnectionHandler.getConnection(
-          system,
-          "LogEntryListPage_logEntries",
-          { level, ownerId },
-        );
+      const connection = ConnectionHandler.getConnection(
+        system,
+        "LogEntryListPage_logEntries",
+        { level, ownerId }
+      );
 
-        if (!connection) {
+      if (!connection) {
+        return;
+      }
+
+      let contains = true;
+
+      if (level && level.indexOf(newLevel) < 0) {
+        contains = false;
+      }
+
+      if (ownerId && ownerId !== newOwnerId) {
+        contains = false;
+      }
+
+      if (!contains) {
+        ConnectionHandler.deleteNode(connection, recordId);
+        return;
+      }
+
+      const edges = connection.getLinkedRecords("edges");
+
+      for (const e of edges) {
+        const id = e.getLinkedRecord("node")!.getValue("id");
+
+        if (recordId === id) {
           return;
         }
+      }
 
-        let contains = true;
-
-        if (level && level.indexOf(newLevel) < 0) {
-          contains = false;
-        }
-
-        if (ownerId && ownerId !== newOwnerId) {
-          contains = false;
-        }
-
-        if (!contains) {
-          ConnectionHandler.deleteNode(connection, recordId);
-          return;
-        }
-
-        const edges = connection.getLinkedRecords("edges");
-
-        for (const e of edges) {
-          const id = e.getLinkedRecord("node")!.getValue("id");
-
-          if (recordId === id) {
-            return;
-          }
-        }
-
-        const edge = ConnectionHandler.createEdge(
-          store,
-          connection,
-          record,
-          "LogEntrysConnection",
-        );
-        ConnectionHandler.insertEdgeAfter(connection, edge);
+      const edge = ConnectionHandler.createEdge(
+        store,
+        connection,
+        record,
+        "LogEntrysConnection"
+      );
+      ConnectionHandler.insertEdgeAfter(connection, edge);
     },
-      variables: {
-        lastMessageId,
-      },
-    },
-  );
+    variables: {
+      lastMessageId
+    }
+  });
 }

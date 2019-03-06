@@ -15,11 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Dimmer,
-  Dropdown,
-  Loader,
- } from "semantic-ui-react";
+import { Dimmer, Dropdown, Loader } from "semantic-ui-react";
 
 import { WorkspaceTaskDropdown_items } from "./__generated__/WorkspaceTaskDropdown_items.graphql";
 
@@ -50,23 +46,19 @@ export function WorkspaceTaskDropdown(props: IProps) {
   ));
 
   return (
-    <Dropdown
-      item={true}
-      text="Tasks"
-      pointing={true}
-      disabled={!enabled}
-    >
-      <Dropdown.Menu>
-        {dropdownItems}
-      </Dropdown.Menu>
+    <Dropdown item={true} text="Tasks" pointing={true} disabled={!enabled}>
+      <Dropdown.Menu>{dropdownItems}</Dropdown.Menu>
     </Dropdown>
   );
 }
 
-export default createFragmentContainer(WorkspaceTaskDropdown, graphql`
-  fragment WorkspaceTaskDropdown_items on Task @relay(plural: true) {
-    id
-    name
-    status
-  }`,
+export default createFragmentContainer(
+  WorkspaceTaskDropdown,
+  graphql`
+    fragment WorkspaceTaskDropdown_items on Task @relay(plural: true) {
+      id
+      name
+      status
+    }
+  `
 );

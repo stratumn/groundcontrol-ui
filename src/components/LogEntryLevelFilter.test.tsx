@@ -20,7 +20,7 @@ import LogEntryLevelFilter, { allLevel } from "./LogEntryLevelFilter";
 
 const props = {
   level: ["INFO", "WARNING"],
-  onChange: jest.fn(),
+  onChange: jest.fn()
 };
 
 beforeEach(() => {
@@ -28,14 +28,15 @@ beforeEach(() => {
 });
 
 describe("<LogEntryLevelFilter />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<LogEntryLevelFilter {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it("checks all the radio buttons when level isn't set", () => {
-    const wrapper = shallow(<LogEntryLevelFilter {...props} level={undefined} />);
+    const wrapper = shallow(
+      <LogEntryLevelFilter {...props} level={undefined} />
+    );
     expect(wrapper.find("[checked=true]")).toHaveLength(allLevel.length);
   });
 
@@ -45,7 +46,7 @@ describe("<LogEntryLevelFilter />", () => {
     expect(props.onChange).toBeCalledTimes(1);
     expect(props.onChange).toBeCalledWith({
       ...props,
-      level: ["WARNING"],
+      level: ["WARNING"]
     });
   });
 
@@ -55,8 +56,7 @@ describe("<LogEntryLevelFilter />", () => {
     expect(props.onChange).toBeCalledTimes(1);
     expect(props.onChange).toBeCalledWith({
       ...props,
-      level: ["INFO", "WARNING", "DEBUG"],
+      level: ["INFO", "WARNING", "DEBUG"]
     });
   });
-
 });

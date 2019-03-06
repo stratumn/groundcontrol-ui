@@ -15,14 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Button,
-  Card,
-  Dimmer,
-  Label,
-  Loader,
-  Tab,
- } from "semantic-ui-react";
+import { Button, Card, Dimmer, Label, Loader, Tab } from "semantic-ui-react";
 
 import { ProjectCard_item } from "./__generated__/ProjectCard_item.graphql";
 
@@ -54,41 +47,40 @@ export function ProjectCard(props: IProps) {
       isAhead,
       isBehind,
       isClean,
-      localReferenceShort,
+      localReferenceShort
     },
     onClickPath,
     onClone,
-    onPull,
+    onPull
   } = props;
   const remoteCommitNodes = item.remoteCommits.edges.map(({ node }) => node);
   const localCommitNodes = item.localCommits.edges.map(({ node }) => node);
   const handleClickPath = () => onClickPath({ ...props });
   const handleClone = () => onClone({ ...props });
   const handlePull = () => onPull({ ...props });
-  const reference = remoteReferenceShort === localReferenceShort ?
-    remoteReferenceShort : `${localReferenceShort} » ${remoteReferenceShort}`;
+  const reference =
+    remoteReferenceShort === localReferenceShort
+      ? remoteReferenceShort
+      : `${localReferenceShort} » ${remoteReferenceShort}`;
   const labels: JSX.Element[] = [];
   const buttons: JSX.Element[] = [];
   const menuProps = {
     size: "tiny",
-    tabular: true,
+    tabular: true
   };
-  const panes = [{
-    menuItem: "Remote",
-    render: () => <CommitFeed items={remoteCommitNodes} />,
-  }];
+  const panes = [
+    {
+      menuItem: "Remote",
+      render: () => <CommitFeed items={remoteCommitNodes} />
+    }
+  ];
 
   if (isCloned) {
-    labels.push((
-      <Label
-        key="cloned"
-        content="cloned"
-        color="blue"
-        size="small"
-      />
-    ));
+    labels.push(
+      <Label key="cloned" content="cloned" color="blue" size="small" />
+    );
 
-    buttons.push((
+    buttons.push(
       <Button
         key="pull"
         content="Pull"
@@ -98,25 +90,20 @@ export function ProjectCard(props: IProps) {
         loading={isPulling}
         onClick={handlePull}
       />
-    ));
+    );
 
     if (!isBehind && !isAhead) {
-      labels.push((
-        <Label
-          key="uptodate"
-          content="up-to-date"
-          color="teal"
-          size="small"
-        />
-      ));
+      labels.push(
+        <Label key="uptodate" content="up-to-date" color="teal" size="small" />
+      );
     }
 
     panes.push({
       menuItem: "Local",
-      render: () => <CommitFeed items={localCommitNodes} />,
+      render: () => <CommitFeed items={localCommitNodes} />
     });
   } else {
-    buttons.push((
+    buttons.push(
       <Button
         key="clone"
         content="Clone"
@@ -126,51 +113,32 @@ export function ProjectCard(props: IProps) {
         loading={isCloning}
         onClick={handleClone}
       />
-    ));
+    );
   }
 
   if (isAhead) {
-    labels.push((
-      <Label
-        key="ahead"
-        content="ahead"
-        color="violet"
-        size="small"
-      />
-    ));
+    labels.push(
+      <Label key="ahead" content="ahead" color="violet" size="small" />
+    );
   }
 
   if (isBehind) {
-    labels.push((
-      <Label
-        key="behind"
-        content="behind"
-        color="purple"
-        size="small"
-      />
-    ));
+    labels.push(
+      <Label key="behind" content="behind" color="purple" size="small" />
+    );
   }
 
   if (!isClean) {
-    labels.push((
-      <Label
-        key="dirty"
-        content="dirty"
-        color="pink"
-        size="small"
-      />
-    ));
+    labels.push(
+      <Label key="dirty" content="dirty" color="pink" size="small" />
+    );
   }
 
   let meta: JSX.Element | null = null;
 
   if (isCloned) {
     meta = (
-      <Card.Meta
-        as="a"
-        href={`file://${path}`}
-        onClick={handleClickPath}
-      >
+      <Card.Meta as="a" href={`file://${path}`} onClick={handleClickPath}>
         {shortPath}
       </Card.Meta>
     );
@@ -183,67 +151,55 @@ export function ProjectCard(props: IProps) {
           <RepositoryShortName repository={repository} />
         </Card.Header>
         {meta}
-        <Label
-          size="small"
-          color="grey"
-        >
+        <Label size="small" color="grey">
           {reference}
         </Label>
         {labels}
-        <Card.Description>
-          {description || "No description."}
-        </Card.Description>
-        <Tab
-          panes={panes}
-          menu={menuProps}
-        />
+        <Card.Description>{description || "No description."}</Card.Description>
+        <Tab panes={panes} menu={menuProps} />
       </Card.Content>
       <Card.Content extra={true}>
-        <div className="ui three buttons">
-          {buttons}
-        </div>
+        <div className="ui three buttons">{buttons}</div>
       </Card.Content>
-      <Dimmer
-        active={remoteCommits.edges.length < 1}
-        inverted={true}
-      >
+      <Dimmer active={remoteCommits.edges.length < 1} inverted={true}>
         <Loader content="Loading project commits..." />
       </Dimmer>
     </Card>
   );
 }
 
-export default createFragmentContainer(ProjectCard, graphql`
-  fragment ProjectCard_item on Project
-    @argumentDefinitions(
-      commitsLimit: { type: "Int", defaultValue: 3 },
-    ) {
-    id
-    repository
-    remoteReferenceShort
-    localReferenceShort
-    description
-    path
-    shortPath
-    isCloning
-    isCloned
-    isPulling
-    isBehind
-    isAhead
-    isClean
-    remoteCommits(first: $commitsLimit) {
-      edges {
-        node {
-          ...CommitFeed_items
+export default createFragmentContainer(
+  ProjectCard,
+  graphql`
+    fragment ProjectCard_item on Project
+      @argumentDefinitions(commitsLimit: { type: "Int", defaultValue: 3 }) {
+      id
+      repository
+      remoteReferenceShort
+      localReferenceShort
+      description
+      path
+      shortPath
+      isCloning
+      isCloned
+      isPulling
+      isBehind
+      isAhead
+      isClean
+      remoteCommits(first: $commitsLimit) {
+        edges {
+          node {
+            ...CommitFeed_items
+          }
+        }
+      }
+      localCommits(first: $commitsLimit) {
+        edges {
+          node {
+            ...CommitFeed_items
+          }
         }
       }
     }
-    localCommits(first: $commitsLimit) {
-      edges {
-        node {
-          ...CommitFeed_items
-        }
-      }
-    }
-  }`,
+  `
 );

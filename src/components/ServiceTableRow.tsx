@@ -31,19 +31,15 @@ export interface IProps {
 
 export function ServiceTableRow(props: IProps) {
   const {
-    item: {
-      name,
-      status,
-      workspace,
-    },
+    item: { name, status, workspace },
     onStart,
-    onStop,
+    onStop
   } = props;
   const buttons: JSX.Element[] = [];
 
   if (status === "STOPPED" || status === "FAILED" || status === "STARTING") {
     const handleStart = () => status !== "STARTING" && onStart({ ...props });
-    buttons.push((
+    buttons.push(
       <Button
         key="start"
         size="mini"
@@ -53,12 +49,12 @@ export function ServiceTableRow(props: IProps) {
         loading={status === "STARTING"}
         onClick={handleStart}
       />
-    ));
+    );
   }
 
   if (status === "RUNNING" || status === "STOPPING") {
     const handleStop = () => status !== "STOPPING" && onStop({ ...props });
-    buttons.push((
+    buttons.push(
       <Button
         key="stop"
         size="mini"
@@ -68,15 +64,13 @@ export function ServiceTableRow(props: IProps) {
         loading={status === "STOPPING"}
         onClick={handleStop}
       />
-    ));
+    );
   }
 
   return (
     <Table.Row className="ServiceTableRow">
       <Table.Cell collapsing={true}>
-        <Link to={`/workspaces/${workspace.slug}`}>
-          {workspace.name}
-        </Link>
+        <Link to={`/workspaces/${workspace.slug}`}>{workspace.name}</Link>
       </Table.Cell>
       <Table.Cell>{name}</Table.Cell>
       <Table.Cell
@@ -86,21 +80,22 @@ export function ServiceTableRow(props: IProps) {
       >
         {status.toLocaleLowerCase()}
       </Table.Cell>
-      <Table.Cell className="ServiceTableRowActions">
-        {buttons}
-      </Table.Cell>
+      <Table.Cell className="ServiceTableRowActions">{buttons}</Table.Cell>
     </Table.Row>
   );
 }
 
-export default createFragmentContainer(ServiceTableRow, graphql`
-  fragment ServiceTableRow_item on Service {
-    id
-    name
-    status
-    workspace {
-      slug
+export default createFragmentContainer(
+  ServiceTableRow,
+  graphql`
+    fragment ServiceTableRow_item on Service {
+      id
       name
+      status
+      workspace {
+        slug
+        name
+      }
     }
-  }`,
+  `
 );

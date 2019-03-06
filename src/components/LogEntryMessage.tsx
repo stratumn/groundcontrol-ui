@@ -38,22 +38,14 @@ export interface IProps {
 
 export function LogEntryMessage(props: IProps) {
   const {
-    item: {
-      message,
-      sourceFile,
-      sourceFileBegin,
-      sourceFileEnd,
-    },
-    onClickSourceFile,
+    item: { message, sourceFile, sourceFileBegin, sourceFileEnd },
+    onClickSourceFile
   } = props;
 
   if (!sourceFile) {
     return (
       <div className="LogEntryMessage">
-        <Ansi
-          linkify={true}
-          useClasses={true}
-        >
+        <Ansi linkify={true} useClasses={true}>
           {message}
         </Ansi>
       </div>
@@ -65,12 +57,9 @@ export function LogEntryMessage(props: IProps) {
   // while far from beautiful, this should do the trick.
 
   const text = ReactDOMServer.renderToStaticMarkup(
-    <Ansi
-      linkify={true}
-      useClasses={true}
-    >
+    <Ansi linkify={true} useClasses={true}>
       {message}
-    </Ansi>,
+    </Ansi>
   );
 
   const source = message.substring(sourceFileBegin!, sourceFileEnd!);
@@ -79,7 +68,7 @@ export function LogEntryMessage(props: IProps) {
   const html = text.replace(source, link);
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
-    if (isAnchor(event.target) && event.target.href === href ) {
+    if (isAnchor(event.target) && event.target.href === href) {
       onClickSourceFile({ ...props });
     }
   };
@@ -93,11 +82,14 @@ export function LogEntryMessage(props: IProps) {
   );
 }
 
-export default createFragmentContainer(LogEntryMessage, graphql`
-  fragment LogEntryMessage_item on LogEntry {
-    message
-    sourceFile
-    sourceFileBegin
-    sourceFileEnd
-  }`,
+export default createFragmentContainer(
+  LogEntryMessage,
+  graphql`
+    fragment LogEntryMessage_item on LogEntry {
+      message
+      sourceFile
+      sourceFileBegin
+      sourceFileEnd
+    }
+  `
 );

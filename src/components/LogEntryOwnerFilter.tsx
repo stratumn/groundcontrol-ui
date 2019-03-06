@@ -40,30 +40,30 @@ export function LogEntryOwnerFilter(props: IProps) {
     {
       key: systemId,
       text: "System",
-      value: systemId,
-    },
+      value: systemId
+    }
   ];
 
   for (const workspace of items) {
     const edges = workspace.services.edges.concat(workspace.tasks.edges);
     for (const {
-      node: { id, name },
+      node: { id, name }
     } of edges) {
       options.push({
         key: id,
         text: `${workspace.name} » ${name}`,
-        value: id,
+        value: id
       });
     }
   }
 
   const handleChange = (
     _: React.SyntheticEvent<HTMLElement>,
-    { value }: DropdownProps,
+    { value }: DropdownProps
   ) => {
     onChange({
       ...props,
-      ownerId: value ? (value as string) : undefined,
+      ownerId: value ? (value as string) : undefined
     });
   };
 
@@ -104,5 +104,5 @@ export default createFragmentContainer(
         }
       }
     }
-  `,
+  `
 );

@@ -26,9 +26,9 @@ const propsWithoutSourceFile = {
     message: "message",
     sourceFile: null,
     sourceFileBegin: null,
-    sourceFileEnd: null,
+    sourceFileEnd: null
   },
-  onClickSourceFile: jest.fn(),
+  onClickSourceFile: jest.fn()
 };
 
 const propsWithSourceFile = {
@@ -37,9 +37,9 @@ const propsWithSourceFile = {
     message: "message (message.ts:10)",
     sourceFile: "/path/to/message.ts:10",
     sourceFileBegin: 9,
-    sourceFileEnd: 22,
+    sourceFileEnd: 22
   },
-  onClickSourceFile: jest.fn(),
+  onClickSourceFile: jest.fn()
 };
 
 beforeEach(() => {
@@ -47,7 +47,6 @@ beforeEach(() => {
 });
 
 describe("<LogEntryMessage />", () => {
-
   it("renders correctly without a source file", () => {
     const wrapper = shallow(<LogEntryMessage {...propsWithoutSourceFile} />);
     expect(wrapper).toMatchSnapshot();
@@ -60,11 +59,15 @@ describe("<LogEntryMessage />", () => {
 
   it("triggers onClickSourceFile when the source file is clicked", () => {
     const wrapper = shallow(<LogEntryMessage {...propsWithSourceFile} />);
-    const event = { preventDefault: jest.fn(), target: { href: "file:///path/to/message.ts:10" } };
+    const event = {
+      preventDefault: jest.fn(),
+      target: { href: "file:///path/to/message.ts:10" }
+    };
     wrapper.find("div").simulate("click", event);
     expect(event.preventDefault).toBeCalledTimes(1);
     expect(propsWithSourceFile.onClickSourceFile).toBeCalledTimes(1);
-    expect(propsWithSourceFile.onClickSourceFile).toBeCalledWith(propsWithSourceFile);
+    expect(propsWithSourceFile.onClickSourceFile).toBeCalledWith(
+      propsWithSourceFile
+    );
   });
-
 });

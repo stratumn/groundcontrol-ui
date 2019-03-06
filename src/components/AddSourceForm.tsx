@@ -17,7 +17,7 @@ import { Button, DropdownProps, Form, InputProps } from "semantic-ui-react";
 
 export enum SourceType {
   Directory = "directory",
-  Git = "git",
+  Git = "git"
 }
 
 export interface IProps {
@@ -36,9 +36,9 @@ export default class AddSourceForm extends Component<IProps> {
       {
         key: SourceType.Directory,
         text: "Directory",
-        value: SourceType.Directory,
+        value: SourceType.Directory
       },
-      { key: SourceType.Git, text: "Git", value: SourceType.Git },
+      { key: SourceType.Git, text: "Git", value: SourceType.Git }
     ];
     const disabled =
       (type === SourceType.Directory && !directory) ||
@@ -104,11 +104,11 @@ export default class AddSourceForm extends Component<IProps> {
 
   private handleSubmit = () => {
     this.props.onSubmit({ ...this.props });
-  }
+  };
 
   private handleChangeType = (
     _: React.SyntheticEvent<HTMLElement>,
-    { value }: DropdownProps,
+    { value }: DropdownProps
   ) => {
     switch (value) {
       case "directory":
@@ -116,11 +116,11 @@ export default class AddSourceForm extends Component<IProps> {
         this.props.onChange({ ...this.props, type: value as SourceType });
         break;
     }
-  }
+  };
 
   private handleChangeInput = (
     _: React.SyntheticEvent<HTMLElement>,
-    { name, value }: InputProps,
+    { name, value }: InputProps
   ) => {
     const { onChange } = this.props;
 
@@ -135,5 +135,5 @@ export default class AddSourceForm extends Component<IProps> {
         onChange({ ...this.props, reference: value });
         break;
     }
-  }
+  };
 }

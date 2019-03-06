@@ -26,7 +26,10 @@ export interface IProps {
 }
 
 export function GitSourceListItem(props: IProps) {
-  const{ item: { repository, referenceShort }, onDelete } = props;
+  const {
+    item: { repository, referenceShort },
+    onDelete
+  } = props;
   const handleDelete = () => onDelete({ ...props });
 
   return (
@@ -39,17 +42,22 @@ export function GitSourceListItem(props: IProps) {
           basic={true}
           onClick={handleDelete}
         />
-        <List.Header>{repository}@{referenceShort}</List.Header>
+        <List.Header>
+          {repository}@{referenceShort}
+        </List.Header>
         <List.Description>Git Repository</List.Description>
       </List.Content>
     </List.Item>
   );
 }
 
-export default createFragmentContainer(GitSourceListItem, graphql`
-  fragment GitSourceListItem_item on GitSource {
-    id
-    repository
-    referenceShort
-  }`,
+export default createFragmentContainer(
+  GitSourceListItem,
+  graphql`
+    fragment GitSourceListItem_item on GitSource {
+      id
+      repository
+      referenceShort
+    }
+  `
 );

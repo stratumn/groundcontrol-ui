@@ -26,7 +26,7 @@ import "./index.css";
 
 ReactDOM.render(
   <Router resolver={new Resolver(groundcontrol)} />,
-  document.getElementById("root"),
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

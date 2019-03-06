@@ -23,13 +23,15 @@ import { ServiceListPage_system } from "./__generated__/ServiceListPage_system.g
 import { ServiceListPage_viewer } from "./__generated__/ServiceListPage_viewer.graphql";
 
 import Page from "../components/Page";
-import ServiceFilter, { IProps as IServiceFilterProps } from "../components/ServiceFilter";
+import ServiceFilter, {
+  IProps as IServiceFilterProps
+} from "../components/ServiceFilter";
 import ServiceProgressModal from "../components/ServiceProgressModal";
 import ServiceTable from "../components/ServiceTable";
 import { IProps as IServiceTableRowProps } from "../components/ServiceTableRow";
 import { IVariable } from "../components/VariableForm";
-import { IProps as IVariableFormProps} from "../components/VariableForm";
-import { IProps as IVariableFormFieldProps} from "../components/VariableFormField";
+import { IProps as IVariableFormProps } from "../components/VariableForm";
+import { IProps as IVariableFormFieldProps } from "../components/VariableFormField";
 import VariableFormModal from "../components/VariableFormModal";
 import { commit as startService } from "../mutations/startService";
 import { commit as stopService } from "../mutations/stopService";
@@ -55,10 +57,9 @@ interface IState {
 }
 
 export class ServiceListPage extends Component<IProps, IState> {
-
   public state: IState = {
     showServiceProgressModal: false,
-    showVariableModal: false,
+    showVariableModal: false
   };
 
   private disposables: Disposable[] = [];
@@ -70,7 +71,7 @@ export class ServiceListPage extends Component<IProps, IState> {
       serviceID,
       showVariableModal,
       showServiceProgressModal,
-      variables,
+      variables
     } = this.state;
 
     let modal: JSX.Element | null = null;
@@ -124,7 +125,9 @@ export class ServiceListPage extends Component<IProps, IState> {
   public componentDidMount() {
     const environment = this.props.relay.environment;
     const lastMessageId = this.props.system.lastMessageId;
-    this.disposables.push(subscribeStored(environment, this.getStatus, lastMessageId));
+    this.disposables.push(
+      subscribeStored(environment, this.getStatus, lastMessageId)
+    );
   }
 
   public componentWillUnmount() {
@@ -135,11 +138,13 @@ export class ServiceListPage extends Component<IProps, IState> {
     this.disposables = [];
   }
 
-  private getStatus = () => this.props.params.status === undefined ?
-    undefined : this.props.params.status.split(",")
+  private getStatus = () =>
+    this.props.params.status === undefined
+      ? undefined
+      : this.props.params.status.split(",");
 
   private findService(id: string) {
-    const edge = this.props.viewer.services.edges.find((value) => {
+    const edge = this.props.viewer.services.edges.find(value => {
       return value.node.id === id;
     });
 
@@ -158,7 +163,7 @@ export class ServiceListPage extends Component<IProps, IState> {
     return false;
   }
 
-  private setVariables(vars: Array<{name: string, default: string | null}>) {
+  private setVariables(vars: Array<{ name: string; default: string | null }>) {
     const keys = this.props.viewer.keys.edges.map(({ node }) => node);
     const keyMap: { [name: string]: string } = {};
 
@@ -166,10 +171,10 @@ export class ServiceListPage extends Component<IProps, IState> {
       keyMap[key.name] = key.value;
     }
 
-    const variables: IVariable[] = vars.map((item) => ({
+    const variables: IVariable[] = vars.map(item => ({
       name: item.name,
       save: true,
-      value: keyMap[item.name] || item.default || "",
+      value: keyMap[item.name] || item.default || ""
     }));
 
     this.setState({ variables });
@@ -181,9 +186,11 @@ export class ServiceListPage extends Component<IProps, IState> {
     }
 
     this.props.router.replace(`/services/${status.join(",")}`);
-  }
+  };
 
-  private handleStart = ({ item: { id: serviceID } }: IServiceTableRowProps) => {
+  private handleStart = ({
+    item: { id: serviceID }
+  }: IServiceTableRowProps) => {
     if (!this.doesServiceHaveVariables(serviceID)) {
       this.setState({ serviceID, showServiceProgressModal: true });
       startService(this.props.relay.environment, serviceID);
@@ -199,22 +206,26 @@ export class ServiceListPage extends Component<IProps, IState> {
 
     this.setState({ serviceID, showVariableModal: true });
     this.setVariables(vars);
-  }
+  };
 
   private handleStop = ({ item: { id } }: IServiceTableRowProps) => {
     stopService(this.props.relay.environment, id);
-  }
+  };
 
   private handleCloseVariableModal = () => {
     this.setState({ showVariableModal: false });
-  }
+  };
 
   private handleCloseServiceProgressModal = () => {
     this.setState({ showServiceProgressModal: false });
-  }
+  };
 
-  private handleChangeVariable = ({ name, value, save }: IVariableFormFieldProps) => {
-    const variables = this.state.variables!.map((v) => ({...v}));
+  private handleChangeVariable = ({
+    name,
+    value,
+    save
+  }: IVariableFormFieldProps) => {
+    const variables = this.state.variables!.map(v => ({ ...v }));
 
     for (const variable of variables) {
       if (variable.name === name) {
@@ -225,9 +236,9 @@ export class ServiceListPage extends Component<IProps, IState> {
     }
 
     this.setState({ variables });
-  }
+  };
 
-  private handleSubmitVariables = ({ variables }: IVariableFormProps ) => {
+  private handleSubmitVariables = ({ variables }: IVariableFormProps) => {
     const { serviceID } = this.state;
 
     if (serviceID) {
@@ -236,21 +247,18 @@ export class ServiceListPage extends Component<IProps, IState> {
     }
 
     this.handleCloseVariableModal();
-  }
+  };
 
   private handleLoadMore = () => {
-    this.props.relay.loadMore(
-      50,
-      (err) => {
-        if (err) {
-          console.log(err);
-        }
+    this.props.relay.loadMore(50, err => {
+      if (err) {
+        console.log(err);
+      }
 
-        // Make sure load more button updates.
-        this.forceUpdate();
-      },
-    );
-  }
+      // Make sure load more button updates.
+      this.forceUpdate();
+    });
+  };
 }
 
 export default createPaginationContainer(
@@ -261,19 +269,12 @@ export default createPaginationContainer(
     }
     fragment ServiceListPage_viewer on User
       @argumentDefinitions(
-        count: {type: "Int", defaultValue: 50},
-        cursor: {type: "String"},
-        status: { type: "[ServiceStatus!]", defaultValue: null },
+        count: { type: "Int", defaultValue: 50 }
+        cursor: { type: "String" }
+        status: { type: "[ServiceStatus!]", defaultValue: null }
       ) {
-      services(
-       first: $count,
-       after: $cursor,
-       status: $status,
-      )
-        @connection(
-          key: "ServiceListPage_services",
-          filters: ["status"],
-        ) {
+      services(first: $count, after: $cursor, status: $status)
+        @connection(key: "ServiceListPage_services", filters: ["status"]) {
         edges {
           node {
             id
@@ -298,29 +299,27 @@ export default createPaginationContainer(
           }
         }
       }
-    }`,
+    }
+  `,
   {
     direction: "forward",
-    getConnectionFromProps: (props) => props.viewer && props.viewer.services,
-    getVariables: (_, {count, cursor}, fragmentVariables) => ({
+    getConnectionFromProps: props => props.viewer && props.viewer.services,
+    getVariables: (_, { count, cursor }, fragmentVariables) => ({
       count,
       cursor,
-      status: fragmentVariables.status,
+      status: fragmentVariables.status
     }),
     query: graphql`
       query ServiceListPagePaginationQuery(
-        $count: Int!,
-        $cursor: String,
-        $status: [ServiceStatus!],
+        $count: Int!
+        $cursor: String
+        $status: [ServiceStatus!]
       ) {
         viewer {
-          ...ServiceListPage_viewer @arguments(
-            count: $count,
-            cursor: $cursor,
-            status: $status,
-          )
+          ...ServiceListPage_viewer
+            @arguments(count: $count, cursor: $cursor, status: $status)
         }
       }
-    `,
-  },
+    `
+  }
 );

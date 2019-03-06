@@ -26,7 +26,9 @@ import Page from "../components/Page";
 import Welcome from "../components/Welcome";
 import { IProps as IWorkspaceCardProps } from "../components/WorkspaceCard";
 import WorkspaceCardGroup from "../components/WorkspaceCardGroup";
-import WorkspaceSearch, { IProps as IWorkspaceSearchProps } from "../components/WorkspaceSearch";
+import WorkspaceSearch, {
+  IProps as IWorkspaceSearchProps
+} from "../components/WorkspaceSearch";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
 import { subscribe as subscribeProjectStored } from "../subscriptions/projectStored";
@@ -47,11 +49,10 @@ interface IState {
 }
 
 export class WorkspaceListPage extends Component<IProps, IState> {
-
   public state: IState = {
     debouncedQuery: "",
     itemsPerRow: 3,
-    query: "",
+    query: ""
   };
 
   private disposables: Disposable[] = [];
@@ -79,7 +80,9 @@ export class WorkspaceListPage extends Component<IProps, IState> {
     }
 
     if (debouncedQuery) {
-      items = items.filter((item) => item.name.toLowerCase().indexOf(debouncedQuery) >= 0);
+      items = items.filter(
+        item => item.name.toLowerCase().indexOf(debouncedQuery) >= 0
+      );
     }
 
     return (
@@ -87,25 +90,23 @@ export class WorkspaceListPage extends Component<IProps, IState> {
         header="Workspaces"
         subheader="A workspace is a collection of related Git repositories."
       >
-        <WorkspaceSearch
-          query={query}
-          onChange={this.handleSearchChange}
-        />
+        <WorkspaceSearch query={query} onChange={this.handleSearchChange} />
         <WorkspaceCardGroup
           items={items}
           itemsPerRow={itemsPerRow}
           onClone={this.handleClone}
           onPull={this.handlePull}
         />
-        <Loader
-          active={isLoading && items.length < 1}
-        />
+        <Loader active={isLoading && items.length < 1} />
       </Page>
     );
   }
 
   public componentDidMount() {
-    const { relay: { environment }, system: { lastMessageId } } = this.props;
+    const {
+      relay: { environment },
+      system: { lastMessageId }
+    } = this.props;
 
     this.setItemsPerRow();
     window.addEventListener("resize", this.setItemsPerRow);
@@ -114,12 +115,12 @@ export class WorkspaceListPage extends Component<IProps, IState> {
       {
         dispose: () => {
           window.removeEventListener("resize", this.setItemsPerRow);
-        },
+        }
       },
       subscribeUserStored(environment, lastMessageId),
       subscribeSourceStored(environment, lastMessageId),
       subscribeWorkspaceStored(environment, lastMessageId),
-      subscribeProjectStored(environment, lastMessageId),
+      subscribeProjectStored(environment, lastMessageId)
     );
   }
 
@@ -134,42 +135,46 @@ export class WorkspaceListPage extends Component<IProps, IState> {
   private handleSearchChange = ({ query }: IWorkspaceSearchProps) => {
     this.setState({ query });
     this.debounceQuery(query);
-  }
+  };
 
   private handleClone = ({ item: { id } }: IWorkspaceCardProps) => {
     cloneWorkspace(this.props.relay.environment, id);
-  }
+  };
 
   private handlePull = ({ item: { id } }: IWorkspaceCardProps) => {
     pullWorkspace(this.props.relay.environment, id);
-  }
+  };
 
   private setItemsPerRow = () => {
     let itemsPerRow = Math.floor(window.innerWidth / 384);
     itemsPerRow = Math.min(Math.max(itemsPerRow, 1), 16);
     this.setState({ itemsPerRow: itemsPerRow as SemanticWIDTHS });
-  }
+  };
 }
 
-export default createFragmentContainer(WorkspaceListPage, graphql`
-  fragment WorkspaceListPage_system on System {
-    lastMessageId
-  }
-  fragment WorkspaceListPage_viewer on User {
-    sources(first: 10000) {
-      edges {
-        node {
-          isLoading
+export default createFragmentContainer(
+  WorkspaceListPage,
+  graphql`
+    fragment WorkspaceListPage_system on System {
+      lastMessageId
+    }
+    fragment WorkspaceListPage_viewer on User {
+      sources(first: 10000) {
+        edges {
+          node {
+            isLoading
+          }
+        }
+      }
+      workspaces(first: 10000)
+        @connection(key: "WorkspaceListPage_workspaces") {
+        edges {
+          node {
+            ...WorkspaceCardGroup_items
+            name
+          }
         }
       }
     }
-    workspaces(first: 10000) @connection(key: "WorkspaceListPage_workspaces") {
-      edges {
-        node {
-          ...WorkspaceCardGroup_items
-          name
-        }
-      }
-    }
-  }`,
+  `
 );

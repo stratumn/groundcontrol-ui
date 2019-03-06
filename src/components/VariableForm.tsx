@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stratumn
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +15,9 @@
 import React from "react";
 import { Form } from "semantic-ui-react";
 
-import VariableFormField, { IProps as IVariableFormFieldProps} from "./VariableFormField";
+import VariableFormField, {
+  IProps as IVariableFormFieldProps
+} from "./VariableFormField";
 
 export interface IVariable {
   name: string;
@@ -34,7 +35,7 @@ export default function(props: IProps) {
   const { variables, onChangeVariable, onSubmit } = props;
   const handleSubmit = () => onSubmit({ ...props });
 
-  const fields = variables.map((variable) => {
+  const fields = variables.map(variable => {
     return (
       <VariableFormField
         {...variable}
@@ -44,9 +45,5 @@ export default function(props: IProps) {
     );
   });
 
-  return (
-    <Form onSubmit={handleSubmit}>
-      {fields}
-    </Form>
-  );
+  return <Form onSubmit={handleSubmit}>{fields}</Form>;
 }

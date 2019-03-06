@@ -36,8 +36,8 @@ const props = {
   router: new Router(),
   system: {
     ...mockQueryPropAttrs(),
-    lastMessageId: "1",
-  },
+    lastMessageId: "1"
+  }
 };
 
 beforeEach(() => {
@@ -48,12 +48,11 @@ beforeEach(() => {
 });
 
 describe("<App />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(
       <App {...props}>
         <p>Hello, World!</p>
-      </App>,
+      </App>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -62,7 +61,7 @@ describe("<App />", () => {
     const wrapper = shallow(
       <App {...props}>
         <div className="unique" />
-      </App>,
+      </App>
     );
     expect(wrapper.contains(<div className="unique" />)).toEqual(true);
   });
@@ -97,7 +96,7 @@ describe("<App />", () => {
     expect(subscribeServiceMetrics).toBeCalledTimes(1);
     expect(subscribeServiceMetrics).toBeCalledWith(
       props.relay.environment,
-      props.system.lastMessageId,
+      props.system.lastMessageId
     );
   });
 
@@ -106,7 +105,7 @@ describe("<App />", () => {
     expect(subscribeJobMetrics).toBeCalledTimes(1);
     expect(subscribeJobMetrics).toBeCalledWith(
       props.relay.environment,
-      props.system.lastMessageId,
+      props.system.lastMessageId
     );
   });
 
@@ -115,7 +114,7 @@ describe("<App />", () => {
     expect(subscribeLogMetrics).toBeCalledTimes(1);
     expect(subscribeLogMetrics).toBeCalledWith(
       props.relay.environment,
-      props.system.lastMessageId,
+      props.system.lastMessageId
     );
   });
 
@@ -133,5 +132,4 @@ describe("<App />", () => {
     wrapper.unmount();
     expect(dispose).toBeCalledTimes(3);
   });
-
 });

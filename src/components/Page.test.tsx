@@ -18,42 +18,30 @@ import React from "react";
 import Page from "./Page";
 
 describe("<Page />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(
-      <Page
-        header="header"
-        subheader="subheader"
-      >
+      <Page header="header" subheader="subheader">
         <p>Hello, World!</p>
-      </Page>,
+      </Page>
     );
     expect(wrapper).toMatchSnapshot();
   });
 
   it("renders correctly with a CSS class", () => {
     const wrapper = shallow(
-      <Page
-        header="header"
-        subheader="subheader"
-        className="className"
-      >
+      <Page header="header" subheader="subheader" className="className">
         <p>Hello, World!</p>
-      </Page>,
+      </Page>
     );
     expect(wrapper).toMatchSnapshot();
   });
 
   it("renders children when passed in", () => {
     const wrapper = shallow(
-      <Page
-        header="header"
-        subheader="subheader"
-      >
+      <Page header="header" subheader="subheader">
         <div className="unique" />
-      </Page>,
+      </Page>
     );
     expect(wrapper.contains(<div className="unique" />)).toEqual(true);
   });
-
 });

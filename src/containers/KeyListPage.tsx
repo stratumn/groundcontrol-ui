@@ -24,7 +24,9 @@ import { KeyListPage_viewer } from "./__generated__/KeyListPage_viewer.graphql";
 import KeyList from "../components/KeyList";
 import { IProps as IKeyListItemProps } from "../components/KeyListItem";
 import Page from "../components/Page";
-import SetKeyForm, { IProps as ISetKeyFormProps } from "../components/SetKeyForm";
+import SetKeyForm, {
+  IProps as ISetKeyFormProps
+} from "../components/SetKeyForm";
 import { commit as deleteKey } from "../mutations/deleteKey";
 import { commit as setKey } from "../mutations/setKey";
 import { subscribe as subscribeKeyDeleted } from "../subscriptions/keyDeleted";
@@ -44,12 +46,11 @@ interface IState {
 }
 
 export class KeyListPage extends Component<IProps, IState> {
-
   public state = {
     deleteId: "",
     name: "",
     showConfirmDelete: false,
-    value: "",
+    value: ""
   };
 
   private formRef: React.RefObject<SetKeyForm>;
@@ -98,11 +99,14 @@ export class KeyListPage extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const { relay: { environment }, system: { lastMessageId } } = this.props;
+    const {
+      relay: { environment },
+      system: { lastMessageId }
+    } = this.props;
 
     this.disposables.push(
       subscribeKeyStored(environment, lastMessageId),
-      subscribeKeyDeleted(environment, lastMessageId),
+      subscribeKeyDeleted(environment, lastMessageId)
     );
   }
 
@@ -130,34 +134,34 @@ export class KeyListPage extends Component<IProps, IState> {
 
   private handleChange = (values: ISetKeyFormProps) => {
     this.setState({ ...this.state, ...values });
-  }
+  };
 
   private handleSubmit = (values: ISetKeyFormProps) => {
     const { name, value } = values;
 
     setKey(this.props.relay.environment, {
       name,
-      value,
+      value
     });
 
     this.handleReset();
-  }
+  };
 
   private handleReset = () => {
     this.setState({
       name: "",
-      value: "",
+      value: ""
     });
 
     if (this.formRef.current) {
       this.formRef.current.selectName();
     }
-  }
+  };
 
   private handleEdit = ({ item: { name, value } }: IKeyListItemProps) => {
     this.setState({
       name,
-      value,
+      value
     });
 
     window.scrollTo(0, 0);
@@ -165,35 +169,37 @@ export class KeyListPage extends Component<IProps, IState> {
     if (this.formRef.current) {
       this.formRef.current.selectValue();
     }
-  }
+  };
 
   private handleDelete = ({ item: { id } }: IKeyListItemProps) => {
     this.setState({ showConfirmDelete: true, deleteId: id });
-  }
+  };
 
   private handleCancelDelete = () => {
     this.setState({ showConfirmDelete: false });
-  }
+  };
 
   private handleConfirmDelete = () => {
     deleteKey(this.props.relay.environment, this.state.deleteId);
     this.setState({ showConfirmDelete: false });
-  }
-
+  };
 }
 
-export default createFragmentContainer(KeyListPage, graphql`
-  fragment KeyListPage_system on System {
-    lastMessageId
-  }
-  fragment KeyListPage_viewer on User {
-    keys(first: 1000) @connection(key: "KeyListPage_keys") {
-      edges {
-        node {
-          name
-          ...KeyList_items
+export default createFragmentContainer(
+  KeyListPage,
+  graphql`
+    fragment KeyListPage_system on System {
+      lastMessageId
+    }
+    fragment KeyListPage_viewer on User {
+      keys(first: 1000) @connection(key: "KeyListPage_keys") {
+        edges {
+          node {
+            name
+            ...KeyList_items
+          }
         }
       }
     }
-  }`,
+  `
 );

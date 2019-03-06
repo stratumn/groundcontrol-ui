@@ -19,7 +19,7 @@ import {
   Container,
   Menu as SemanticMenu,
   Responsive,
-  Sidebar,
+  Sidebar
 } from "semantic-ui-react";
 
 import { Menu_system } from "./__generated__/Menu_system.graphql";
@@ -36,27 +36,18 @@ export interface IProps {
 
 export function Menu(props: IProps) {
   const {
-    system: {
-      serviceMetrics,
-      jobMetrics,
-      logMetrics,
-    },
+    system: { serviceMetrics, jobMetrics, logMetrics },
     showSidebar,
     onShowSidebar,
-    onHideSidebar,
+    onHideSidebar
   } = props;
 
-  const handleShowSidebar = () => onShowSidebar({...props});
-  const handleHideSidebar = () => onHideSidebar({...props});
+  const handleShowSidebar = () => onShowSidebar({ ...props });
+  const handleHideSidebar = () => onHideSidebar({ ...props });
 
   return (
     <Fragment>
-      <SemanticMenu
-        fixed="top"
-        size="large"
-        color="teal"
-        inverted={true}
-      >
+      <SemanticMenu fixed="top" size="large" color="teal" inverted={true}>
         <Container fluid={true}>
           <Responsive
             as={SemanticMenu.Item}
@@ -64,15 +55,8 @@ export function Menu(props: IProps) {
             maxWidth={767}
             onClick={handleShowSidebar}
           />
-          <Responsive
-            as={MenuPrimaryItems}
-            minWidth={768}
-          />
-          <Responsive
-            as={SemanticMenu.Menu}
-            position="right"
-            minWidth={768}
-          >
+          <Responsive as={MenuPrimaryItems} minWidth={768} />
+          <Responsive as={SemanticMenu.Menu} position="right" minWidth={768}>
             <MenuSecondaryItems
               serviceMetrics={serviceMetrics}
               jobMetrics={jobMetrics}
@@ -81,10 +65,7 @@ export function Menu(props: IProps) {
           </Responsive>
         </Container>
       </SemanticMenu>
-      <Responsive
-        as={Fragment}
-        maxWidth={767}
-      >
+      <Responsive as={Fragment} maxWidth={767}>
         <Sidebar
           as={SemanticMenu}
           vertical={true}
@@ -105,16 +86,19 @@ export function Menu(props: IProps) {
   );
 }
 
-export default createFragmentContainer(Menu, graphql`
-  fragment Menu_system on System {
-    serviceMetrics {
-      ...MenuSecondaryItems_serviceMetrics
+export default createFragmentContainer(
+  Menu,
+  graphql`
+    fragment Menu_system on System {
+      serviceMetrics {
+        ...MenuSecondaryItems_serviceMetrics
+      }
+      jobMetrics {
+        ...MenuSecondaryItems_jobMetrics
+      }
+      logMetrics {
+        ...MenuSecondaryItems_logMetrics
+      }
     }
-    jobMetrics {
-      ...MenuSecondaryItems_jobMetrics
-    }
-    logMetrics {
-      ...MenuSecondaryItems_logMetrics
-    }
-  }`,
+  `
 );

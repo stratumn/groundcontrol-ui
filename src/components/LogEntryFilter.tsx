@@ -19,10 +19,10 @@ import { createFragmentContainer } from "react-relay";
 import { LogEntryFilter_items } from "./__generated__/LogEntryFilter_items.graphql";
 
 import LogEntryLevelFilter, {
-  IProps as LogEntryLevelFilterProps,
+  IProps as LogEntryLevelFilterProps
 } from "./LogEntryLevelFilter";
 import LogEntryOwnerFilter, {
-  IProps as LogEntryOwnerFilterProps,
+  IProps as LogEntryOwnerFilterProps
 } from "./LogEntryOwnerFilter";
 
 export interface IProps {
@@ -61,5 +61,5 @@ export default createFragmentContainer(
     fragment LogEntryFilter_items on Workspace @relay(plural: true) {
       ...LogEntryOwnerFilter_items
     }
-  `,
+  `
 );

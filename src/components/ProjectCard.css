@@ -1,12 +1,12 @@
 .ProjectCard .ui.label {
-  margin: .6em .8em 0 0;
+  margin: 0.6em 0.8em 0 0;
 }
 
 .ProjectCard.ui.card > .content > .meta {
-  font-size: .9em;
+  font-size: 0.9em;
   word-break: break-all;
   display: block;
-  margin-bottom: .2em;
+  margin-bottom: 0.2em;
 }
 
 .ProjectCard.ui.card > .content > .description {

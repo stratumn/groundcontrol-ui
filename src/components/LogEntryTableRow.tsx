@@ -15,10 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import { Link } from "found";
 import React, { Fragment } from "react";
-import {
-  Responsive,
-  Table,
- } from "semantic-ui-react";
+import { Responsive, Table } from "semantic-ui-react";
 
 import Moment from "react-moment";
 import { createFragmentContainer } from "react-relay";
@@ -26,7 +23,9 @@ import { createFragmentContainer } from "react-relay";
 import { LogEntryTableRow_item } from "./__generated__/LogEntryTableRow_item.graphql";
 import { LogEntryTableRow_prevItem } from "./__generated__/LogEntryTableRow_prevItem.graphql";
 
-import LogEntryMessage, { IProps as ILogEntryMessageProps } from "./LogEntryMessage";
+import LogEntryMessage, {
+  IProps as ILogEntryMessageProps
+} from "./LogEntryMessage";
 
 import "./LogEntryTableRow.css";
 
@@ -41,19 +40,14 @@ export interface IProps {
 export function LogEntryTableRow(props: IProps) {
   const {
     item,
-    item: {
-      level,
-    },
-    onClickSourceFile,
+    item: { level },
+    onClickSourceFile
   } = props;
 
   const showMeta = shouldShowMeta(props);
 
   return (
-    <Table.Row
-      className="LogEntryTableRow"
-      verticalAlign="top"
-    >
+    <Table.Row className="LogEntryTableRow" verticalAlign="top">
       <Responsive
         as={Table.Cell}
         className="LogEntryTableRowCreatedAt"
@@ -74,19 +68,14 @@ export function LogEntryTableRow(props: IProps) {
         {showMeta && level}
       </Table.Cell>
       <Table.Cell>
-        <LogEntryMessage
-          item={item}
-          onClickSourceFile={onClickSourceFile}
-        />
+        <LogEntryMessage item={item} onClickSourceFile={onClickSourceFile} />
       </Table.Cell>
     </Table.Row>
   );
 }
 
 const CreatedAt = ({ item: { createdAt } }: IProps) => (
-  <Moment format={dateFormat}>
-    {createdAt}
-  </Moment>
+  <Moment format={dateFormat}>{createdAt}</Moment>
 );
 
 const Owner = ({ item: { owner } }: IProps) => {
@@ -103,9 +92,7 @@ const Owner = ({ item: { owner } }: IProps) => {
 
   return (
     <Fragment>
-      <Link to={`/workspaces/${workspaceSlug}`}>
-        {workspaceSlug}
-      </Link>
+      <Link to={`/workspaces/${workspaceSlug}`}>{workspaceSlug}</Link>
       &#47;
       {projectSlug}
     </Fragment>
@@ -114,12 +101,8 @@ const Owner = ({ item: { owner } }: IProps) => {
 
 function shouldShowMeta(props: IProps) {
   const {
-    item: {
-      createdAt,
-      owner,
-      level,
-    },
-    prevItem,
+    item: { createdAt, owner, level },
+    prevItem
   } = props;
 
   if (!prevItem) {
@@ -137,27 +120,30 @@ function shouldShowMeta(props: IProps) {
   return prevItem.level !== level || prevItem.createdAt !== createdAt;
 }
 
-export default createFragmentContainer(LogEntryTableRow, graphql`
-  fragment LogEntryTableRow_item on LogEntry {
-    createdAt
-    level
-    ...LogEntryMessage_item
-    owner {
-      __typename
-      id
-      ... on Project {
-        slug
-        workspace {
+export default createFragmentContainer(
+  LogEntryTableRow,
+  graphql`
+    fragment LogEntryTableRow_item on LogEntry {
+      createdAt
+      level
+      ...LogEntryMessage_item
+      owner {
+        __typename
+        id
+        ... on Project {
           slug
+          workspace {
+            slug
+          }
         }
       }
     }
-  }
-  fragment LogEntryTableRow_prevItem on LogEntry {
-    createdAt
-    level
-    owner {
-      id
+    fragment LogEntryTableRow_prevItem on LogEntry {
+      createdAt
+      level
+      owner {
+        id
+      }
     }
-  }
-`);
+  `
+);

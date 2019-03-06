@@ -21,23 +21,24 @@ import { mockQueryPropAttrs } from "../testing/relay";
 import { ProjectCardGroup } from "./ProjectCardGroup";
 
 const props = {
-  items: [{
-    ...mockQueryPropAttrs(),
-    id: "id1",
-  }, {
-    ...mockQueryPropAttrs(),
-    id: "id2",
-  }],
+  items: [
+    {
+      ...mockQueryPropAttrs(),
+      id: "id1"
+    },
+    {
+      ...mockQueryPropAttrs(),
+      id: "id2"
+    }
+  ],
   itemsPerRow: 3 as SemanticWIDTHS,
   onClone: jest.fn(),
-  onPull: jest.fn(),
+  onPull: jest.fn()
 };
 
 describe("<ProjectCardGroup />", () => {
-
   it("renders items correctly", () => {
     const wrapper = shallow(<ProjectCardGroup {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

@@ -20,7 +20,7 @@ import JobFilter, { allStatus } from "./JobFilter";
 
 const props = {
   onChange: jest.fn(),
-  status: ["RUNNING", "FAILED"],
+  status: ["RUNNING", "FAILED"]
 };
 
 beforeEach(() => {
@@ -28,7 +28,6 @@ beforeEach(() => {
 });
 
 describe("<JobFilter />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<JobFilter {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -45,7 +44,7 @@ describe("<JobFilter />", () => {
     expect(props.onChange).toBeCalledTimes(1);
     expect(props.onChange).toBeCalledWith({
       ...props,
-      status: ["FAILED"],
+      status: ["FAILED"]
     });
   });
 
@@ -55,8 +54,7 @@ describe("<JobFilter />", () => {
     expect(props.onChange).toBeCalledTimes(1);
     expect(props.onChange).toBeCalledWith({
       ...props,
-      status: ["RUNNING", "FAILED", "QUEUED"],
+      status: ["RUNNING", "FAILED", "QUEUED"]
     });
   });
-
 });

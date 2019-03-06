@@ -26,20 +26,17 @@ export interface IProps {
 }
 
 export function CommitFeed({ items }: IProps) {
-  const rows = items.map((item) => (
-    <CommitFeedEvent
-      key={item.id}
-      item={item}
-    />
-  ));
+  const rows = items.map(item => <CommitFeedEvent key={item.id} item={item} />);
 
   return <Feed>{rows}</Feed>;
 }
 
-export default createFragmentContainer(CommitFeed, graphql`
-  fragment CommitFeed_items on Commit
-    @relay(plural: true) {
-    ...CommitFeedEvent_item
-    id
-  }`,
+export default createFragmentContainer(
+  CommitFeed,
+  graphql`
+    fragment CommitFeed_items on Commit @relay(plural: true) {
+      ...CommitFeedEvent_item
+      id
+    }
+  `
 );

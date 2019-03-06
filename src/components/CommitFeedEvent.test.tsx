@@ -24,15 +24,13 @@ const props = {
     ...mockQueryPropAttrs(),
     author: "author",
     date: "date",
-    headline: "headline",
-  },
+    headline: "headline"
+  }
 };
 
 describe("<CommitFeedEvent />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<CommitFeedEvent {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

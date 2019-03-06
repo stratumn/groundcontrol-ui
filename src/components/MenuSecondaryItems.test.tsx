@@ -23,23 +23,21 @@ const props = {
   jobMetrics: {
     ...mockQueryPropAttrs(),
     queued: 1,
-    running: 2,
+    running: 2
   },
   logMetrics: {
     ...mockQueryPropAttrs(),
-    error: 3,
+    error: 3
   },
   serviceMetrics: {
     ...mockQueryPropAttrs(),
-    running: 5,
-  },
+    running: 5
+  }
 };
 
 describe("<MenuSecondaryItems />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<MenuSecondaryItems {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

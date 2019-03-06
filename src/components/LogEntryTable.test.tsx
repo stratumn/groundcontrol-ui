@@ -20,18 +20,20 @@ import { mockQueryPropAttrs } from "../testing/relay";
 import { LogEntryTable } from "./LogEntryTable";
 
 const props = {
-  items: [{
-    ...mockQueryPropAttrs(),
-    id: "id1",
-  }, {
-    ...mockQueryPropAttrs(),
-    id: "id2",
-  }],
-  onClickSourceFile: jest.fn(),
+  items: [
+    {
+      ...mockQueryPropAttrs(),
+      id: "id1"
+    },
+    {
+      ...mockQueryPropAttrs(),
+      id: "id2"
+    }
+  ],
+  onClickSourceFile: jest.fn()
 };
 
 describe("<LogEntryTable />", () => {
-
   it("renders items correctly", () => {
     const wrapper = shallow(<LogEntryTable {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -41,5 +43,4 @@ describe("<LogEntryTable />", () => {
     const wrapper = shallow(<LogEntryTable {...props} items={[]} />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-  Environment,
-  Network,
-  RecordSource,
-  Store,
-} from "relay-runtime";
+import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
 export const mockQueryPropAttrs = () => ({
   " $fragmentRefs": null,
-  " $refType": null,
+  " $refType": null
 });
 
 export const mockRelayProp = () => ({
   environment: new Environment({
     network: new Network(),
-    store: new Store(new RecordSource()),
-  }),
+    store: new Store(new RecordSource())
+  })
 });

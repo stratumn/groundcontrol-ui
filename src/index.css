@@ -23,7 +23,8 @@
   --warning-color: var(--orange);
   --error-color: var(--red);
 
-  --mono-font: .9em "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  --mono-font: 0.9em "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
+    Courier, monospace;
 }
 
 body {
@@ -49,7 +50,8 @@ body.inverted .ui.radio.checkbox label {
   color: var(--white);
 }
 
-a, .markdown-body a {
+a,
+.markdown-body a {
   color: var(--link-color);
 }
 
@@ -63,7 +65,8 @@ a.header:hover {
   text-decoration: none;
 }
 
-.ui.input, textarea {
+.ui.input,
+textarea {
   max-width: 1023px;
 }
 
@@ -89,12 +92,14 @@ code {
   padding: 1em;
 }
 
-.ui.cards > .card, .ui.card {
+.ui.cards > .card,
+.ui.card {
   box-shadow: none !important;
   background: var(--light-grey);
 }
 
-.ui.cards > .card > .extra, .ui.card > .extra {
+.ui.cards > .card > .extra,
+.ui.card > .extra {
   border-top: none !important;
 }
 
@@ -102,7 +107,9 @@ code {
   background: var(--light-grey);
 }
 
-.ui.menu, .ui.segment, .ui.card {
+.ui.menu,
+.ui.segment,
+.ui.card {
   box-shadow: none;
 }
 

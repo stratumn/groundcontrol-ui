@@ -19,7 +19,7 @@ import {
   RequestNode,
   Store,
   SubscribeFunction,
-  Variables,
+  Variables
 } from "relay-runtime";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 
@@ -31,34 +31,37 @@ async function fetchQuery(operation: RequestNode, variables: Variables) {
   const response = await fetch("http://" + host, {
     body: JSON.stringify({
       query: operation.text,
-      variables,
+      variables
     }),
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     },
-    method: "POST",
+    method: "POST"
   });
 
   return response.json();
 }
 
-const setupSubscription: SubscribeFunction = (config, variables, _, observer) => {
+const setupSubscription: SubscribeFunction = (
+  config,
+  variables,
+  _,
+  observer
+) => {
   const query = config.text;
   const { onNext, onError, onCompleted } = observer;
   const client = new SubscriptionClient("ws://" + host, { reconnect: true });
 
-  const { unsubscribe } = client
-    .request({ query, variables })
-    .subscribe({
-      complete: onCompleted,
-      error: onError,
-      next: onNext,
-    });
+  const { unsubscribe } = client.request({ query, variables }).subscribe({
+    complete: onCompleted,
+    error: onError,
+    next: onNext
+  });
 
   return { dispose: unsubscribe };
 };
 
 export default new Environment({
   network: Network.create(fetchQuery, setupSubscription),
-  store: new Store(new RecordSource()),
+  store: new Store(new RecordSource())
 });

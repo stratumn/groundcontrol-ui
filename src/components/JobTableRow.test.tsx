@@ -28,11 +28,11 @@ const other: JobTableRow_item = {
   id: "id",
   name: "name",
   owner: {
-    __typename: "%other",
+    __typename: "%other"
   },
   priority: "NORMAL",
   status: "QUEUED",
-  updatedAt: "updatedAt",
+  updatedAt: "updatedAt"
 };
 
 const workspace: JobTableRow_item = {
@@ -43,11 +43,11 @@ const workspace: JobTableRow_item = {
   owner: {
     __typename: "Workspace",
     name: "workspaceName",
-    slug: "workspaceSlug",
+    slug: "workspaceSlug"
   },
   priority: "NORMAL",
   status: "QUEUED",
-  updatedAt: "updatedAt",
+  updatedAt: "updatedAt"
 };
 
 const project: JobTableRow_item = {
@@ -60,27 +60,27 @@ const project: JobTableRow_item = {
     repository: "repository",
     workspace: {
       name: "workspaceName",
-      slug: "workspaceSlug",
-    },
+      slug: "workspaceSlug"
+    }
   },
   priority: "NORMAL",
   status: "QUEUED",
-  updatedAt: "updatedAt",
+  updatedAt: "updatedAt"
 };
 
 const otherProps = {
   item: other,
-  onStop: jest.fn(),
+  onStop: jest.fn()
 };
 
 const workspaceProps = {
   item: workspace,
-  onStop: jest.fn(),
+  onStop: jest.fn()
 };
 
 const projectProps = {
   item: project,
-  onStop: jest.fn(),
+  onStop: jest.fn()
 };
 
 beforeEach(() => {
@@ -88,7 +88,6 @@ beforeEach(() => {
 });
 
 describe("<JobTableRow />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<JobTableRow {...otherProps} />);
     expect(wrapper).toMatchSnapshot();
@@ -107,8 +106,8 @@ describe("<JobTableRow />", () => {
   it("sets the warning attribute of the status cell to true when the job is queued", () => {
     const wrapper = shallow(
       <JobTableRow
-        {...{...otherProps, item: { ...other, status: "QUEUED" } }}
-      />,
+        {...{ ...otherProps, item: { ...other, status: "QUEUED" } }}
+      />
     );
     expect(wrapper.find("[warning=true]")).toHaveLength(1);
   });
@@ -116,8 +115,8 @@ describe("<JobTableRow />", () => {
   it("sets the positive attribute of the status cell to true when the job is running", () => {
     const wrapper = shallow(
       <JobTableRow
-        {...{...otherProps, item: { ...other, status: "RUNNING" } }}
-      />,
+        {...{ ...otherProps, item: { ...other, status: "RUNNING" } }}
+      />
     );
     expect(wrapper.find("[positive=true]")).toHaveLength(1);
   });
@@ -125,8 +124,8 @@ describe("<JobTableRow />", () => {
   it("sets the error attribute of the status cell to true when the job failed", () => {
     const wrapper = shallow(
       <JobTableRow
-        {...{...otherProps, item: { ...other, status: "FAILED" } }}
-      />,
+        {...{ ...otherProps, item: { ...other, status: "FAILED" } }}
+      />
     );
     expect(wrapper.find("[error=true]")).toHaveLength(1);
   });
@@ -134,8 +133,8 @@ describe("<JobTableRow />", () => {
   it("shows a stop button when the job is queued", () => {
     const wrapper = shallow(
       <JobTableRow
-        {...{...otherProps, item: { ...other, status: "QUEUED" } }}
-      />,
+        {...{ ...otherProps, item: { ...other, status: "QUEUED" } }}
+      />
     );
     expect(wrapper.find("Button[icon='stop']")).toHaveLength(1);
   });
@@ -143,8 +142,8 @@ describe("<JobTableRow />", () => {
   it("shows a stop button when the job is running", () => {
     const wrapper = shallow(
       <JobTableRow
-        {...{...otherProps, item: { ...other, status: "RUNNING" } }}
-      />,
+        {...{ ...otherProps, item: { ...other, status: "RUNNING" } }}
+      />
     );
     expect(wrapper.find("Button[icon='stop']")).toHaveLength(1);
   });
@@ -152,17 +151,15 @@ describe("<JobTableRow />", () => {
   it("shows a disabled stop button when the job is stopping", () => {
     const wrapper = shallow(
       <JobTableRow
-        {...{...otherProps, item: { ...other, status: "STOPPING" } }}
-      />,
+        {...{ ...otherProps, item: { ...other, status: "STOPPING" } }}
+      />
     );
     expect(wrapper.find("Button[icon='stop'][loading=true]")).toHaveLength(1);
   });
 
   it("doesn't show a stop button when the job is done", () => {
     const wrapper = shallow(
-      <JobTableRow
-        {...{...otherProps, item: { ...other, status: "DONE" } }}
-      />,
+      <JobTableRow {...{ ...otherProps, item: { ...other, status: "DONE" } }} />
     );
     expect(wrapper.find("Button[icon='stop']")).toHaveLength(0);
   });
@@ -170,14 +167,17 @@ describe("<JobTableRow />", () => {
   it("doesn't show a stop button when the job failed", () => {
     const wrapper = shallow(
       <JobTableRow
-        {...{...otherProps, item: { ...other, status: "FAILED" } }}
-      />,
+        {...{ ...otherProps, item: { ...other, status: "FAILED" } }}
+      />
     );
     expect(wrapper.find("Button[icon='stop']")).toHaveLength(0);
   });
 
   it("triggers onStop when the stop button is clicked", () => {
-    const props: IProps = { ...otherProps, item: { ...other, status: "RUNNING" } };
+    const props: IProps = {
+      ...otherProps,
+      item: { ...other, status: "RUNNING" }
+    };
     const wrapper = shallow(<JobTableRow {...props} />);
     wrapper.find("Button[icon='stop']").simulate("click");
     expect(otherProps.onStop).toBeCalledTimes(1);
@@ -185,10 +185,12 @@ describe("<JobTableRow />", () => {
   });
 
   it("doesn't triggers onStop when the stop button is clicked and the status is stopping", () => {
-    const props: IProps = { ...otherProps, item: { ...other, status: "STOPPING" } };
+    const props: IProps = {
+      ...otherProps,
+      item: { ...other, status: "STOPPING" }
+    };
     const wrapper = shallow(<JobTableRow {...props} />);
     wrapper.find("Button[icon='stop']").simulate("click");
     expect(otherProps.onStop).not.toBeCalled();
   });
-
 });

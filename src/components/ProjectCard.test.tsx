@@ -35,39 +35,45 @@ const item: ProjectCard_item = {
   isCloning: false,
   isPulling: false,
   localCommits: {
-    edges: [{
-      node: {
-        ...mockQueryPropAttrs(),
+    edges: [
+      {
+        node: {
+          ...mockQueryPropAttrs()
+        }
       },
-    }, {
-      node: {
-        ...mockQueryPropAttrs(),
-      },
-    }],
+      {
+        node: {
+          ...mockQueryPropAttrs()
+        }
+      }
+    ]
   },
   localReferenceShort: "localReferenceShort",
   path: "/long/path",
   remoteCommits: {
-    edges: [{
-      node: {
-        ...mockQueryPropAttrs(),
+    edges: [
+      {
+        node: {
+          ...mockQueryPropAttrs()
+        }
       },
-    }, {
-      node: {
-        ...mockQueryPropAttrs(),
-      },
-    }],
+      {
+        node: {
+          ...mockQueryPropAttrs()
+        }
+      }
+    ]
   },
   remoteReferenceShort: "remoteReferenceShort",
   repository: "repository",
-  shortPath: "short/path",
+  shortPath: "short/path"
 };
 
 const props = {
   item,
   onClickPath: jest.fn(),
   onClone: jest.fn(),
-  onPull: jest.fn(),
+  onPull: jest.fn()
 };
 
 beforeEach(() => {
@@ -77,17 +83,18 @@ beforeEach(() => {
 });
 
 describe("<ProjectCard />", () => {
-
   it("renders correctly when not cloned", () => {
     const wrapper = shallow(
-      <ProjectCard {...{...props, item: {...props.item, isCloned: false}}} />,
+      <ProjectCard
+        {...{ ...props, item: { ...props.item, isCloned: false } }}
+      />
     );
     expect(wrapper).toMatchSnapshot();
   });
 
   it("renders correctly when cloned", () => {
     const wrapper = shallow(
-      <ProjectCard {...{...props, item: {...props.item, isCloned: true}}} />,
+      <ProjectCard {...{ ...props, item: { ...props.item, isCloned: true } }} />
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -95,8 +102,8 @@ describe("<ProjectCard />", () => {
   it("shows a clone button if the project isn't cloned", () => {
     const wrapper = shallow(
       <ProjectCard
-        {...{...props, item: { ...item, isCloned: false, isCloning: false } }}
-      />,
+        {...{ ...props, item: { ...item, isCloned: false, isCloning: false } }}
+      />
     );
     expect(wrapper.find("Button[icon='clone'][loading=false]")).toHaveLength(1);
   });
@@ -104,8 +111,8 @@ describe("<ProjectCard />", () => {
   it("shows a loading clone button if the project is cloning", () => {
     const wrapper = shallow(
       <ProjectCard
-        {...{...props, item: { ...item, isCloned: false, isCloning: true } }}
-      />,
+        {...{ ...props, item: { ...item, isCloned: false, isCloning: true } }}
+      />
     );
     expect(wrapper.find("Button[icon='clone'][loading=true]")).toHaveLength(1);
   });
@@ -113,35 +120,39 @@ describe("<ProjectCard />", () => {
   it("shows a pull button if the project is cloned and behind", () => {
     const wrapper = shallow(
       <ProjectCard
-        {...{...props, item: { ...item, isCloned: true, isBehind: true } }}
-      />,
+        {...{ ...props, item: { ...item, isCloned: true, isBehind: true } }}
+      />
     );
-    expect(wrapper.find("Button[icon='download'][disabled=false]")).toHaveLength(1);
+    expect(
+      wrapper.find("Button[icon='download'][disabled=false]")
+    ).toHaveLength(1);
   });
 
   it("shows a disabled pull button if the project is cloned and up-to-date", () => {
     const wrapper = shallow(
       <ProjectCard
-        {...{...props, item: { ...item, isCloned: true, isBehind: false } }}
-      />,
+        {...{ ...props, item: { ...item, isCloned: true, isBehind: false } }}
+      />
     );
-    expect(wrapper.find("Button[icon='download'][disabled=true]")).toHaveLength(1);
+    expect(wrapper.find("Button[icon='download'][disabled=true]")).toHaveLength(
+      1
+    );
   });
 
   it("shows a loading pull button if the project is pulling", () => {
     const wrapper = shallow(
       <ProjectCard
-        {...{...props, item: { ...item, isCloned: true, isPulling: true } }}
-      />,
+        {...{ ...props, item: { ...item, isCloned: true, isPulling: true } }}
+      />
     );
-    expect(wrapper.find("Button[icon='download'][loading=true]")).toHaveLength(1);
+    expect(wrapper.find("Button[icon='download'][loading=true]")).toHaveLength(
+      1
+    );
   });
 
   it("shows a cloned label if the project is cloned", () => {
     const wrapper = shallow(
-      <ProjectCard
-        {...{...props, item: { ...item, isCloned: true } }}
-      />,
+      <ProjectCard {...{ ...props, item: { ...item, isCloned: true } }} />
     );
     expect(wrapper.find("Label[content='cloned']")).toHaveLength(1);
   });
@@ -149,8 +160,11 @@ describe("<ProjectCard />", () => {
   it("shows an up-to-date label if the project is up-to-date", () => {
     const wrapper = shallow(
       <ProjectCard
-        {...{...props, item: { ...item, isCloned: true, isBehind: false, isAhead: false } }}
-      />,
+        {...{
+          ...props,
+          item: { ...item, isCloned: true, isBehind: false, isAhead: false }
+        }}
+      />
     );
     expect(wrapper.find("Label[content='up-to-date']")).toHaveLength(1);
   });
@@ -158,8 +172,8 @@ describe("<ProjectCard />", () => {
   it("shows a behind label if the project is behind", () => {
     const wrapper = shallow(
       <ProjectCard
-        {...{...props, item: { ...item, isCloned: true, isBehind: true } }}
-      />,
+        {...{ ...props, item: { ...item, isCloned: true, isBehind: true } }}
+      />
     );
     expect(wrapper.find("Label[content='behind']")).toHaveLength(1);
   });
@@ -167,8 +181,8 @@ describe("<ProjectCard />", () => {
   it("shows an ahead label if the project is ahead", () => {
     const wrapper = shallow(
       <ProjectCard
-        {...{...props, item: { ...item, isCloned: true, isAhead: true } }}
-      />,
+        {...{ ...props, item: { ...item, isCloned: true, isAhead: true } }}
+      />
     );
     expect(wrapper.find("Label[content='ahead']")).toHaveLength(1);
   });
@@ -176,21 +190,21 @@ describe("<ProjectCard />", () => {
   it("shows a dirty label if the project isn't clean", () => {
     const wrapper = shallow(
       <ProjectCard
-        {...{...props, item: { ...item, isCloned: true, isClean: false } }}
-      />,
+        {...{ ...props, item: { ...item, isCloned: true, isClean: false } }}
+      />
     );
     expect(wrapper.find("Label[content='dirty']")).toHaveLength(1);
   });
 
   it("triggers onClickPath when the path is clicked", () => {
-    const pathProps: IProps = {...props, item: { ...item, isCloned: true } };
+    const pathProps: IProps = { ...props, item: { ...item, isCloned: true } };
     const wrapper = shallow(<ProjectCard {...pathProps} />);
     wrapper.find("[href='file:///long/path']").simulate("click");
     expect(pathProps.onClickPath).toBeCalledWith(pathProps);
   });
 
   it("triggers onClone when the clone button is clicked", () => {
-    const cloneProps: IProps = {...props, item: { ...item, isCloned: false } };
+    const cloneProps: IProps = { ...props, item: { ...item, isCloned: false } };
     const wrapper = shallow(<ProjectCard {...cloneProps} />);
     wrapper.find("Button[icon='clone']").simulate("click");
     expect(cloneProps.onClone).toBeCalledTimes(1);
@@ -198,11 +212,13 @@ describe("<ProjectCard />", () => {
   });
 
   it("triggers onPull when the pull button is clicked", () => {
-    const pullProps: IProps = {...props, item: { ...item, isCloned: true, isBehind: true } };
+    const pullProps: IProps = {
+      ...props,
+      item: { ...item, isCloned: true, isBehind: true }
+    };
     const wrapper = shallow(<ProjectCard {...pullProps} />);
     wrapper.find("Button[icon='download']").simulate("click");
     expect(pullProps.onPull).toBeCalledTimes(1);
     expect(pullProps.onPull).toBeCalledWith(pullProps);
   });
-
 });

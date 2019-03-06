@@ -2,8 +2,8 @@
   word-break: break-all;
   white-space: pre-wrap;
   font: var(--mono-font);
-  padding-top: .25em;
-  padding-bottom: .25em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
   border-top: none;
 }
 

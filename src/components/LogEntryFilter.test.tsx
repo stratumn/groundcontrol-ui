@@ -22,7 +22,7 @@ const props = {
   level: ["WARNING", "ERROR"],
   onChange: jest.fn(),
   ownerId: "ownerId",
-  systemId: "systemId",
+  systemId: "systemId"
 };
 
 describe("<LogEntryFilter />", () => {

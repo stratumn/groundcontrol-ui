@@ -41,7 +41,6 @@ export interface IProps {
 }
 
 export class JobListPage extends Component<IProps> {
-
   private disposables: Disposable[] = [];
 
   public render() {
@@ -57,10 +56,7 @@ export class JobListPage extends Component<IProps> {
           status={this.getStatus()}
           onChange={this.handleStatusChange}
         />
-        <JobTable
-          items={items}
-          onStop={this.handleStop}
-        />
+        <JobTable items={items} onStop={this.handleStop} />
         <Button
           disabled={!this.props.relay.hasMore() || this.props.relay.isLoading()}
           loading={this.props.relay.isLoading()}
@@ -76,7 +72,9 @@ export class JobListPage extends Component<IProps> {
   public componentDidMount() {
     const environment = this.props.relay.environment;
     const lastMessageId = this.props.system.lastMessageId;
-    this.disposables.push(subscribe(environment, this.getStatus, lastMessageId));
+    this.disposables.push(
+      subscribe(environment, this.getStatus, lastMessageId)
+    );
   }
 
   public componentWillUnmount() {
@@ -87,8 +85,10 @@ export class JobListPage extends Component<IProps> {
     this.disposables = [];
   }
 
-  private getStatus = () => this.props.params.status === undefined ?
-    undefined : this.props.params.status.split(",")
+  private getStatus = () =>
+    this.props.params.status === undefined
+      ? undefined
+      : this.props.params.status.split(",");
 
   private handleStatusChange = ({ status }: IJobFilterProps) => {
     if (!status || status.length < 1 || status.length > 4) {
@@ -96,26 +96,22 @@ export class JobListPage extends Component<IProps> {
     }
 
     this.props.router.replace(`/jobs/${status.join(",")}`);
-  }
+  };
 
   private handleStop = ({ item: { id } }: IJobTableRowProps) => {
     stopJob(this.props.relay.environment, id);
-  }
+  };
 
   private handleLoadMore = () => {
-    this.props.relay.loadMore(
-      50,
-      (err) => {
-        if (err) {
-          console.log(err);
-        }
+    this.props.relay.loadMore(50, err => {
+      if (err) {
+        console.log(err);
+      }
 
-        // Make sure load more button updates.
-        this.forceUpdate();
-      },
-    );
-  }
-
+      // Make sure load more button updates.
+      this.forceUpdate();
+    });
+  };
 }
 
 export default createPaginationContainer(
@@ -123,20 +119,13 @@ export default createPaginationContainer(
   graphql`
     fragment JobListPage_system on System
       @argumentDefinitions(
-        count: {type: "Int", defaultValue: 50},
-        cursor: {type: "String"},
-        status: { type: "[JobStatus!]", defaultValue: null },
+        count: { type: "Int", defaultValue: 50 }
+        cursor: { type: "String" }
+        status: { type: "[JobStatus!]", defaultValue: null }
       ) {
       lastMessageId
-      jobs(
-       first: $count,
-       after: $cursor,
-       status: $status,
-      )
-        @connection(
-          key: "JobListPage_jobs",
-          filters: ["status"],
-        ) {
+      jobs(first: $count, after: $cursor, status: $status)
+        @connection(key: "JobListPage_jobs", filters: ["status"]) {
         edges {
           node {
             ...JobTable_items
@@ -144,29 +133,27 @@ export default createPaginationContainer(
           }
         }
       }
-    }`,
+    }
+  `,
   {
     direction: "forward",
-    getConnectionFromProps: (props) => props.system && props.system.jobs,
-    getVariables: (_, {count, cursor}, fragmentVariables) => ({
+    getConnectionFromProps: props => props.system && props.system.jobs,
+    getVariables: (_, { count, cursor }, fragmentVariables) => ({
       count,
       cursor,
-      status: fragmentVariables.status,
+      status: fragmentVariables.status
     }),
     query: graphql`
       query JobListPagePaginationQuery(
-        $count: Int!,
-        $cursor: String,
-        $status: [JobStatus!],
+        $count: Int!
+        $cursor: String
+        $status: [JobStatus!]
       ) {
         system {
-          ...JobListPage_system @arguments(
-            count: $count,
-            cursor: $cursor,
-            status: $status,
-          )
+          ...JobListPage_system
+            @arguments(count: $count, cursor: $cursor, status: $status)
         }
       }
-    `,
-  },
+    `
+  }
 );

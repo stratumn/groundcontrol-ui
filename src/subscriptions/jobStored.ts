@@ -27,58 +27,55 @@ const subscription = graphql`
 export function subscribe(
   environment: Environment,
   getStatus: () => string[] | undefined,
-  lastMessageId?: string,
+  lastMessageId?: string
 ) {
-  return requestSubscription(
-    environment,
-    {
-      onError: (error) => console.error(error),
-      subscription,
-      updater: (store) => {
-        const record = store.getRootField("jobStored")!;
-        const recordId = record.getValue("id");
-        const system = store.getRoot().getLinkedRecord("system");
-        const newStatus = record!.getValue("status") as string;
-        const status = getStatus();
+  return requestSubscription(environment, {
+    onError: error => console.error(error),
+    subscription,
+    updater: store => {
+      const record = store.getRootField("jobStored")!;
+      const recordId = record.getValue("id");
+      const system = store.getRoot().getLinkedRecord("system");
+      const newStatus = record!.getValue("status") as string;
+      const status = getStatus();
 
-        const connection = ConnectionHandler.getConnection(
-          system,
-          "JobListPage_jobs",
-          { status },
-        );
+      const connection = ConnectionHandler.getConnection(
+        system,
+        "JobListPage_jobs",
+        { status }
+      );
 
-        if (!connection) {
+      if (!connection) {
+        return;
+      }
+
+      const contains = !status || status.indexOf(newStatus) >= 0;
+
+      if (!contains) {
+        ConnectionHandler.deleteNode(connection, recordId);
+        return;
+      }
+
+      const edges = connection.getLinkedRecords("edges");
+
+      for (const e of edges) {
+        const id = e.getLinkedRecord("node")!.getValue("id");
+
+        if (recordId === id) {
           return;
         }
+      }
 
-        const contains = !status || status.indexOf(newStatus) >= 0;
-
-        if (!contains) {
-          ConnectionHandler.deleteNode(connection, recordId);
-          return;
-        }
-
-        const edges = connection.getLinkedRecords("edges");
-
-        for (const e of edges) {
-          const id = e.getLinkedRecord("node")!.getValue("id");
-
-          if (recordId === id) {
-            return;
-          }
-        }
-
-        const edge = ConnectionHandler.createEdge(
-          store,
-          connection,
-          record,
-          "JobsConnection",
-        );
-        ConnectionHandler.insertEdgeBefore(connection, edge);
-      },
-      variables: {
-        lastMessageId,
-      },
+      const edge = ConnectionHandler.createEdge(
+        store,
+        connection,
+        record,
+        "JobsConnection"
+      );
+      ConnectionHandler.insertEdgeBefore(connection, edge);
     },
-  );
+    variables: {
+      lastMessageId
+    }
+  });
 }

@@ -27,6 +27,6 @@ const mutation = graphql`
 export function commit(environment: Environment, filename: string) {
   commitMutation(environment, {
     mutation,
-    variables: { filename },
+    variables: { filename }
   });
 }

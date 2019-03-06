@@ -26,7 +26,10 @@ export interface IProps {
 }
 
 export function DirectorySourceListItem(props: IProps) {
-  const{ item: { directory}, onDelete } = props;
+  const {
+    item: { directory },
+    onDelete
+  } = props;
   const handleDelete = () => onDelete({ ...props });
 
   return (
@@ -46,9 +49,12 @@ export function DirectorySourceListItem(props: IProps) {
   );
 }
 
-export default createFragmentContainer(DirectorySourceListItem, graphql`
-  fragment DirectorySourceListItem_item on DirectorySource {
-    id
-    directory
-  }`,
+export default createFragmentContainer(
+  DirectorySourceListItem,
+  graphql`
+    fragment DirectorySourceListItem_item on DirectorySource {
+      id
+      directory
+    }
+  `
 );

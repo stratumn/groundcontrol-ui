@@ -21,10 +21,7 @@ export interface IProps {
 }
 
 const ErrorPage = ({ error }: IProps) => (
-  <Page
-    header="Oops"
-    subheader="Looks like something's wrong."
-  >
+  <Page header="Oops" subheader="Looks like something's wrong.">
     <pre>{error.stack}</pre>
   </Page>
 );

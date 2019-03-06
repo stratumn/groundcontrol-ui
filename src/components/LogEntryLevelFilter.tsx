@@ -26,7 +26,6 @@ export const allLevel = ["DEBUG", "INFO", "WARNING", "ERROR"];
 
 // Note: we consider undefined level to be the same as all level.
 export default class LogEntryLevelFilter extends Component<IProps> {
-
   public render() {
     const { level } = this.props;
     const radios = allLevel.map((value, i) => (
@@ -42,8 +41,9 @@ export default class LogEntryLevelFilter extends Component<IProps> {
   }
 
   private handleToggle(value: string) {
-    const level = this.props.level ?
-      this.props.level.slice() : allLevel.slice();
+    const level = this.props.level
+      ? this.props.level.slice()
+      : allLevel.slice();
     const index = level.indexOf(value);
 
     if (index >= 0) {
@@ -54,5 +54,4 @@ export default class LogEntryLevelFilter extends Component<IProps> {
 
     this.props.onChange({ ...this.props, level });
   }
-
 }

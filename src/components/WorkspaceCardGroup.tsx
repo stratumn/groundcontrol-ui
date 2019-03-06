@@ -30,25 +30,19 @@ export interface IProps {
 
 export function WorkspaceCardGroup(props: IProps) {
   const { items, itemsPerRow } = props;
-  const cards = items.map((item) => (
-    <WorkspaceCard
-      {...props}
-      key={item.id}
-      item={item}
-    />
-   ));
+  const cards = items.map(item => (
+    <WorkspaceCard {...props} key={item.id} item={item} />
+  ));
 
-  return (
-    <Card.Group itemsPerRow={itemsPerRow}>
-      {cards}
-    </Card.Group>
-  );
+  return <Card.Group itemsPerRow={itemsPerRow}>{cards}</Card.Group>;
 }
 
-export default createFragmentContainer(WorkspaceCardGroup, graphql`
-  fragment WorkspaceCardGroup_items on Workspace
-    @relay(plural: true) {
-    ...WorkspaceCard_item
-    id
-  }`,
+export default createFragmentContainer(
+  WorkspaceCardGroup,
+  graphql`
+    fragment WorkspaceCardGroup_items on Workspace @relay(plural: true) {
+      ...WorkspaceCard_item
+      id
+    }
+  `
 );

@@ -26,22 +26,20 @@ const props = {
   system: {
     ...mockQueryPropAttrs(),
     jobMetrics: {
-      ...mockQueryPropAttrs(),
+      ...mockQueryPropAttrs()
     },
     logMetrics: {
-      ...mockQueryPropAttrs(),
+      ...mockQueryPropAttrs()
     },
     serviceMetrics: {
-      ...mockQueryPropAttrs(),
-    },
-  },
+      ...mockQueryPropAttrs()
+    }
+  }
 };
 
 describe("<Menu />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<Menu {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

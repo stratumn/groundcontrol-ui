@@ -19,8 +19,12 @@ import { Icon, Menu } from "semantic-ui-react";
 
 import { WorkspaceMenu_item } from "./__generated__/WorkspaceMenu_item.graphql";
 
-import WorkspaceServiceDropdown, { IProps as IWorkspaceServiceDropdownProps } from "./WorkspaceServiceDropdown";
-import WorkspaceTaskDropdown, { IProps as IWorkspaceTaskDropdownProps } from "./WorkspaceTaskDropdown";
+import WorkspaceServiceDropdown, {
+  IProps as IWorkspaceServiceDropdownProps
+} from "./WorkspaceServiceDropdown";
+import WorkspaceTaskDropdown, {
+  IProps as IWorkspaceTaskDropdownProps
+} from "./WorkspaceTaskDropdown";
 
 export interface IProps {
   item: WorkspaceMenu_item;
@@ -32,32 +36,25 @@ export interface IProps {
 
 export function WorkspaceMenu(props: IProps) {
   const {
-    item: {
-      projects,
-      services,
-      tasks,
-    },
+    item: { projects, services, tasks },
     onClone,
     onPull,
     onStart,
-    onRun,
+    onRun
   } = props;
   const serviceNodes = services.edges.map(({ node }) => node);
   const taskNodes = tasks.edges.map(({ node }) => node);
   const projectNodes = projects.edges.map(({ node }) => node);
   const projectCount = projectNodes.length;
-  const clonedCount = projectNodes.filter((node) => node.isCloned).length;
-  const cloningCount = projectNodes.filter((node) => node.isCloning).length;
-  const pullingCount = projectNodes.filter((node) => node.isPulling).length;
-  const behindCount = projectNodes.filter((node) => node.isBehind).length;
+  const clonedCount = projectNodes.filter(node => node.isCloned).length;
+  const cloningCount = projectNodes.filter(node => node.isCloning).length;
+  const pullingCount = projectNodes.filter(node => node.isPulling).length;
+  const behindCount = projectNodes.filter(node => node.isBehind).length;
   const handleClone = () => onClone({ ...props });
   const handlePull = () => onPull({ ...props });
 
   return (
-    <Menu
-      size="huge"
-      secondary={true}
-    >
+    <Menu size="huge" secondary={true}>
       <Menu.Item
         disabled={cloningCount > 0 || clonedCount >= projectCount}
         onClick={handleClone}
@@ -86,31 +83,34 @@ export function WorkspaceMenu(props: IProps) {
   );
 }
 
-export default createFragmentContainer(WorkspaceMenu, graphql`
-  fragment WorkspaceMenu_item on Workspace {
-    projects {
-      edges {
-        node {
-          isCloning
-          isCloned
-          isPulling
-          isBehind
+export default createFragmentContainer(
+  WorkspaceMenu,
+  graphql`
+    fragment WorkspaceMenu_item on Workspace {
+      projects {
+        edges {
+          node {
+            isCloning
+            isCloned
+            isPulling
+            isBehind
+          }
+        }
+      }
+      services {
+        edges {
+          node {
+            ...WorkspaceServiceDropdown_items
+          }
+        }
+      }
+      tasks {
+        edges {
+          node {
+            ...WorkspaceTaskDropdown_items
+          }
         }
       }
     }
-    services {
-      edges {
-        node {
-          ...WorkspaceServiceDropdown_items
-        }
-      }
-    }
-    tasks {
-      edges {
-        node {
-          ...WorkspaceTaskDropdown_items
-        }
-      }
-    }
-  }`,
+  `
 );

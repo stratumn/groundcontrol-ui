@@ -18,10 +18,8 @@ import React from "react";
 import MenuPrimaryItems from "./MenuPrimaryItems";
 
 describe("<MenuPrimaryItems />", () => {
-
   it("renders correctly", () => {
     const wrapper = shallow(<MenuPrimaryItems />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

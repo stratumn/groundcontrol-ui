@@ -30,40 +30,37 @@ export default () => (
         Sources contain workspaces which let you work on projects.
       </p>
       <p>
-        <Link
-          to="/sources"
-          Component={Button}
-          color="teal"
-        >
+        <Link to="/sources" Component={Button} color="teal">
           Let's add a source to get started!
         </Link>
       </p>
     </Message>
     <p>
-      <em>Ground Control</em> is an application to help deal with multi-repository development
-      using a user friendly web interface.
+      <em>Ground Control</em> is an application to help deal with
+      multi-repository development using a user friendly web interface.
     </p>
     <p>
-      Workspaces are defined using YAML files which can easily be shared.
-      Each workspace contains multiple projects.
-      A project corresponds to a Git reference of a repository (such as a branch or tag).
+      Workspaces are defined using YAML files which can easily be shared. Each
+      workspace contains multiple projects. A project corresponds to a Git
+      reference of a repository (such as a branch or tag).
     </p>
     <p>
-      The user interface allows you to perform operations on multiple projects at once,
-      including:
+      The user interface allows you to perform operations on multiple projects
+      at once, including:
     </p>
     <ul>
-      <li>Automatically sync and share workspaces using <Link to="/sources">sources</Link></li>
       <li>
-         Clone all the repositories in a workspace
-         (defaults to <code>$HOME/groundcontrol/workspaces/$WORKSPACE/$PROJECT</code>)
+        Automatically sync and share workspaces using{" "}
+        <Link to="/sources">sources</Link>
+      </li>
+      <li>
+        Clone all the repositories in a workspace (defaults to{" "}
+        <code>$HOME/groundcontrol/workspaces/$WORKSPACE/$PROJECT</code>)
       </li>
       <li>See if you are up-to-date or ahead of the remote repositories</li>
       <li>Run tasks on multiple repositories</li>
       <li>Launch services and their dependencies with ease</li>
     </ul>
-    <p>
-      Good luck and happy coding!
-    </p>
+    <p>Good luck and happy coding!</p>
   </Page>
 );

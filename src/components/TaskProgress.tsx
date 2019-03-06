@@ -24,13 +24,7 @@ export interface IProps {
 }
 
 export function TaskProgress({
-  item: {
-    status,
-    steps,
-    currentStep,
-    currentProject,
-    currentCommand,
-  },
+  item: { status, steps, currentStep, currentProject, currentCommand }
 }: IProps) {
   const stepNodes = steps.edges.map(({ node }) => node);
 
@@ -65,24 +59,27 @@ export function TaskProgress({
   );
 }
 
-export default createFragmentContainer(TaskProgress, graphql`
-  fragment TaskProgress_item on Task {
-    status
-    steps {
-      edges {
-        node {
-          id
+export default createFragmentContainer(
+  TaskProgress,
+  graphql`
+    fragment TaskProgress_item on Task {
+      status
+      steps {
+        edges {
+          node {
+            id
+          }
         }
       }
+      currentStep {
+        id
+      }
+      currentProject {
+        slug
+      }
+      currentCommand {
+        command
+      }
     }
-    currentStep {
-      id
-    }
-    currentProject {
-      slug
-    }
-    currentCommand {
-      command
-    }
-  }`,
+  `
 );

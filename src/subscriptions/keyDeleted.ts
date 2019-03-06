@@ -25,28 +25,25 @@ const subscription = graphql`
 `;
 
 export function subscribe(environment: Environment, lastMessageId?: string) {
-  return requestSubscription(
-    environment,
-    {
-      onError: (error) => console.error(error),
-      subscription,
-      updater: (store) => {
-        const record = store.getRootField("keyDeleted")!;
-        const recordId = record.getValue("id");
-        const viewer = store.getRoot().getLinkedRecord("viewer");
+  return requestSubscription(environment, {
+    onError: error => console.error(error),
+    subscription,
+    updater: store => {
+      const record = store.getRootField("keyDeleted")!;
+      const recordId = record.getValue("id");
+      const viewer = store.getRoot().getLinkedRecord("viewer");
 
-        const connection = ConnectionHandler.getConnection(
-          viewer,
-          "KeyListPage_keys",
-        );
+      const connection = ConnectionHandler.getConnection(
+        viewer,
+        "KeyListPage_keys"
+      );
 
-        if (connection) {
-          ConnectionHandler.deleteNode(connection, recordId);
-        }
+      if (connection) {
+        ConnectionHandler.deleteNode(connection, recordId);
+      }
     },
-      variables: {
-        lastMessageId,
-      },
-    },
-  );
+    variables: {
+      lastMessageId
+    }
+  });
 }

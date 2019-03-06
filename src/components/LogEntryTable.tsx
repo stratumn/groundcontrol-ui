@@ -56,11 +56,13 @@ export function LogEntryTable({ items, onClickSourceFile }: IProps) {
   );
 }
 
-export default createFragmentContainer(LogEntryTable, graphql`
-  fragment LogEntryTable_items on LogEntry
-    @relay(plural: true) {
-    ...LogEntryTableRow_item
-    ...LogEntryTableRow_prevItem
-    id
-  }`,
+export default createFragmentContainer(
+  LogEntryTable,
+  graphql`
+    fragment LogEntryTable_items on LogEntry @relay(plural: true) {
+      ...LogEntryTableRow_item
+      ...LogEntryTableRow_prevItem
+      id
+    }
+  `
 );

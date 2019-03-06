@@ -24,7 +24,7 @@ const props = {
   onSubmit: jest.fn(),
   reference: "reference",
   repository: "repository",
-  type: SourceType.Directory,
+  type: SourceType.Directory
 };
 
 beforeEach(() => {
@@ -35,7 +35,7 @@ beforeEach(() => {
 describe("<AddSourceForm />", () => {
   it("renders correctly when a directory source type is selected", () => {
     const wrapper = shallow(
-      <AddSourceForm {...props} type={SourceType.Directory} />,
+      <AddSourceForm {...props} type={SourceType.Directory} />
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -47,10 +47,10 @@ describe("<AddSourceForm />", () => {
 
   it("triggers onChange when a source type is selected", () => {
     const wrapper = shallow(
-      <AddSourceForm {...props} type={SourceType.Directory} />,
+      <AddSourceForm {...props} type={SourceType.Directory} />
     );
     wrapper.find("[label='Type']").simulate("change", null, {
-      value: "git",
+      value: "git"
     });
     expect(props.onChange).toBeCalledTimes(1);
     expect(props.onChange).toBeCalledWith({ ...props, type: "git" });
@@ -58,11 +58,11 @@ describe("<AddSourceForm />", () => {
 
   it("triggers onChange when a value is changed", () => {
     const wrapper = shallow(
-      <AddSourceForm {...props} type={SourceType.Directory} />,
+      <AddSourceForm {...props} type={SourceType.Directory} />
     );
     wrapper.find("[name='directory']").simulate("change", null, {
       name: "directory",
-      value: "new",
+      value: "new"
     });
     expect(props.onChange).toBeCalledTimes(1);
     expect(props.onChange).toBeCalledWith({ ...props, directory: "new" });
@@ -70,7 +70,7 @@ describe("<AddSourceForm />", () => {
 
   it("triggers onSubmit when the form is submitted", () => {
     const wrapper = shallow(
-      <AddSourceForm {...props} type={SourceType.Directory} />,
+      <AddSourceForm {...props} type={SourceType.Directory} />
     );
     wrapper.find("Form").simulate("submit");
     expect(props.onSubmit).toBeCalledTimes(1);

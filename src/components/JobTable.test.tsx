@@ -20,18 +20,20 @@ import { mockQueryPropAttrs } from "../testing/relay";
 import { JobTable } from "./JobTable";
 
 const props = {
-  items: [{
-    ...mockQueryPropAttrs(),
-    id: "id1",
-  }, {
-    ...mockQueryPropAttrs(),
-    id: "id2",
-  }],
-  onStop: jest.fn(),
+  items: [
+    {
+      ...mockQueryPropAttrs(),
+      id: "id1"
+    },
+    {
+      ...mockQueryPropAttrs(),
+      id: "id2"
+    }
+  ],
+  onStop: jest.fn()
 };
 
 describe("<JobTable />", () => {
-
   it("renders items correctly", () => {
     const wrapper = shallow(<JobTable {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -41,5 +43,4 @@ describe("<JobTable />", () => {
     const wrapper = shallow(<JobTable {...props} items={[]} />);
     expect(wrapper).toMatchSnapshot();
   });
-
 });

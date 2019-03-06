@@ -18,25 +18,13 @@ import { Menu } from "semantic-ui-react";
 
 const MenuPrimaryItems = () => (
   <Fragment>
-    <Link
-      to="/workspaces"
-      Component={Menu.Item}
-      activePropName="active"
-    >
+    <Link to="/workspaces" Component={Menu.Item} activePropName="active">
       Workspaces
     </Link>
-    <Link
-      to="/sources"
-      Component={Menu.Item}
-      activePropName="active"
-    >
+    <Link to="/sources" Component={Menu.Item} activePropName="active">
       Sources
     </Link>
-    <Link
-      to="/keys"
-      Component={Menu.Item}
-      activePropName="active"
-    >
+    <Link to="/keys" Component={Menu.Item} activePropName="active">
       Keys
     </Link>
   </Fragment>

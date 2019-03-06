@@ -31,7 +31,7 @@ export interface IProps {
 
 export function ProjectCardGroup(props: IProps) {
   const { items, itemsPerRow, onClone, onPull, onClickPath } = props;
-  const cards = items.map((item) => (
+  const cards = items.map(item => (
     <ProjectCard
       key={item.id}
       item={item}
@@ -39,22 +39,19 @@ export function ProjectCardGroup(props: IProps) {
       onClone={onClone}
       onPull={onPull}
     />
-   ));
+  ));
 
-  return (
-    <Card.Group itemsPerRow={itemsPerRow}>
-      {cards}
-    </Card.Group>
-  );
+  return <Card.Group itemsPerRow={itemsPerRow}>{cards}</Card.Group>;
 }
 
-export default createFragmentContainer(ProjectCardGroup, graphql`
-  fragment ProjectCardGroup_items on Project
-    @argumentDefinitions(
-      commitsLimit: { type: "Int", defaultValue: 3 },
-    )
-    @relay(plural: true) {
-    ...ProjectCard_item @arguments(commitsLimit: $commitsLimit)
-    id
-  }`,
+export default createFragmentContainer(
+  ProjectCardGroup,
+  graphql`
+    fragment ProjectCardGroup_items on Project
+      @argumentDefinitions(commitsLimit: { type: "Int", defaultValue: 3 })
+      @relay(plural: true) {
+      ...ProjectCard_item @arguments(commitsLimit: $commitsLimit)
+      id
+    }
+  `
 );

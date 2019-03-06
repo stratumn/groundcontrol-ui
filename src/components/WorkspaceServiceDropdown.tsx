@@ -15,11 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Dimmer,
-  Dropdown,
-  Loader,
-} from "semantic-ui-react";
+import { Dimmer, Dropdown, Loader } from "semantic-ui-react";
 
 import { WorkspaceServiceDropdown_items } from "./__generated__/WorkspaceServiceDropdown_items.graphql";
 
@@ -39,10 +35,7 @@ export function WorkspaceServiceDropdown(props: IProps) {
       disabled={status !== "STOPPED" && status !== "FAILED"}
       onClick={handleStart.bind(null, id)}
     >
-      <Dimmer
-        active={status === "STARTING"}
-        inverted={true}
-      >
+      <Dimmer active={status === "STARTING"} inverted={true}>
         <Loader size="tiny" />
       </Dimmer>
       {name}
@@ -50,23 +43,19 @@ export function WorkspaceServiceDropdown(props: IProps) {
   ));
 
   return (
-    <Dropdown
-      item={true}
-      text="Services"
-      pointing={true}
-      disabled={!enabled}
-    >
-      <Dropdown.Menu>
-        {dropdownItems}
-      </Dropdown.Menu>
+    <Dropdown item={true} text="Services" pointing={true} disabled={!enabled}>
+      <Dropdown.Menu>{dropdownItems}</Dropdown.Menu>
     </Dropdown>
   );
 }
 
-export default createFragmentContainer(WorkspaceServiceDropdown, graphql`
-  fragment WorkspaceServiceDropdown_items on Service @relay(plural: true) {
-    id
-    name
-    status
-  }`,
+export default createFragmentContainer(
+  WorkspaceServiceDropdown,
+  graphql`
+    fragment WorkspaceServiceDropdown_items on Service @relay(plural: true) {
+      id
+      name
+      status
+    }
+  `
 );

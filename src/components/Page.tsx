@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stratumn
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,21 +33,15 @@ const Page = ({
   header,
   subheader,
   text,
-  children,
+  children
 }: IProps) => (
   <div className={`Page ${className || ""}`}>
     <Helmet>
       <title>{header}</title>
       <body className={inverted ? "inverted" : ""} />
     </Helmet>
-    <Container
-      fluid={true}
-      text={text}
-    >
-      <Header
-        as="h1"
-        inverted={inverted}
-      >
+    <Container fluid={true} text={text}>
+      <Header as="h1" inverted={inverted}>
         <Header.Content>
           {header}
           <Header.Subheader>{subheader}</Header.Subheader>

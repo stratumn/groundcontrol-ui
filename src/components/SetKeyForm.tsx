@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stratumn
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,12 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component} from "react";
-import {
-  Button,
-  Form,
-  InputProps,
-} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Button, Form, InputProps } from "semantic-ui-react";
 
 import "./SetKeyForm.css";
 
@@ -31,7 +26,6 @@ export interface IProps {
 }
 
 export default class SetKeyForm extends Component<IProps> {
-
   private nameRef: React.RefObject<HTMLInputElement>;
   private valueRef: React.RefObject<HTMLTextAreaElement>;
 
@@ -49,30 +43,22 @@ export default class SetKeyForm extends Component<IProps> {
     const disabled = !name;
 
     return (
-      <Form
-        onSubmit={this.handleSubmit}
-        className="SetKeyForm"
-      >
-          <Form.Field>
-            <label>Name</label>
-            <Form.Input
-              value={name}
-              onChange={this.handleChangeName}
-            >
-              <input
-                ref={this.nameRef}
-              />
-            </Form.Input>
-          </Form.Field>
-          <Form.Field>
-            <label>Value</label>
-            <textarea
-              value={value}
-              rows={8}
-              ref={this.valueRef}
-              onChange={this.handleChangeValue}
-            />
-          </Form.Field>
+      <Form onSubmit={this.handleSubmit} className="SetKeyForm">
+        <Form.Field>
+          <label>Name</label>
+          <Form.Input value={name} onChange={this.handleChangeName}>
+            <input ref={this.nameRef} />
+          </Form.Input>
+        </Form.Field>
+        <Form.Field>
+          <label>Value</label>
+          <textarea
+            value={value}
+            rows={8}
+            ref={this.valueRef}
+            onChange={this.handleChangeValue}
+          />
+        </Form.Field>
         <Button
           type="submit"
           color="teal"
@@ -121,20 +107,24 @@ export default class SetKeyForm extends Component<IProps> {
     this.shouldFocusValue = true;
   }
 
-  private handleChangeName = (_: React.SyntheticEvent<HTMLElement>, { value }: InputProps) => {
+  private handleChangeName = (
+    _: React.SyntheticEvent<HTMLElement>,
+    { value }: InputProps
+  ) => {
     this.props.onChange({ ...this.props, name: value });
-  }
+  };
 
-  private handleChangeValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  private handleChangeValue = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     this.props.onChange({ ...this.props, value: event.currentTarget.value });
-  }
+  };
 
   private handleSubmit = () => {
     this.props.onSubmit({ ...this.props });
-  }
+  };
 
   private handleReset = () => {
     this.props.onReset({ ...this.props });
-  }
-
+  };
 }

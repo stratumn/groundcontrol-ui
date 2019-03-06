@@ -1,4 +1,3 @@
-
 // Copyright 2019 Stratumn
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +15,7 @@
 import graphql from "babel-plugin-relay/macro";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
-import {
-  Button,
-  Modal,
-} from "semantic-ui-react";
+import { Button, Modal } from "semantic-ui-react";
 
 import { ServiceProgressModal_item } from "./__generated__/ServiceProgressModal_item.graphql";
 
@@ -31,30 +27,32 @@ export interface IProps {
 }
 
 export function ServiceProgressModal(props: IProps) {
-  const { item, item: { name }, onClose } = props;
+  const {
+    item,
+    item: { name },
+    onClose
+  } = props;
   const handleClose = () => onClose({ ...props });
 
   return (
-    <Modal
-      open={true}
-      onClose={handleClose}
-    >
+    <Modal open={true} onClose={handleClose}>
       <Modal.Header>Starting {name}</Modal.Header>
       <Modal.Content scrolling={true}>
         <ServiceProgress item={item} />
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={handleClose}>
-          Close
-        </Button>
+        <Button onClick={handleClose}>Close</Button>
       </Modal.Actions>
     </Modal>
   );
 }
 
-export default createFragmentContainer(ServiceProgressModal, graphql`
-  fragment ServiceProgressModal_item on Service {
-    name
-    ...ServiceProgress_item
-  }`,
+export default createFragmentContainer(
+  ServiceProgressModal,
+  graphql`
+    fragment ServiceProgressModal_item on Service {
+      name
+      ...ServiceProgress_item
+    }
+  `
 );

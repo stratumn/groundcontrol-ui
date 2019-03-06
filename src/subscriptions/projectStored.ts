@@ -27,15 +27,12 @@ const subscription = graphql`
   }
 `;
 
-export function subscribe( environment: Environment, lastMessageId?: string) {
-  return requestSubscription(
-    environment,
-    {
-      onError: (error) => console.error(error),
-      subscription,
-      variables: {
-        lastMessageId,
-      },
-    },
-  );
+export function subscribe(environment: Environment, lastMessageId?: string) {
+  return requestSubscription(environment, {
+    onError: error => console.error(error),
+    subscription,
+    variables: {
+      lastMessageId
+    }
+  });
 }

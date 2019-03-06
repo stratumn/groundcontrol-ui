@@ -32,7 +32,7 @@ export function KeyList({ items, onEdit, onDelete }: IProps) {
     return <p>There are no keys at this time.</p>;
   }
 
-  const listItems = items.map((item) => (
+  const listItems = items.map(item => (
     <KeyListItem
       key={item.id}
       item={item}
@@ -41,19 +41,17 @@ export function KeyList({ items, onEdit, onDelete }: IProps) {
     />
   ));
 
-  return (
-    <List divided={true}>
-      {listItems}
-    </List>
-  );
+  return <List divided={true}>{listItems}</List>;
 }
 
-export default createFragmentContainer(KeyList, graphql`
-  fragment KeyList_items on Key
-    @relay(plural: true) {
-    id
-    name
-    value
-    ...KeyListItem_item
-  }`,
+export default createFragmentContainer(
+  KeyList,
+  graphql`
+    fragment KeyList_items on Key @relay(plural: true) {
+      id
+      name
+      value
+      ...KeyListItem_item
+    }
+  `
 );
