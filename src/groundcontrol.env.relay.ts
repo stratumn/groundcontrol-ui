@@ -50,7 +50,10 @@ const setupSubscription: SubscribeFunction = (
 ) => {
   const query = config.text;
   const { onNext, onError, onCompleted } = observer;
-  const client = new SubscriptionClient("ws://" + host, { reconnect: true });
+  const client = new SubscriptionClient("ws://" + host, {
+    reconnect: true,
+    reconnectionAttempts: 3
+  });
 
   const { unsubscribe } = client.request({ query, variables }).subscribe({
     complete: onCompleted,
