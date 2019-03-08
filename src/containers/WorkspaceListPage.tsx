@@ -70,11 +70,11 @@ export class WorkspaceListPage extends Component<IProps, IState> {
     const { itemsPerRow, query, debouncedQuery } = this.state;
 
     let items = viewer.workspaces.edges.map(({ node }) => node);
-    let isLoading = false;
+    let isSyncing = false;
 
     for (const { node } of viewer.sources.edges) {
-      if (node.isLoading) {
-        isLoading = true;
+      if (node.isSyncing) {
+        isSyncing = true;
         break;
       }
     }
@@ -97,7 +97,7 @@ export class WorkspaceListPage extends Component<IProps, IState> {
           onClone={this.handleClone}
           onPull={this.handlePull}
         />
-        <Loader active={isLoading && items.length < 1} />
+        <Loader active={isSyncing && items.length < 1} />
       </Page>
     );
   }
@@ -162,7 +162,7 @@ export default createFragmentContainer(
       sources(first: 10000) {
         edges {
           node {
-            isLoading
+            isSyncing
           }
         }
       }

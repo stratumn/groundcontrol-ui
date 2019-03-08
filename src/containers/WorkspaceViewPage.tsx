@@ -36,12 +36,12 @@ import { IProps as IWorkspaceServiceDropdownProps } from "../components/Workspac
 import { IProps as IWorkspaceTaskDropdownProps } from "../components/WorkspaceTaskDropdown";
 import { commit as cloneProject } from "../mutations/cloneProject";
 import { commit as cloneWorkspace } from "../mutations/cloneWorkspace";
-import { commit as loadWorkspaceCommits } from "../mutations/loadWorkspaceCommits";
 import { commit as openEditor } from "../mutations/openEditor";
 import { commit as pullProject } from "../mutations/pullProject";
 import { commit as pullWorkspace } from "../mutations/pullWorkspace";
 import { commit as runTask } from "../mutations/runTask";
 import { commit as startService } from "../mutations/startService";
+import { commit as syncWorkspace } from "../mutations/syncWorkspace";
 import { subscribe as subscribeProjectStored } from "../subscriptions/projectStored";
 import { subscribe as subscribeServiceStored } from "../subscriptions/serviceStored";
 import { subscribe as subscribeTaskStored } from "../subscriptions/taskStored";
@@ -177,7 +177,7 @@ export class WorkspaceViewPage extends Component<IProps, IState> {
       subscribeProjectStored(environment, lastMessageId)
     );
 
-    loadWorkspaceCommits(environment, id);
+    syncWorkspace(environment, id);
   }
 
   public componentWillUnmount() {

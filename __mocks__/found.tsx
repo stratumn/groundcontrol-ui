@@ -22,7 +22,7 @@ export class Router {
     format: jest.fn(),
     getRoutes: jest.fn(),
     isActive: jest.fn(),
-    match: jest.fn(),
+    match: jest.fn()
   };
   public push = jest.fn();
   public replace = jest.fn();

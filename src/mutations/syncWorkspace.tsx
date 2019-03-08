@@ -17,8 +17,8 @@ import { commitMutation } from "react-relay";
 import { Environment } from "relay-runtime";
 
 const mutation = graphql`
-  mutation loadWorkspaceCommitsMutation($id: String!) {
-    loadWorkspaceCommits(id: $id) {
+  mutation syncWorkspaceMutation($id: String!) {
+    syncWorkspace(id: $id) {
       id
     }
   }
