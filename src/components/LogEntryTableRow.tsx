@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import { Link } from "found";
 import React, { Fragment } from "react";
 import { Responsive, Table } from "semantic-ui-react";
 
@@ -37,6 +36,24 @@ export interface IProps {
   onClickSourceFile: (values: ILogEntryMessageProps) => any;
 }
 
+type Owner = LogEntryTableRow_item["owner"];
+
+type LongStringer = Owner & {
+  longString: string;
+};
+
+function isLongStringer(owner: Owner): owner is LongStringer {
+  return !!owner && !!owner.longString;
+}
+
+type Stringer = Owner & {
+  string: string;
+};
+
+function isStringer(owner: Owner): owner is Stringer {
+  return !!owner && !!owner.string;
+}
+
 export function LogEntryTableRow(props: IProps) {
   const {
     item,
@@ -57,7 +74,7 @@ export function LogEntryTableRow(props: IProps) {
         {showMeta && <CreatedAt {...props} />}
       </Responsive>
       <Table.Cell collapsing={true}>
-        {showMeta && <Owner {...props} />}
+        {showMeta && <Namespace {...props} />}
       </Table.Cell>
       <Table.Cell
         className="LogEntryTableRowLevel"
@@ -78,25 +95,20 @@ const CreatedAt = ({ item: { createdAt } }: IProps) => (
   <Moment format={dateFormat}>{createdAt}</Moment>
 );
 
-const Owner = ({ item: { owner } }: IProps) => {
+export const Namespace = ({ item: { owner } }: IProps) => {
   if (!owner) {
     return null;
   }
 
-  if (owner.__typename !== "Project") {
-    return <Fragment>{owner.__typename}</Fragment>;
+  if (isLongStringer(owner)) {
+    return <Fragment>{owner.longString}</Fragment>;
   }
 
-  const workspaceSlug = owner.workspace!.slug;
-  const projectSlug = owner.slug;
+  if (isStringer(owner)) {
+    return <Fragment>{owner.string}</Fragment>;
+  }
 
-  return (
-    <Fragment>
-      <Link to={`/workspaces/${workspaceSlug}`}>{workspaceSlug}</Link>
-      &#47;
-      {projectSlug}
-    </Fragment>
-  );
+  return <Fragment>owner.id</Fragment>;
 };
 
 function shouldShowMeta(props: IProps) {
@@ -128,13 +140,12 @@ export default createFragmentContainer(
       level
       ...LogEntryMessage_item
       owner {
-        __typename
         id
-        ... on Project {
-          slug
-          workspace {
-            slug
-          }
+        ... on LongStringer {
+          longString
+        }
+        ... on Stringer {
+          string
         }
       }
     }

@@ -13,8 +13,7 @@
 // limitations under the License.
 
 import graphql from "babel-plugin-relay/macro";
-import { Link } from "found";
-import React, { Fragment } from "react";
+import React from "react";
 import { Button, Table } from "semantic-ui-react";
 
 import { createFragmentContainer } from "react-relay";
@@ -22,7 +21,6 @@ import { createFragmentContainer } from "react-relay";
 import { JobTableRow_item } from "./__generated__/JobTableRow_item.graphql";
 
 import Moment from "react-moment";
-import RepositoryShortName from "./RepositoryShortName";
 
 import "./JobTableRow.css";
 
@@ -35,36 +33,10 @@ export interface IProps {
 
 export function JobTableRow(props: IProps) {
   const {
-    item: { name, owner, createdAt, updatedAt, priority, status },
+    item: { longString, createdAt, updatedAt, priority, status },
     onStop
   } = props;
   const buttons: JSX.Element[] = [];
-
-  let workspaceSlug = "-";
-  let workspaceName = "-";
-  let projectRepository = "-";
-
-  switch (owner.__typename) {
-    case "Workspace":
-      workspaceSlug = owner.slug;
-      workspaceName = owner.name;
-      break;
-    case "Project":
-      workspaceSlug = owner.workspace.slug;
-      workspaceName = owner.workspace.name;
-      projectRepository = owner.repository;
-      break;
-  }
-
-  let workspaceEl: JSX.Element;
-
-  if (workspaceName === "-") {
-    workspaceEl = <Fragment>{workspaceName}</Fragment>;
-  } else {
-    workspaceEl = (
-      <Link to={`/workspaces/${workspaceSlug}`}>{workspaceName}</Link>
-    );
-  }
 
   if (status === "QUEUED" || status === "RUNNING" || status === "STOPPING") {
     const handleStop = () => status !== "STOPPING" && onStop({ ...props });
@@ -83,11 +55,7 @@ export function JobTableRow(props: IProps) {
 
   return (
     <Table.Row className="JobTableRow">
-      <Table.Cell>{name}</Table.Cell>
-      <Table.Cell>{workspaceEl}</Table.Cell>
-      <Table.Cell>
-        <RepositoryShortName repository={projectRepository} />
-      </Table.Cell>
+      <Table.Cell>{longString}</Table.Cell>
       <Table.Cell>
         <Moment format={dateFormat}>{createdAt}</Moment>
       </Table.Cell>
@@ -112,23 +80,9 @@ export default createFragmentContainer(
   graphql`
     fragment JobTableRow_item on Job {
       id
-      name
+      longString
       createdAt
       updatedAt
-      owner {
-        __typename
-        ... on Workspace {
-          slug
-          name
-        }
-        ... on Project {
-          repository
-          workspace {
-            slug
-            name
-          }
-        }
-      }
       priority
       status
     }

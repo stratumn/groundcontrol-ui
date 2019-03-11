@@ -20,29 +20,34 @@ import { LogEntryTableRow_prevItem } from "./__generated__/LogEntryTableRow_prev
 
 import { mockQueryPropAttrs } from "../testing/relay";
 
-import { LogEntryTableRow } from "./LogEntryTableRow";
+import { LogEntryTableRow, Namespace } from "./LogEntryTableRow";
 
 const other: LogEntryTableRow_item = {
   ...mockQueryPropAttrs(),
   createdAt: "createdAt",
   level: "INFO",
   owner: {
-    __typename: "%other",
-    id: "otherId"
+    id: "ownerId"
   }
 };
 
-const project: LogEntryTableRow_item = {
+const stringer: LogEntryTableRow_item = {
   ...mockQueryPropAttrs(),
   createdAt: "createdAt",
   level: "INFO",
   owner: {
-    __typename: "Project",
-    id: "projectId",
-    slug: "projectSlug",
-    workspace: {
-      slug: "workspaceSlug"
-    }
+    id: "ownerId",
+    string: "string"
+  }
+};
+
+const longStringer: LogEntryTableRow_item = {
+  ...mockQueryPropAttrs(),
+  createdAt: "createdAt",
+  level: "INFO",
+  owner: {
+    id: "ownerId",
+    longString: "longString"
   }
 };
 
@@ -51,7 +56,7 @@ const prevItem: LogEntryTableRow_prevItem = {
   createdAt: "createdAt",
   level: "INFO",
   owner: {
-    id: "projectId"
+    id: "ownerId"
   }
 };
 
@@ -61,26 +66,44 @@ const otherProps = {
   prevItem: null
 };
 
-const projectProps = {
-  item: project,
+const stringerProps = {
+  item: stringer,
+  onClickSourceFile: jest.fn(),
+  prevItem: null
+};
+
+const longStringerProps = {
+  item: longStringer,
   onClickSourceFile: jest.fn(),
   prevItem: null
 };
 
 const similarProps = {
-  item: project,
+  item: other,
   onClickSourceFile: jest.fn(),
   prevItem
 };
 
-describe("<LogEntryTableRow />", () => {
+describe("<Namespace />", () => {
   it("renders correctly", () => {
-    const wrapper = shallow(<LogEntryTableRow {...otherProps} />);
+    const wrapper = shallow(<Namespace {...otherProps} />);
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("renders correctly when the owner is a project", () => {
-    const wrapper = shallow(<LogEntryTableRow {...projectProps} />);
+  it("renders correctly when the owner is a stringer", () => {
+    const wrapper = shallow(<Namespace {...stringerProps} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("renders correctly when the owner is a longStringer", () => {
+    const wrapper = shallow(<Namespace {...longStringerProps} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+
+describe("<LogEntryTableRow />", () => {
+  it("renders correctly", () => {
+    const wrapper = shallow(<LogEntryTableRow {...otherProps} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -104,7 +127,7 @@ describe("<LogEntryTableRow />", () => {
 
   it("doesn't display meta if the previous entry is similar", () => {
     const wrapper = shallow(<LogEntryTableRow {...similarProps} />);
-    expect(wrapper.find("Owner")).toHaveLength(0);
+    expect(wrapper.find("Namespacej")).toHaveLength(0);
   });
 
   it("displays meta if the previous entry's createdAt is different", () => {
@@ -113,7 +136,7 @@ describe("<LogEntryTableRow />", () => {
         {...{ ...otherProps, prevItem: { ...prevItem, createdAt: "new" } }}
       />
     );
-    expect(wrapper.find("Owner")).toHaveLength(1);
+    expect(wrapper.find("Namespace")).toHaveLength(1);
   });
 
   it("displays meta if the previous entry's level is different", () => {
@@ -122,7 +145,7 @@ describe("<LogEntryTableRow />", () => {
         {...{ ...otherProps, prevItem: { ...prevItem, level: "DEBUG" } }}
       />
     );
-    expect(wrapper.find("Owner")).toHaveLength(1);
+    expect(wrapper.find("Namespace")).toHaveLength(1);
   });
 
   it("displays meta if the previous entry's owner is different", () => {
@@ -131,7 +154,7 @@ describe("<LogEntryTableRow />", () => {
         {...{ ...otherProps, prevItem: { ...prevItem, owner: null } }}
       />
     );
-    expect(wrapper.find("Owner")).toHaveLength(1);
+    expect(wrapper.find("Namespace")).toHaveLength(1);
   });
   it("displays meta if the previous entry's owner id is different", () => {
     const wrapper = shallow(
@@ -139,6 +162,6 @@ describe("<LogEntryTableRow />", () => {
         {...{ ...otherProps, prevItem: { ...prevItem, owner: { id: "new" } } }}
       />
     );
-    expect(wrapper.find("Owner")).toHaveLength(1);
+    expect(wrapper.find("Namespace")).toHaveLength(1);
   });
 });

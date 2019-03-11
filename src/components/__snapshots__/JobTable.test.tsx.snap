@@ -21,17 +21,7 @@ exports[`<JobTable /> renders items correctly 1`] = `
       <TableHeaderCell
         as="th"
       >
-        Name
-      </TableHeaderCell>
-      <TableHeaderCell
-        as="th"
-      >
-        Workspace
-      </TableHeaderCell>
-      <TableHeaderCell
-        as="th"
-      >
-        Repository
+        Description
       </TableHeaderCell>
       <TableHeaderCell
         as="th"

@@ -39,9 +39,7 @@ export function JobTable({ items, onStop }: IProps) {
     <Table basic="very">
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Name</Table.HeaderCell>
-          <Table.HeaderCell>Workspace</Table.HeaderCell>
-          <Table.HeaderCell>Repository</Table.HeaderCell>
+          <Table.HeaderCell>Description</Table.HeaderCell>
           <Table.HeaderCell>Created At</Table.HeaderCell>
           <Table.HeaderCell>Updated At</Table.HeaderCell>
           <Table.HeaderCell>Priority</Table.HeaderCell>

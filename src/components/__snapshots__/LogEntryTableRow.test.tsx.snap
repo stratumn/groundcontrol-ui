@@ -22,8 +22,7 @@ exports[`<LogEntryTableRow /> renders correctly 1`] = `
           "createdAt": "createdAt",
           "level": "INFO",
           "owner": Object {
-            "__typename": "%other",
-            "id": "otherId",
+            "id": "ownerId",
           },
         }
       }
@@ -35,7 +34,7 @@ exports[`<LogEntryTableRow /> renders correctly 1`] = `
     as="td"
     collapsing={true}
   >
-    <Owner
+    <Namespace
       item={
         Object {
           " $fragmentRefs": null,
@@ -43,8 +42,7 @@ exports[`<LogEntryTableRow /> renders correctly 1`] = `
           "createdAt": "createdAt",
           "level": "INFO",
           "owner": Object {
-            "__typename": "%other",
-            "id": "otherId",
+            "id": "ownerId",
           },
         }
       }
@@ -72,8 +70,7 @@ exports[`<LogEntryTableRow /> renders correctly 1`] = `
           "createdAt": "createdAt",
           "level": "INFO",
           "owner": Object {
-            "__typename": "%other",
-            "id": "otherId",
+            "id": "ownerId",
           },
         }
       }
@@ -83,97 +80,20 @@ exports[`<LogEntryTableRow /> renders correctly 1`] = `
 </TableRow>
 `;
 
-exports[`<LogEntryTableRow /> renders correctly when the owner is a project 1`] = `
-<TableRow
-  as="tr"
-  cellAs="td"
-  className="LogEntryTableRow"
-  verticalAlign="top"
->
-  <Responsive
-    as={[Function]}
-    className="LogEntryTableRowCreatedAt"
-    collapsing={true}
-    getWidth={[Function]}
-    minWidth={992}
-  >
-    <CreatedAt
-      item={
-        Object {
-          " $fragmentRefs": null,
-          " $refType": null,
-          "createdAt": "createdAt",
-          "level": "INFO",
-          "owner": Object {
-            "__typename": "Project",
-            "id": "projectId",
-            "slug": "projectSlug",
-            "workspace": Object {
-              "slug": "workspaceSlug",
-            },
-          },
-        }
-      }
-      onClickSourceFile={[MockFunction]}
-      prevItem={null}
-    />
-  </Responsive>
-  <TableCell
-    as="td"
-    collapsing={true}
-  >
-    <Owner
-      item={
-        Object {
-          " $fragmentRefs": null,
-          " $refType": null,
-          "createdAt": "createdAt",
-          "level": "INFO",
-          "owner": Object {
-            "__typename": "Project",
-            "id": "projectId",
-            "slug": "projectSlug",
-            "workspace": Object {
-              "slug": "workspaceSlug",
-            },
-          },
-        }
-      }
-      onClickSourceFile={[MockFunction]}
-      prevItem={null}
-    />
-  </TableCell>
-  <TableCell
-    as="td"
-    className="LogEntryTableRowLevel"
-    collapsing={true}
-    error={false}
-    warning={false}
-  >
-    INFO
-  </TableCell>
-  <TableCell
-    as="td"
-  >
-    <ForwardRef(Relay(LogEntryMessage))
-      item={
-        Object {
-          " $fragmentRefs": null,
-          " $refType": null,
-          "createdAt": "createdAt",
-          "level": "INFO",
-          "owner": Object {
-            "__typename": "Project",
-            "id": "projectId",
-            "slug": "projectSlug",
-            "workspace": Object {
-              "slug": "workspaceSlug",
-            },
-          },
-        }
-      }
-      onClickSourceFile={[MockFunction]}
-    />
-  </TableCell>
-</TableRow>
+exports[`<Namespace /> renders correctly 1`] = `
+<Fragment>
+  owner.id
+</Fragment>
+`;
+
+exports[`<Namespace /> renders correctly when the owner is a longStringer 1`] = `
+<Fragment>
+  longString
+</Fragment>
+`;
+
+exports[`<Namespace /> renders correctly when the owner is a stringer 1`] = `
+<Fragment>
+  string
+</Fragment>
 `;
