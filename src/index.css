@@ -23,7 +23,7 @@
   --warning-color: var(--orange);
   --error-color: var(--red);
 
-  --mono-font: 0.9em "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
+  --mono-font: 0.85em "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
     Courier, monospace;
 }
 
